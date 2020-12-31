@@ -11,8 +11,20 @@
   top: 0;
   left: 0;
   right: 0;
+  z-index: 10;
 
   @media (max-width: $mobile-breakpoint) {
     position: relative;
+  }
+}
+
+.appFooter {
+  padding: calcRem(15) calcRem(30);
+  font-size: calcRem(14);
+  text-align: right;
+  border-top: 2px solid #ccc;
+
+  a {
+    font-weight: bold;
   }
 }

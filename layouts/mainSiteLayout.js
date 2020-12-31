@@ -9,6 +9,9 @@ export default function MainSiteLayout({ filterValue, setLocationFilterFunction,
         <Header filterValue = {filterValue} setLocationFilterFunction = {setLocationFilterFunction} />
       </section>
       {children}
+      <footer className={styles.appFooter}>
+        Aplilkacija je work in progress i kontinuirano se radi na unaprijeđenju. Za sve probleme i upite slobodno se javite na <a href="mailto:matej@bytepanda.io">matej@bytepanda.io</a>.
+      </footer>
     </div>
   )
 }
