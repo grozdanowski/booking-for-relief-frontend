@@ -18,16 +18,16 @@ export default function displayMap({ items, onMarkerClick = (type, id) => consol
 
       switch (item.type) {
         case 'accommodation':
-          markerIcon = 'icons/map-marker--accommodation.svg'
+          markerIcon = '/icons/map-marker--accommodation.svg'
           break;
         case 'transport':
-          markerIcon = 'icons/map-marker--transport.svg'
+          markerIcon = '/icons/map-marker--transport.svg'
           break;
         case 'aidCollection':
-          markerIcon = 'icons/map-marker--aid-collection.svg'
+          markerIcon = '/icons/map-marker--aid-collection.svg'
           break;
         case 'aidRequest':
-          markerIcon = 'icons/map-marker--help-needed.svg'
+          markerIcon = '/icons/map-marker--help-needed.svg'
           break;
         default:
           markerIcon = null;
