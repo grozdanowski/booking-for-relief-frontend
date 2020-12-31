@@ -1,0 +1,43 @@
+smještaj:
+
+- broj odraslih osoba
+- broj djece
+- ljubimci?
+- perod?
+- lokacija
+- opis
+- kontakt ime
+- kontakt telefon
+- submitter email
+- whatsapp?
+
+
+prijevoz:
+
+- tip vozila (manji automobil, veći automobil, caddy, kombi, kamion)
+- model vozila?
+- dostupnost (od-do)?
+- opis
+- kontakt ime
+- kontakt telefon
+- submitter email
+- whatsapp?
+
+
+prikupljanje pomoći:
+
+- lokacija prikupa
+- vrijeme (h)
+- krajnji rok
+- preporučene potrepštine (list)
+- opis
+- kontakt ime
+- kontakt telefon
+- submitter email
+- whatsapp?
+
+
+
+Maps api key: AIzaSyBza8tAYUna_mtCXdstnhu50rJXJ7bi5yw
+
+const accommodations = await fetchQuery('accommodations', '?_limit=-1');

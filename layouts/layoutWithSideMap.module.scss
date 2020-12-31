@@ -1,0 +1,21 @@
+@import 'styles/helpers';
+
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr calcRem(800);
+  padding-top: calcRem(100);
+}
+
+.mapWrapper {
+  position: relative;
+}
+
+.mainWrapper {
+  overflow-y: auto;
+}
+
+.mainInner {
+  padding: calcRem(40);
+}

@@ -1,0 +1,44 @@
+@import 'styles/helpers';
+
+.wrapper {
+  font-size: calcRem(16);
+  padding: calcRem(12) calcRem(25);
+  border-radius: calcRem(40);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.03);
+  border: 1px solid #ccc;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.searchInput {
+  border: none;
+  outline: none;
+  font-size: calcRem(16);
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: calcRem(200);
+}
+
+.autocompleteDropdownContainer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  background-color: #fff;
+}
+
+.suggestionActive, .suggestion {
+  padding: calcRem(10) calcRem(20);
+  border-bottom: 1px solid #ccc;
+
+  &:last-of-type {
+    border-bottom: none;
+  }
+}
+
+.suggestionActive {
+  background-color: #dedede;
+  cursor: pointer;
+}

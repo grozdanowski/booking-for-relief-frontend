@@ -1,0 +1,105 @@
+@import 'styles/helpers';
+
+.introSection {
+  margin-bottom: calcRem(30);
+  padding-bottom: calcRem(30);
+  border-bottom: 2px solid #ccc;
+}
+
+.noticeText {
+  font-size: calcRem(13);
+  font-style: italic;
+}
+
+.typeChoiceWrapper {
+  
+}
+
+.typeChoiceButtonsWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: calcRem(20);
+}
+
+.typeChoiceButton {
+  padding: calcRem(20);
+  border: 2px solid #aaa;
+  background: none;
+  border-radius: calcRem(10);
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+
+  &:hover, &:focus {
+    cursor: pointer;
+    opacity: 0.65;
+  }
+
+  img {
+    width: calcRem(54);
+    height: auto;
+    display: block;
+    margin: 0 auto calcRem(20);
+  }
+
+  .buttonLabel {
+    color: $primary-color;
+  }
+}
+
+.inputField {
+  width: 100%;
+}
+
+.inputWrapperLocation {
+  display: flex;
+  align-items: center;
+  padding-right: calcRem(20);
+  padding-top: calcRem(15);
+  padding-bottom: calcRem(15);
+
+  .locationLabel {
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-right: calcRem(15);
+    font-weight: bold;
+  }
+
+  .locationInstructions {
+    font-size: calcRem(12);
+    display: block;
+    margin: calcRem(5) 0 0;
+  }
+}
+
+.inputWrapperFull {
+  display: block;
+  padding-right: calcRem(20);
+  padding-top: calcRem(15);
+  padding-bottom: calcRem(15);
+}
+
+.inputWrapperHalf {
+  width: 50%;
+  display: inline-block;
+  padding-right: calcRem(20);
+  padding-top: calcRem(15);
+  padding-bottom: calcRem(15);
+}
+
+.submitButton {
+  font-weight: 600;
+  background-color: $primary-color;
+  padding: calcRem(12) calcRem(25);
+  min-width: calcRem(200);
+  margin-top: calcRem(10);
+  border-radius: calcRem(40);
+  font-size: calcRem(18);
+  color: #fff;
+  transition: all 0.3s ease-in-out;
+  border: 2px solid $primary-color;
+
+  &:hover, &:focus {
+    background-color: #fff;
+    color: $primary-color;
+  }
+}
