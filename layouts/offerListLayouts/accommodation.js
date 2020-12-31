@@ -24,7 +24,7 @@ export default function AccommodationInList({ data }) {
   return (
     <div className={styles.listItemContainer}>
       {markFulfilledTriggered ? (        
-        <div>
+        <div className={styles.markAsFulfilledContainer}>
           <p>Kako bi osigurali što bolju preglednost sustava, omogućili smo uklanjanje ispunjenih unosa. Kako bi unos označili kao ispunjen, unesite mail adresu koju ste unijeli pri kreiranju. Ukoliko je mail adresa ispravna, prikazati će se gumb za potvrdu.</p>
           <div className={styles.emailInputWrapper}>
             <TextField

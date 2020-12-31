@@ -9,6 +9,13 @@
   border-right: 4px solid $negative-color;
 }
 
+.markAsFulfilledContainer {
+  padding-top: calcRem(50);
+  padding-bottom: calcRem(50);
+  border: 2px solid green;
+  padding: calcRem(30);
+}
+
 .itemHeader {
   display: grid;
   grid-template-columns: 1fr auto;
