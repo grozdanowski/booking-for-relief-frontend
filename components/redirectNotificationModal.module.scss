@@ -1,0 +1,92 @@
+@import 'styles/helpers';
+
+.modalWrapper {
+  position: fixed;
+  overflow-y: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(#000, 0.7);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calcRem(40) 0;
+
+  @media (max-width: $mobile-breakpoint){
+    display: block;
+  }
+}
+
+.modalContainer {
+  position: relative;
+  background-color: #fff;
+  width: 80%;
+  max-width: calcRem(640);
+  padding: calcRem(60) calcRem(50);
+  margin: calcRem(10) auto;
+
+  @media (max-width: $mobile-breakpoint){
+    padding: calcRem(50) calcRem(30);
+    width: 90%;
+  }
+
+  p {
+    line-height: 180%;
+    font-size: calcRem(14);
+  }
+}
+
+.dismissButton {
+  position: absolute;
+  top: calcRem(20);
+  right: calcRem(30);
+  border: none;
+  width: calcRem(36);
+  height: calcRem(36);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  color: $primary-color;
+  background-color: #dadada;
+  transition: all 0.3s ease-in-out;
+
+  &:hover, &:focus {
+    cursor: pointer;
+    background-color: $primary-color;
+    color: #fff;
+  }
+}
+
+.modalTitle {
+  font-size: calcRem(56);
+  margin: 0 0 calcRem(30);
+
+  @media (max-width: $mobile-breakpoint){
+    font-size: calcRem(48);
+  }
+}
+
+.modalButton {
+  font-weight: 600;
+  background-color: $primary-color;
+  padding: calcRem(14) calcRem(25);
+  border-radius: calcRem(30);
+  color: #fff;
+  transition: all 0.3s ease-in-out;
+  border: 2px solid $primary-color;
+  margin-top: calcRem(30);
+  font-size: calcRem(18);
+  display: inline-block;
+
+  &:hover, &:focus {
+    background-color: #fff;
+    color: $primary-color;
+  }
+
+  @media (max-width: $mobile-breakpoint){
+    font-size: calcRem(16);
+  }
+}
