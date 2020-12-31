@@ -1,4 +1,4 @@
-const baseUrl = process.env.BASE_URL || 'http://localhost:1337'
+const baseUrl = 'https://lit-coast-00350.herokuapp.com'
 
 
 export async function fetchQuery(path, params = null) {
