@@ -13,11 +13,19 @@
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
+
+  @media (max-width: $mobile-breakpoint) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .markFulfilledButton {
   opacity: 0.4;
   transition: all 0.3s ease-in-out;
+
+  @media (max-width: $mobile-breakpoint) {
+    margin-top: calcRem(20);
+  }
 
   &:hover, &:focus {
     opacity: 1;
@@ -88,6 +96,12 @@
   margin-top: calcRem(20);
   border-top: 1px solid #dedede;
 
+  @media (max-width: $mobile-breakpoint) {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: calcRem(15);
+  }
+
   .contactName {
     display: block;
     margin-right: calcRem(20);
@@ -103,6 +117,10 @@
     font-size: calcRem(13);
     color: #666;
     margin-left: auto;
+
+    @media (max-width: $mobile-breakpoint) {
+      margin-left: 0;
+    }
 
     img {
       width: calcRem(24);

@@ -6,10 +6,21 @@
   display: grid;
   grid-template-columns: 1fr calcRem(800);
   padding-top: calcRem(100);
+
+  @media (max-width: $mobile-breakpoint) {
+    grid-template-columns: 1fr;
+    height: auto;
+    padding-top: calcRem(20);
+  }
 }
 
 .mapWrapper {
+  order: 2;
   position: relative;
+  
+  @media (max-width: $mobile-breakpoint) {
+    height: 70vh;
+  }
 }
 
 .mainWrapper {
