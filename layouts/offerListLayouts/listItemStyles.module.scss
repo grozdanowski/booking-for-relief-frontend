@@ -58,6 +58,10 @@
   font-size: calcRem(24);
   font-weight: bold;
   color: $primary-color;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .meta {

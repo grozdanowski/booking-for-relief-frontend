@@ -5,6 +5,7 @@ import { DateRange } from '@material-ui/icons'
 import TextField from '@material-ui/core/TextField'
 import { markEntryAsFulfilled } from 'utils/utils'
 import Router from 'next/router'
+import Link from 'next/link'
 
 export default function AidRequestInList({ data }) {
 
@@ -61,7 +62,7 @@ export default function AidRequestInList({ data }) {
           <div className={styles.itemHeader}>
             <div className={styles.headerLeft}>
               <span className={styles.typeLabelAlert}>Tražim pomoć!</span>
-              <span className={styles.mainLabel}>{data.location}</span>
+              <Link href={`/trazim-pomoc/${data.id}`}><span className={styles.mainLabel}>{data.location}</span></Link>
             </div>
             <div className={styles.headerRight}>
               <button

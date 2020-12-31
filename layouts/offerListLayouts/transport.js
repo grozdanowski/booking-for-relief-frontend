@@ -5,6 +5,7 @@ import { DateRange, AirportShuttle, LocalShipping, DirectionsCar, HelpOutline } 
 import TextField from '@material-ui/core/TextField'
 import { markEntryAsFulfilled } from 'utils/utils'
 import Router from 'next/router'
+import Link from 'next/link'
 
 export default function TransportInList({ data }) {
 
@@ -99,7 +100,7 @@ export default function TransportInList({ data }) {
           <div className={styles.itemHeader}>
             <div className={styles.headerLeft}>
               <span className={styles.typeLabel}>Prijevoz</span>
-              <span className={styles.mainLabel}>{data.location}</span>
+              <Link href={`/prijevoz/${data.id}`}><span className={styles.mainLabel}>{data.location}</span></Link>
             </div>
             <div className={styles.headerRight}>
               <button

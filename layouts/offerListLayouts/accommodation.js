@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField'
 import { Face, ChildCare, Pets, DateRange } from '@material-ui/icons'
 import { markEntryAsFulfilled } from 'utils/utils'
 import Router from 'next/router'
+import Link from 'next/link'
 
 export default function AccommodationInList({ data }) {
 
@@ -61,7 +62,7 @@ export default function AccommodationInList({ data }) {
           <div className={styles.itemHeader}>
             <div className={styles.headerLeft}>
               <span className={styles.typeLabel}>Smještaj</span>
-              <span className={styles.mainLabel}>{data.location}</span>
+              <Link href={`/smjestaj/${data.id}`}><span className={styles.mainLabel}>{data.location}</span></Link>
             </div>
             <div className={styles.headerRight}>
               <button

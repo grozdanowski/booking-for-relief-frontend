@@ -5,6 +5,7 @@ import { Favorite, DateRange } from '@material-ui/icons'
 import TextField from '@material-ui/core/TextField'
 import { markEntryAsFulfilled } from 'utils/utils'
 import Router from 'next/router'
+import Link from 'next/link'
 
 export default function AidCollectionInList({ data }) {
 
@@ -61,7 +62,7 @@ export default function AidCollectionInList({ data }) {
           <div className={styles.itemHeader}>
             <div className={styles.headerLeft}>
               <span className={styles.typeLabel}>Prikupljanje pomoći</span>
-              <span className={styles.mainLabel}>{data.location}</span>
+              <Link href={`/prikup-donacija/${data.id}`}><span className={styles.mainLabel}>{data.location}</span></Link>
             </div>
             <div className={styles.headerRight}>
               <button
