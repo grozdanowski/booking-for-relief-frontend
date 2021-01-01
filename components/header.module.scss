@@ -10,11 +10,10 @@
   background-color: #fff;
 
   @media (max-width: $mobile-breakpoint){
-    grid-template-columns: 1fr;
+    display: block;
     height: auto;
     overflow-x: scroll;
     width: 100%;
-    grid-gap: calcRem(20);
   }
 }
 

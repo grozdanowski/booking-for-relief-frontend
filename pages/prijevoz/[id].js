@@ -43,17 +43,19 @@ export default function Entry({ aidRequests }) {
               </OfferingListItem>
             )
           })}
-          <div className={styles.comments}>
-            <h2 className={styles.commentsTitle}>Komentari:</h2>
-            {aidRequests[0].comments.map((comment, index) => (
-              <CommentDisplay key={`comment-${index}`} data = {comment} />
-            ))}
-            <CommentEditor
-              parentId = {aidRequests[0].id}
-              parentType = 'transports'
-              previousComments = {aidRequests[0].comments}
-            />              
-          </div>
+          {aidRequests[0].comments && (
+            <div className={styles.comments}>
+              <h2 className={styles.commentsTitle}>Komentari:</h2>
+              {aidRequests[0].comments.map((comment, index) => (
+                <CommentDisplay key={`comment-${index}`} data = {comment} />
+              ))}
+              <CommentEditor
+                parentId = {aidRequests[0].id}
+                parentType = 'transports'
+                previousComments = {aidRequests[0].comments}
+              />              
+            </div>
+          )}
         </LayoutWithSideMap>
       </MainSiteLayout>
     </div>

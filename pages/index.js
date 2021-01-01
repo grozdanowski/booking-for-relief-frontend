@@ -9,11 +9,11 @@ import AccommodationInList from 'layouts/offerListLayouts/accommodation'
 import TransportInList from 'layouts/offerListLayouts/transport'
 import AidCollectionInList from 'layouts/offerListLayouts/aidCollection'
 import AidRequestInList from 'layouts/offerListLayouts/aidRequest'
-
+import RedirectNotificationModal from 'components/redirectNotificationModal'
 
 export default function Home({ accommodations, aidCollections, transports, aidRequests }) {
 
-  const [filter, setFilter] = useState('');
+  const [notificationModalActive, setNotificationModalActive] = useState(true)
   
   const mapItems = [];
   
@@ -86,6 +86,10 @@ export default function Home({ accommodations, aidCollections, transports, aidRe
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBza8tAYUna_mtCXdstnhu50rJXJ7bi5yw&libraries=places"></script>
       </Head>
       <MainSiteLayout>
+        {notificationModalActive && (
+          <RedirectNotificationModal dismissFunction={() => setNotificationModalActive(false)} />
+        )}
+        
         <LayoutWithSideMap items = {mapItems} onMarkerClick = {(type, id) => console.log(type, id)}>
           <div className={styles.introSection}>
             <h1>Najnoviji unosi:</h1>
