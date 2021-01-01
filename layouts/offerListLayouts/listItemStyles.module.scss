@@ -1,12 +1,18 @@
 @import 'styles/helpers';
 
 .listItemContainer {
-  padding: calcRem(30) 0;
+  padding: calcRem(30) calcRem(40);
+  background-color: #fff;
+  margin-left: calcRem(-40);
+  margin-right: calcRem(-40);
 }
 
 .listItemContainerAlert {
-  padding: calcRem(30) calcRem(30) calcRem(30) 0;
+  padding: calcRem(30) calcRem(40);
   border-right: 4px solid $negative-color;
+  background-color: #fff;
+  margin-left: calcRem(-40);
+  margin-right: calcRem(-40);
 }
 
 .markAsFulfilledContainer {
@@ -70,6 +76,10 @@
   flex-wrap: wrap;
   padding: 0;
   margin: calcRem(15) 0;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   li {
     list-style-type: none;

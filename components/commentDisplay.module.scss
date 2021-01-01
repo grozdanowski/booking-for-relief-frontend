@@ -1,0 +1,30 @@
+@import 'styles/helpers';
+
+.comment {
+  padding: calcRem(20);
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+
+.header {
+  padding-bottom: calcRem(15);
+  border-bottom: 1px solid #ddd;
+  margin-bottom: calcRem(15);
+  font-size: calcRem(14);
+  display: flex;
+  align-items: center;
+}
+
+.author {
+  display: block;
+  font-weight: bold;
+}
+
+.timestamp {
+  display: block;
+  margin-left: auto;
+}
+
+.content {
+  font-size: calcRem(16);
+}

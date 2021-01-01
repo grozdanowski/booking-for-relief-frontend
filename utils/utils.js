@@ -1,4 +1,5 @@
-const baseUrl = 'https://lit-coast-00350.herokuapp.com'
+// const baseUrl = 'https://lit-coast-00350.herokuapp.com'
+const baseUrl = 'http://localhost:1337'
 
 
 export async function fetchQuery(path, params = null) {
@@ -17,8 +18,31 @@ export async function fetchQuery(path, params = null) {
 export async function addEntry(path, data) {
   const url = `${baseUrl}/${path}`
 
+  const response = await fetch(`${url}`, {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .catch( (error) => {
+      return error
+    })
+  const payload = await response.json()
+  return payload
+}
+
+export async function markEntryAsFulfilled(path, id) {
+  const url = `${baseUrl}/${path}/${id}`
+
+  const data = {
+    'fulfilled': true,
+    'id': id,
+  }
+
   fetch(`${url}`, {
-    method: 'post',
+    method: 'put',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -33,13 +57,8 @@ export async function addEntry(path, data) {
   })
 }
 
-export async function markEntryAsFulfilled(path, id) {
+export async function patchEntry(path, id, data) {
   const url = `${baseUrl}/${path}/${id}`
-
-  const data = {
-    'fulfilled': true,
-    'id': id,
-  }
 
   fetch(`${url}`, {
     method: 'put',

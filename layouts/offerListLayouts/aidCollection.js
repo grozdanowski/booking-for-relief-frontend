@@ -1,7 +1,7 @@
 import styles from './listItemStyles.module.scss'
 import { useState } from 'react'
 import Moment from 'react-moment'
-import { Favorite, DateRange } from '@material-ui/icons'
+import { Favorite, DateRange, Comment } from '@material-ui/icons'
 import TextField from '@material-ui/core/TextField'
 import { markEntryAsFulfilled } from 'utils/utils'
 import Router from 'next/router'
@@ -73,24 +73,34 @@ export default function AidCollectionInList({ data }) {
               </button>
             </div>
           </div>
-          <ul className={styles.meta}>
-            <li key='aid-destination'>
-              <i className={styles.metaIcon}>
-                <Favorite/>
-              </i>
-              <span>
-                Destinacija: {data.aid_destination}
-              </span>
-            </li>
-            <li>
-              <i className={styles.metaIcon}>
-                <DateRange/>
-              </i>
-              <span>
-                {data.startdate ? <Moment date={data.startdate} format='DD.MM.YYYY, H:mm' /> : '-'} - {data.enddate ? <Moment date={data.enddate} format='DD.MM.YYYY, H:mm' /> : '-'}
-              </span>
-            </li>
-          </ul>
+          <Link href={`/prikup-donacija/${data.id}`}>
+            <ul className={styles.meta}>
+              <li key='aid-destination'>
+                <i className={styles.metaIcon}>
+                  <Favorite/>
+                </i>
+                <span>
+                  Destinacija: {data.aid_destination}
+                </span>
+              </li>
+              <li>
+                <i className={styles.metaIcon}>
+                  <DateRange/>
+                </i>
+                <span>
+                  {data.startdate ? <Moment date={data.startdate} format='DD.MM.YYYY, H:mm' /> : '-'} - {data.enddate ? <Moment date={data.enddate} format='DD.MM.YYYY, H:mm' /> : '-'}
+                </span>
+              </li>
+              <li>
+                  <i className={styles.metaIcon}>
+                    <Comment/>
+                  </i>
+                  <span>
+                    {data.comments && data.comments.length}
+                  </span>
+                </li>
+            </ul>
+          </Link>
           <div className={styles.descriptionWrapper}>
             {data.description}
           </div>
@@ -101,7 +111,7 @@ export default function AidCollectionInList({ data }) {
             <a href={`tel:${data.contact_phone}`}>{data.contact_phone}</a>
             {data.available_on_whatsapp && (
               <span className={styles.whatsappAvailability}>
-                <img src='icons/whatsapp-icon.svg' alt='available on WhatsApp' />
+                <img src='/icons/whatsapp-icon.svg' alt='available on WhatsApp' />
                 Dostupan/na na WhatsApp
               </span>
             )}

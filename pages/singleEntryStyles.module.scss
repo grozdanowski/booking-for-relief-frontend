@@ -1,0 +1,13 @@
+@import 'styles/helpers';
+
+.comments {
+  padding-top: calcRem(50);
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: calcRem(20);
+}
+
+.commentsTitle {
+  font-size: calcRem(20);
+  margin: 0 0 calcRem(20);
+}

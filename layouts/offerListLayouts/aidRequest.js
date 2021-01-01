@@ -1,7 +1,7 @@
 import styles from './listItemStyles.module.scss'
 import { useState } from 'react'
 import Moment from 'react-moment'
-import { DateRange } from '@material-ui/icons'
+import { DateRange, Comment } from '@material-ui/icons'
 import TextField from '@material-ui/core/TextField'
 import { markEntryAsFulfilled } from 'utils/utils'
 import Router from 'next/router'
@@ -73,16 +73,26 @@ export default function AidRequestInList({ data }) {
               </button>
             </div>
             </div>
-            <ul className={styles.meta}>
-              <li key='created-at'>
-                <i className={styles.metaIcon}>
-                  <DateRange/>
-                </i>
-                <span>
-                <Moment date={data.created_at} format='DD.MM.YYYY, H:mm' />
-                </span>
-              </li>
-            </ul>
+            <Link href={`/trazim-pomoc/${data.id}`}>
+              <ul className={styles.meta}>
+                <li key='created-at'>
+                  <i className={styles.metaIcon}>
+                    <DateRange/>
+                  </i>
+                  <span>
+                  <Moment date={data.created_at} format='DD.MM.YYYY, H:mm' />
+                  </span>
+                </li>
+                <li>
+                  <i className={styles.metaIcon}>
+                    <Comment/>
+                  </i>
+                  <span>
+                    {data.comments && data.comments.length}
+                  </span>
+                </li>
+              </ul>
+            </Link>
             <div className={styles.descriptionWrapper}>
               {data.description}
             </div>
@@ -93,7 +103,7 @@ export default function AidRequestInList({ data }) {
               <a href={`tel:${data.contact_phone}`}>{data.contact_phone}</a>
               {data.available_on_whatsapp && (
                 <span className={styles.whatsappAvailability}>
-                  <img src='icons/whatsapp-icon.svg' alt='available on WhatsApp' />
+                  <img src='/icons/whatsapp-icon.svg' alt='available on WhatsApp' />
                   Dostupan/na na WhatsApp
                 </span>
               )}

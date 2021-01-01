@@ -2,7 +2,7 @@ import styles from './listItemStyles.module.scss'
 import { useState } from 'react'
 import Moment from 'react-moment'
 import TextField from '@material-ui/core/TextField'
-import { Face, ChildCare, Pets, DateRange } from '@material-ui/icons'
+import { Face, ChildCare, Pets, DateRange, Comment } from '@material-ui/icons'
 import { markEntryAsFulfilled } from 'utils/utils'
 import Router from 'next/router'
 import Link from 'next/link'
@@ -73,42 +73,52 @@ export default function AccommodationInList({ data }) {
               </button>
             </div>
           </div>
-          <ul className={styles.meta}>
-            <li key='number-adults'>
-              <i className={styles.metaIcon}>
-                <Face/>
-              </i>
-              <span>
-                {data.number_of_adults}
-              </span>
-            </li>
-            {data.number_of_children && (
-              <li key='number-kids'>
+          <Link href={`/smjestaj/${data.id}`}>
+            <ul className={styles.meta}>
+              <li key='number-adults'>
                 <i className={styles.metaIcon}>
-                  <ChildCare/>
+                  <Face/>
                 </i>
                 <span>
-                  {data.number_of_children}
+                  {data.number_of_adults}
                 </span>
               </li>
-            )}
-            <li>
-              <i className={styles.metaIcon}>
-                <Pets/>
-              </i>
-              <span>
-                {data.pets_allowed ? 'Da' : '-'}
-              </span>
-            </li>
-            <li>
-              <i className={styles.metaIcon}>
-                <DateRange/>
-              </i>
-              <span>
-                {data.startdate ? <Moment date={data.startdate} format='DD.MM.YYYY' /> : '-'} - {data.enddate ? <Moment date={data.enddate} format='DD.MM.YYYY' /> : '-'}
-              </span>
-            </li>
-          </ul>
+              {data.number_of_children && (
+                <li key='number-kids'>
+                  <i className={styles.metaIcon}>
+                    <ChildCare/>
+                  </i>
+                  <span>
+                    {data.number_of_children}
+                  </span>
+                </li>
+              )}
+              <li>
+                <i className={styles.metaIcon}>
+                  <Pets/>
+                </i>
+                <span>
+                  {data.pets_allowed ? 'Da' : '-'}
+                </span>
+              </li>
+              <li>
+                <i className={styles.metaIcon}>
+                  <DateRange/>
+                </i>
+                <span>
+                  {data.startdate ? <Moment date={data.startdate} format='DD.MM.YYYY' /> : '-'} - {data.enddate ? <Moment date={data.enddate} format='DD.MM.YYYY' /> : '-'}
+                </span>
+              </li>
+              <li>
+                <i className={styles.metaIcon}>
+                  <Comment/>
+                </i>
+                <span>
+                  {data.comments && data.comments.length}
+                </span>
+              </li>
+            </ul>
+          </Link>
           <div className={styles.descriptionWrapper}>
             {data.description}
           </div>
@@ -119,7 +129,7 @@ export default function AccommodationInList({ data }) {
             <a href={`tel:${data.contact_phone}`}>{data.contact_phone}</a>
             {data.available_on_whatsapp && (
               <span className={styles.whatsappAvailability}>
-                <img src='icons/whatsapp-icon.svg' alt='available on WhatsApp' />
+                <img src='/icons/whatsapp-icon.svg' alt='available on WhatsApp' />
                 Dostupan/na na WhatsApp
               </span>
             )}

@@ -5,7 +5,9 @@ import MainSiteLayout from 'layouts/mainSiteLayout'
 import LayoutWithSideMap from 'layouts/layoutWithSideMap'
 import OfferingListItem from 'components/offeringLIstItem'
 import AidRequestInList from 'layouts/offerListLayouts/aidRequest'
-
+import CommentDisplay from 'components/commentDisplay'
+import CommentEditor from 'components/commentEditor'
+import styles from 'pages/singleEntryStyles.module.scss'
 
 export default function Entry({ aidRequests }) {
 
@@ -21,8 +23,6 @@ export default function Entry({ aidRequests }) {
       })
     });
   }
-
-  console.log(aidRequests)
 
   mapItems.sort((a, b) => (a.created_at < b.created_at) ? 1 : -1);
   
@@ -42,6 +42,17 @@ export default function Entry({ aidRequests }) {
               </OfferingListItem>
             )
           })}
+          <div className={styles.comments}>
+            <h2 className={styles.commentsTitle}>Komentari:</h2>
+            {aidRequests[0].comments.map((comment, index) => (
+              <CommentDisplay key={`comment-${index}`} data = {comment} />
+            ))}
+            <CommentEditor
+              parentId = {aidRequests[0].id}
+              parentType = 'aid-requests'
+              previousComments = {aidRequests[0].comments}
+            />              
+          </div>
         </LayoutWithSideMap>
       </MainSiteLayout>
     </div>

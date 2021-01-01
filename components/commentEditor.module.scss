@@ -1,0 +1,20 @@
+@import 'styles/helpers';
+
+.editorWrapper {
+  padding-top: calcRem(20)
+}
+
+.editorTitle {
+  font-size: calcRem(16);
+  font-weight: bold;
+  display: block;
+  margin: 0 0 calcRem(20);
+}
+
+.inputField {
+  width: 100%;
+}
+
+.buttonWrapper {
+  padding-top: calcRem(20);
+}
