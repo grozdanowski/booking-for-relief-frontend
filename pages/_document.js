@@ -10,18 +10,15 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          <script async src="https://www.googletagmanager.com/gtag/js?id=G-GXNLJB75CK" />
           <script
             dangerouslySetInnerHTML={{
               __html: `
-                      <!-- Global site tag (gtag.js) - Google Analytics -->
-                      <script async src="https://www.googletagmanager.com/gtag/js?id=G-GXNLJB75CK"></script>
-                      <script>
-                        window.dataLayer = window.dataLayer || [];
-                        function gtag(){dataLayer.push(arguments);}
-                        gtag('js', new Date());
-                      
-                        gtag('config', 'G-GXNLJB75CK');
-                      </script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+              
+                gtag('config', 'G-GXNLJB75CK');
                 `,
             }}
           />
