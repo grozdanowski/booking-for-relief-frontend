@@ -22,6 +22,14 @@
   }
 }
 
+.noMap {
+  position: relative;
+  
+  @media (max-width: $mobile-breakpoint) {
+    display: none;
+  }
+}
+
 .mainWrapper {
   overflow-y: auto;
   padding-bottom: calcRem(40);

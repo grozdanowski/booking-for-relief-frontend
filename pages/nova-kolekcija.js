@@ -77,7 +77,7 @@ export default function NewEntry() {
       <MainSiteLayout>
         <LayoutWithSideMap items = {[]} onMarkerClick = {(type, id) => console.log(type, id)}>
           <div className={styles.introSection}>
-            <h1>Kreiraj novu kolekciju</h1>
+            <h1>Kreiraj novu kolekciju iz aplikacija Potres2020</h1>
             <p className={styles.noticeText}>Dodaj link na post (npr: 'https://potres2020.openit.hr/posts/448') na Potres2020 ili ID tog posta (npr '448'). Klikni 'Dodaj'. Dodaj sljedeći. Po završetku, klikni na "generiraj pogled". Odvesti će te na posebni URL sa samo tvojim odabranim postovima - taj URL možeš kopirati i shareati, uvijek će prikazivati samo te postove.</p>
           </div>
           <div className={styles.collectionGeneratorInputWrapper}>

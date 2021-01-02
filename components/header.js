@@ -36,6 +36,11 @@ export default function Header({ filterValue = null, setLocationFilterFunction =
               <a className={styles[(router.pathname == '/trazim-pomoc') ? 'active' : 'inactive']}><span className={styles.alert}>Tražim pomoć</span></a>
             </Link>
           </li>
+          <li className={styles.menuItem}>
+            <Link href='/nova-kolekcija'>
+              <a className={styles[(router.pathname == '/nova-kolekcija') ? 'active' : 'inactive']}><span>Kreiraj kolekciju</span></a>
+            </Link>
+          </li>
         </ul>
         <Link href='/dodaj-unos'>
           <a className={styles.addButton}>Dodaj unos</a>
