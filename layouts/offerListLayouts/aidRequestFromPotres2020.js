@@ -65,12 +65,7 @@ export default function AidRequestInList({ data }) {
               <a target='_blank' href={`https://potres2020.openit.hr/posts/${data.id}`}><span className={styles.mainLabel}>{data.location}</span></a>
             </div>
             <div className={styles.headerRight}>
-              <button
-                className={styles.markFulfilledButton}
-                onClick={() => setMarkFulfilledTriggered(true)}
-              >
-                Označi kao ispunjeno
-              </button>
+ 
             </div>
             </div>
             <Link href={`/trazim-pomoc/${data.id}`}>
