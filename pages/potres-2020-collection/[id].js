@@ -27,6 +27,7 @@ export default function Entry({ aidRequests }) {
 
   aidRequests.map((item, index) => {
     transposedAidRequests.push({
+      id: item.id,
       type: 'aidRequest',
       locationLat: findLatLonData(item.values, 'lat'),
       locationLon: findLatLonData(item.values, 'lon'),

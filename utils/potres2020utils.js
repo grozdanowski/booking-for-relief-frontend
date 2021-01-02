@@ -9,6 +9,5 @@ export async function fetchQuery(path, params = null) {
   }
   const response = await fetch(`${url}`)
   const data = await response.json()
-  console.log(data)
   return data
 }

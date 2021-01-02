@@ -62,7 +62,7 @@ export default function AidRequestInList({ data }) {
           <div className={styles.itemHeader}>
             <div className={styles.headerLeft}>
               <span className={styles.typeLabelAlert}>Tražim pomoć!</span>
-              <Link href={`/trazim-pomoc/${data.id}`}><span className={styles.mainLabel}>{data.location}</span></Link>
+              <a target='_blank' href={`https://potres2020.openit.hr/posts/${data.id}`}><span className={styles.mainLabel}>{data.location}</span></a>
             </div>
             <div className={styles.headerRight}>
               <button
