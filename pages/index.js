@@ -89,8 +89,8 @@ export default function Home({ accommodations, aidCollections, transports, aidRe
         {notificationModalActive && (
           <RedirectNotificationModal dismissFunction={() => setNotificationModalActive(false)} />
         )}
-        
-        <LayoutWithSideMap items = {mapItems} onMarkerClick = {(type, id) => console.log(type, id)}>
+
+        <LayoutWithSideMap items = {mapItems}>
           <div className={styles.introSection}>
             <h1>Najnoviji unosi:</h1>
             <p>Ova stranica služi kao "oglasna ploča" sa svrhom lakšeg koordiniranja pomoći žrtvama potresa koji je pogodio centralnu Hrvatsku.</p>

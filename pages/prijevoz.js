@@ -33,7 +33,7 @@ export default function Transports({ transports }) {
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBza8tAYUna_mtCXdstnhu50rJXJ7bi5yw&libraries=places"></script>
       </Head>
       <MainSiteLayout>
-        <LayoutWithSideMap items = {mapItems} onMarkerClick = {(type, id) => console.log(type, id)}>
+        <LayoutWithSideMap items = {mapItems}>
           <div className={styles.introSection}>
             <h1>Sve ponude prijevoza</h1>
             <p className={styles.noticeText}>Napomena: Molimo da unose koje ste kreirali, a u međuvremenu su ispunjeni, označite kao "<strong>Ispunjeno</strong>" kako bi zadržali preglednost sustava. Hvala.</p>

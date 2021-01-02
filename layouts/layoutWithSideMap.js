@@ -28,7 +28,7 @@ export default function layoutWithSideMap({ items, onMarkerClick = null, childre
   return (
     <div className={styles.wrapper}>
       <aside className={styles.mapWrapper}>
-        <DynamicMap items = { items } onMarkerClick = { (type, id) => handleMarkerClick(type, id) } />
+        <DynamicMap items = { items } onMarkerClick = { onMarkerClick ? onMarkerClick : (type, id) => handleMarkerClick(type, id) } />
       </aside>
       <main className={styles.mainWrapper}>
         <div className={styles.mainInner}>
