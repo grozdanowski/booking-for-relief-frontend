@@ -184,3 +184,11 @@
     min-width: calcRem(120);
   }
 }
+
+.taskValidation {
+  color: $negative-color;
+  font-size: calcRem(14);
+  font-style: italic;
+  padding: calcRem(10) 0;
+  display: block;
+}

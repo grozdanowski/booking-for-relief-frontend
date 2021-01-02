@@ -1,16 +1,10 @@
 import Head from 'next/head'
 import styles from './newEntry.module.scss'
 import { useState } from 'react'
-import { addEntry } from 'utils/utils'
+import { fetchQuery } from 'utils/potres2020utils'
 import MainSiteLayout from 'layouts/mainSiteLayout'
 import LayoutWithSideMap from 'layouts/layoutWithSideMap'
-import LocationAutocompleteNewEntry from 'components/locationAutocompleteNewEntry'
 import TextField from '@material-ui/core/TextField'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
-import InputLabel from '@material-ui/core/InputLabel'
 import { useRouter } from 'next/router'
 import { Clear } from '@material-ui/icons'
 
@@ -19,6 +13,7 @@ export default function NewEntry() {
   const [taskInputValue, setTaskInputValue] = useState('')
   const [allIds, setAllIds] = useState([])
   const [stateValue, setStateValue] = useState(0);
+  const [taskInvalid, setTaskInvalid] = useState(false);
 
   const router = useRouter();
 
@@ -32,21 +27,33 @@ export default function NewEntry() {
   }
 
   const addItem = () => {
-    const ids = allIds;
     const parsed = parseInt(taskInputValue);
     if (isNaN(parsed)) {
       const splitted = taskInputValue.split('/');
       const lastElementParsed = parseInt(splitted[splitted.length - 1])
       if (!isNaN(lastElementParsed)) {
-        ids.push(lastElementParsed);
-        setAllIds(ids);
-        setTaskInputValue('');
+        checkAndPushItem(lastElementParsed);
       }
     } else {
-      ids.push(parsed);
-      setAllIds(ids);
-      setTaskInputValue('');
+      checkAndPushItem(parsed);
     }
+  }
+
+  const setTaskInputValueHandler = (value) => {
+    setTaskInputValue(value);
+    setTaskInvalid(false);
+  }
+
+  const checkAndPushItem = (id) => {
+    fetchQuery('posts', `/${id}`)
+      .then((res) => {
+        const ids = allIds;
+        ids.push(id);
+        setTaskInputValueHandler('');    
+      })
+      .catch((err) => {
+        setTaskInvalid(true);
+      })
   }
 
   const removeItem = (index) => {
@@ -92,6 +99,9 @@ export default function NewEntry() {
             />
             <button className={styles.addButton} onClick={() => addItem()}>Dodaj</button>
           </div>
+          <span className={styles.taskValidation}>
+            {taskInvalid && 'Task koji ste unijeli ne postoji u sustavu Potres2020. Molimo probajte drugi.'}
+          </span>
           <h4>Dodani:</h4>
           <div className={styles.addedTasks}>
             {addedTasks}
