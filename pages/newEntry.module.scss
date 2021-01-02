@@ -120,3 +120,66 @@
     color: $primary-color;
   }
 }
+
+.addedTasks {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.addedId {
+  padding: calcRem(15) calcRem(25);
+  border-radius: calcRem(50);
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  margin-right: calcRem(20);
+
+  .removeButton {
+    width: calcRem(32);
+    height: calcRem(32);
+    border-radius: 100%;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin-left: calcRem(20);
+
+    &:hover, &:focus {
+      cursor: pointer;
+    }
+  }
+}
+
+.generateButton {
+  font-weight: 600;
+  background-color: $primary-color;
+  padding: calcRem(14) calcRem(25);
+  border-radius: calcRem(30);
+  color: #fff;
+  transition: all 0.3s ease-in-out;
+  border: 2px solid $primary-color;
+  margin-top: calcRem(30);
+  font-size: calcRem(18);
+  display: inline-block;
+
+  &:hover, &:focus {
+    background-color: #fff;
+    color: $primary-color;
+  }
+
+  @media (max-width: $mobile-breakpoint){
+    font-size: calcRem(16);
+  }
+}
+
+.collectionGeneratorInputWrapper {
+  display: grid;
+  grid-template-columns: 1fr auto;
+
+  .addButton {
+    padding: calcRem(15) calcRem(30);
+    min-width: calcRem(120);
+  }
+}
