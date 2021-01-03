@@ -31,10 +31,23 @@ export default (req, res) => {
   console.log(req.body);
   const item = req.body;
   if (item.status === 'archived') {
-    findEntry('aid-requests', item.id)
+    let endpoint;
+    const formId = item.form ? item.form.id : item.form_id;
+    switch (formId) {
+      case 5:
+        endpoint = 'accommodations'
+        break;
+      case 13:
+        endpoint = 'aid-collections'
+        break;
+      default:
+        endpoint = 'aid-requests'
+        break;
+    }
+    findEntry(endpoint, item.id)
       .then((data) => {
         if (data.length) {
-          patchEntry('aid-requests', data[0].id)
+          patchEntry(endpoint, data[0].id)
           .then((response) => {
             res.statusCode = 200
             res.json({ content: 'Marked as done!' })

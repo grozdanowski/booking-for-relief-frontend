@@ -43,8 +43,21 @@ export default (req, res) => {
     'available_on_whatsapp': false,
     'original_app_id': item.id,
   }
+  let endpoint;
+  const formId = item.form ? item.form.id : item.form_id;
+  switch (formId) {
+    case 5:
+      endpoint = 'accommodations'
+      break;
+    case 13:
+      endpoint = 'aid-collections'
+      break;
+    default:
+      endpoint = 'aid-requests'
+      break;
+  }
   console.log(newData);
-  addEntry('aid-requests', newData)
+  addEntry(endpoint, newData)
     .then((response) => {
       console.log(response)
       res.statusCode = 200
