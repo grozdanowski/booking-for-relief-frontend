@@ -3,55 +3,81 @@ import { useState } from 'react'
 import Moment from 'react-moment'
 import { DateRange, Comment } from '@material-ui/icons'
 import TextField from '@material-ui/core/TextField'
-import { markEntryAsFulfilled } from 'utils/utils'
+import { patchEntry } from 'utils/utils'
 import Router from 'next/router'
 import Link from 'next/link'
+import React from 'react'
+import { signIn, signOut, useSession } from 'next-auth/client'
 
 export default function AidRequestInList({ data }) {
 
-  const [markFulfilledTriggered, setMarkFulfilledTriggered] = useState(false);
-  const [emailInput, setEmailInput] = useState('');
+  const [ session, loading ] = useSession()
 
-  const handleMarkAsFulfilled = (id) => {
-    markEntryAsFulfilled('aid-requests', id)
-      .then(response => {
-        Router.reload(window.location.pathname);
-      })
+  const [markAssignmentTriggered, setMarkAssignmentTriggered] = useState(false);
+  const [phoneInput, setPhoneInput] = useState('');
+
+  const handleAssignToMe = (id) => {
+    data = {
+      'volunteer_assigned': `${session.user.name}, ${session.user.email}, ${phoneInput}`
+    }
+    patchEntry('aid-requests', id, data)
+      .then(() => setTimeout(() => {
+        Router.reload(window.location.pathname)
+      }, 1500))
       .catch(error => {
-        console.log('Error marking entry as fulfilled :(', error)
+        console.log('Error patching the entry :(', error)
       })
   }
 
+  const shouldDisplayNotes = () => {
+    if (session && data.volunteer_assigned) {
+      return data.volunteer_assigned.includes(session.user.email)
+    }
+  }
+
+  const tags = data.tags ? data.tags.split(',').map((tag, index) => {
+    return (
+      <li key={`item-${data.id}-tag-${index}`} className={styles.tagWrapper}>
+      <Link href={`/search/${tag}`}>
+        <a className={styles.tagContainer}>
+          {tag}
+        </a>
+      </Link>
+    </li>
+    )
+  }) : []
+
   return (
     <div className={styles.listItemContainerAlert}>
-      {markFulfilledTriggered ? (
+      {markAssignmentTriggered ? (
         <div className={styles.markAsFulfilledContainer}>
-          <p>Kako bi osigurali što bolju preglednost sustava, omogućili smo uklanjanje ispunjenih unosa. Kako bi unos označili kao ispunjen, unesite mail adresu koju ste unijeli pri kreiranju. Ukoliko je mail adresa ispravna, prikazati će se gumb za potvrdu.</p>
+          <h3>Dodijeli ovaj upit sebi</h3>
+          <p>Molimo te da budeš maksimalno odgovoran/na po preuzimanju ovoga slučaja/upita. Bez unosa broja telefona ne možeš preuzeti slučaj.</p>
           <div className={styles.emailInputWrapper}>
             <TextField
               className={styles.inputField}
-              label='Kontakt mail adresa'
-              placeholder='moj@email.hr'
-              helperText='Važno: mail adresa koju ste unijeli pri kreiranju unosa'
-              onChange={(event) => setEmailInput(event.target.value)}
-              value={emailInput}
+              label='Moj broj telefona'
+              placeholder='+385900000000'
+              helperText='Važno: molimo te da uneseš svoj broj kako bi te koordinatori volontera mogli kontaktirati!'
+              onChange={(event) => setPhoneInput(event.target.value)}
+              value={phoneInput}
               variant='outlined'
-              type='email'
+              type='phone'
               required
             />
           </div>
           <div className={styles.buttonsWrapper}>
-            {(emailInput === data.submitter_email) && (
+            {(phoneInput) && (
               <button
                 className={styles.submitButton}
-                onClick={() => handleMarkAsFulfilled(data.id)}
+                onClick={() => handleAssignToMe(data.id)}
               >
-                Označi kao ispunjeno
+                Dodijeli meni!
               </button>
             )}
             <button
               className={styles.cancelButton}
-              onClick={() => setMarkFulfilledTriggered(false)}
+              onClick={() => setMarkAssignmentTriggered(false)}
             >
               Odustani
             </button>
@@ -65,12 +91,14 @@ export default function AidRequestInList({ data }) {
               <Link href={`/trazim-pomoc/${data.id}`}><span className={styles.mainLabel}>{data.location}</span></Link>
             </div>
             <div className={styles.headerRight}>
-              <button
-                className={styles.markFulfilledButton}
-                onClick={() => setMarkFulfilledTriggered(true)}
-              >
-                Označi kao ispunjeno
-              </button>
+              {(session && !data.volunteer_assigned) && (
+                <button
+                  className={styles.markFulfilledButton}
+                  onClick={() => setMarkAssignmentTriggered(true)}
+                >
+                  Dodijeli sebi
+                </button>
+              )}
             </div>
             </div>
             <Link href={`/trazim-pomoc/${data.id}`}>
@@ -93,9 +121,18 @@ export default function AidRequestInList({ data }) {
                 </li>
               </ul>
             </Link>
+            <ul className={styles.tagsWrapper}>
+              {tags}
+            </ul>
             <div className={styles.descriptionWrapper}>
               {data.description}
             </div>
+            {shouldDisplayNotes() ? (
+              <div className={styles.internalNotesWrapper}>
+                <span className={styles.notesTitle}>Interne napomene:</span>
+                {data.notes ? data.notes : 'Nema napomene'}
+              </div>
+            ) : ''}
             <div className={styles.footer}>
               <span className={styles.contactName}>
                 Kontakt osoba: {data.contact_name}

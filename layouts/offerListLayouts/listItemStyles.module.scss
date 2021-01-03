@@ -33,7 +33,7 @@
 }
 
 .markFulfilledButton {
-  opacity: 0.4;
+  opacity: 1;
   transition: all 0.3s ease-in-out;
 
   @media (max-width: $mobile-breakpoint) {
@@ -149,4 +149,51 @@
       margin-right: calcRem(5);
     }
   }
+}
+
+.tagsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin-left: calcRem(-5);
+  margin-right: calcRem(-5);
+  margin-top: calcRem(-5);
+  padding-bottom: calcRem(20);
+}
+
+.tagWrapper {
+  list-style-type: none;
+  margin: calcRem(5)
+}
+
+.tagContainer {
+  font-size: calcRem(14);
+  padding: calcRem(4) calcRem(6);
+  text-transform: uppercase;
+  background-color: grey;
+  color: white;
+  display: inline-block;
+  border: 1px solid grey;
+
+  &:hover, &:focus {
+    background-color: white;
+    color: $text-color;
+    cursor: pointer;
+  }
+}
+
+.internalNotesWrapper {
+  margin-top: calcRem(30);
+  padding-top: calcRem(25);
+  padding-bottom: calcRem(25);
+  border-top: 1px solid #ddd;
+  font-style: italic;
+  font-size: calcRem(14);
+}
+
+.notesTitle {
+  font-weight: bold;
+  display: block;
+  margin-bottom: calcRem(10);
+  font-style: normal;
 }

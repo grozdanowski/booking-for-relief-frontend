@@ -3,11 +3,12 @@
 .headerContainer {
   padding: calcRem(10) calcRem(30);
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  grid-gap: calcRem(50);
+  grid-template-columns: auto 1fr;
+  grid-gap: calcRem(70);
   align-items: center;
   height: calcRem(100);
   background-color: #fff;
+  position: relative;
 
   @media (max-width: $mobile-breakpoint){
     display: block;
@@ -32,6 +33,18 @@
 .siteMainMenu {
   display: flex;
   align-items: center;
+  position: absolute;
+  z-index: 100;
+  left: 0;
+  right: 0;
+  top: calcRem(100);
+  justify-content: center;
+
+  @media (max-width: $mobile-breakpoint) {
+    position: relative;
+    top: 0;
+    text-align: center;
+  }
 }
 
 .menuItemsWrapper {
@@ -40,6 +53,11 @@
   border-radius: calcRem(60);
   border: 1px solid #ccc;
   padding: 0 calcRem(5);
+  background-color: #fff;
+
+  @media (min-width: $mobile-breakpoint) {
+    @include shadow-1;
+  }
 
   @media (max-width: $mobile-breakpoint) {
     width: 100%;
@@ -56,6 +74,13 @@
 
     @media (max-width: $mobile-breakpoint) {
       border: none;
+      text-align: center;
+      width: 100%;
+
+      a {
+        width: 100%;
+        margin: calcRem(10) 0;
+      }
     }
 
     .alert {
@@ -91,9 +116,110 @@
     background-color: #fff;
     color: $primary-color;
   }
+
+  @media (max-width: $mobile-breakpoint) {
+    margin-left: 0;
+    width: 100%;
+    text-align: center;
+  }
 }
 
 .stuffRight {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr auto auto;
+  grid-gap: calcRem(30);
+  max-width: calcRem(720);
+  margin-left: auto;
+  
+  @media (max-width: $mobile-breakpoint) {
+    grid-template-columns: 1fr;
+    margin: calcRem(30) auto;
+  }
+}
+
+.headerSearch {
   display: flex;
-  justify-content: flex-end;
+
+  @media (max-width: $mobile-breakpoint) {
+    padding: calcRem(30) 0;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: calcRem(20);
+  }
+
+  .searchInputField {
+    width: 100%;
+  }
+
+  .searchButton {
+    background-color: $primary-color;
+    outline: none;
+    box-shadow: none;
+    color: #fff;
+    border: none;
+    padding-left: calcRem(10);
+    padding-right: calcRem(20);
+    border-top-right-radius: calcRem(50);
+    border-bottom-right-radius: calcRem(50);
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+
+    &:hover, &:focus {
+      cursor: pointer;
+      opacity: 0.7;;
+    }
+  }
+}
+
+.headerAuth {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+@media (max-width: $mobile-breakpoint){
+  
+  .slideOutMenu {
+    position: fixed;
+    z-index: 1008;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    overflow-y: auto;
+    transition: all 0.3s ease-in-out;
+    padding-top: calcRem(30);
+    display: flex;
+    flex-direction: column;
+
+    &.menuClosed {
+      transform: translateX(calcRem(800));
+    }
+
+    &.menuOpen {
+      transform: translateX(0);
+    }
+  }
+}
+
+.mobileMenuButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: calcRem(64);
+  height: calcRem(64);
+  background-color: $primary-color;
+  color: #fff;
+  border: none;
+  outline: none;
+  z-index: 1009;
+
+  @media (min-width: $mobile-breakpoint){
+    display: none;
+  }
 }

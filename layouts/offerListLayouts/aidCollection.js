@@ -6,8 +6,12 @@ import TextField from '@material-ui/core/TextField'
 import { markEntryAsFulfilled } from 'utils/utils'
 import Router from 'next/router'
 import Link from 'next/link'
+import React from 'react'
+import { signIn, signOut, useSession } from 'next-auth/client'
 
 export default function AidCollectionInList({ data }) {
+
+  const [ session, loading ] = useSession()
 
   const [markFulfilledTriggered, setMarkFulfilledTriggered] = useState(false);
   const [emailInput, setEmailInput] = useState('');
@@ -65,12 +69,7 @@ export default function AidCollectionInList({ data }) {
               <Link href={`/prikup-donacija/${data.id}`}><span className={styles.mainLabel}>{data.location}</span></Link>
             </div>
             <div className={styles.headerRight}>
-              <button
-                className={styles.markFulfilledButton}
-                onClick={() => setMarkFulfilledTriggered(true)}
-              >
-                Označi kao ispunjeno
-              </button>
+
             </div>
           </div>
           <Link href={`/prikup-donacija/${data.id}`}>

@@ -3,11 +3,15 @@ import { addEntry, patchEntry } from 'utils/utils'
 import TextField from '@material-ui/core/TextField'
 import Router from 'next/router'
 import styles from './commentEditor.module.scss'
+import React from 'react'
+import { signIn, signOut, useSession } from 'next-auth/client'
 
 
 export default function CommentEditor({ parentId, parentType, previousComments }) {
 
-  const [author, setAuthor] = useState('');
+  const [ session, loading ] = useSession()
+
+  const [author, setAuthor] = useState(session ? session.user.name : '');
   const [content, setContent] = useState('');
 
   const handleSubmit = () => {

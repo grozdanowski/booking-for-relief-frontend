@@ -13,7 +13,7 @@ import RedirectNotificationModal from 'components/redirectNotificationModal'
 
 export default function Home({ accommodations, aidCollections, transports, aidRequests }) {
 
-  const [notificationModalActive, setNotificationModalActive] = useState(true)
+  const [notificationModalActive, setNotificationModalActive] = useState(false)
   
   const mapItems = [];
   
