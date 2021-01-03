@@ -36,14 +36,19 @@ export default (req, res) => {
     'locationLon': findLatLonData(item.values, 'lon'),
     'location': item.title,
     'description': item.content,
-    'notes': `URL na izvorni item na Potres2020: ${item.url}     Dodatni info iz Potres2020: ${item.values['3c8441b3-5744-48bb-9d9e-d6ec4be50613']}`,
-    'contact_phone': item.values['4583d2a1-331a-4da2-86df-3391e152198e'],
-    'contact_name': item.values['1328cf24-09de-44cd-b159-6242e6165530'],
+    'notes': `URL na izvorni item na Potres2020: https://potres2020.openit.hr/posts/${item.id}     Dodatni info iz Potres2020: ${item.values['3c8441b3-5744-48bb-9d9e-d6ec4be50613']}`,
+    'contact_name': item.values['4583d2a1-331a-4da2-86df-3391e152198e'] ? item.values['4583d2a1-331a-4da2-86df-3391e152198e'][0] : '',
+    'contact_phone': item.values['1328cf24-09de-44cd-b159-6242e6165530'] ? item.values['1328cf24-09de-44cd-b159-6242e6165530'][0] : '',
     'submitter_email': 'potres@2020.hr',
     'available_on_whatsapp': false,
+    'original_app_id': item.id,
   }
-  addEntry(newData.type, newData)
-    .then((response) => res.statusCode = 200)
+  console.log(newData);
+  addEntry('aid-requests', newData)
+    .then((response) => {
+      console.log(response)
+      res.statusCode = 200
+    })
     .catch((error) => console.log('Error in Potres2020 webhook:', error))
   res.json({ content: 'Thanks!' })
 }
