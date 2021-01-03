@@ -65,7 +65,7 @@ export default function AccommodationInList({ data }) {
         <div>
           <div className={styles.itemHeader}>
             <div className={styles.headerLeft}>
-              <span className={styles.typeLabel}>Smještaj</span>
+              <span className={styles.typeLabel}>Smještaj / pomoć</span>
               <Link href={`/smjestaj/${data.id}`}><span className={styles.mainLabel}>{data.location}</span></Link>
             </div>
             <div className={styles.headerRight}>
