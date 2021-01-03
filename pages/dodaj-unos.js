@@ -35,6 +35,7 @@ export default function NewEntry() {
   const [numberOfAdults, setNumberOfAdults] = useState(null);
   const [petsAllowed, setPetsAllowed] = useState(null);
   const [mapItems, setMapItems] = useState([]);
+  const [submittingMessage, setSubmittingMessage] = useState('');
 
   const router = useRouter();
 
@@ -66,6 +67,8 @@ export default function NewEntry() {
         return transportContent;
       case 'accommodation':
         return accommodationContent;
+      case 'submitting':
+        return submittingContent;
       default:
         break;
     }
@@ -142,10 +145,23 @@ export default function NewEntry() {
       default:
         break;
     }
+    setType('submitting');
+    setSubmittingMessage('Dodajemo tvoj unos...');
     addEntry(endpoint, data)
-      .then(() => router.push('/'))
-      .catch(error => console.error('Error poblishing an entry :(', error));
+      .then(() => {
+        router.push('/')
+      })
+      .catch((error) => {
+        console.error('Error publishing an entry :(', error)
+        setSubmittingMessage('Problem pri dodavanju tvoj unosa. Molimo te da se obratiš administratorima.');
+      });
   }
+
+  const submittingContent = (
+    <div className={styles.submittingMessage}>
+      {submittingMessage}
+    </div>
+  )
 
   const aidRequestContent = (
     <div className={styles.newEntryForm}>
