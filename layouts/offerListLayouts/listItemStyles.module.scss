@@ -197,3 +197,17 @@
   margin-bottom: calcRem(10);
   font-style: normal;
 }
+
+.volunteerAssignedNotice {
+  display: flex;
+  align-items: center;
+  color: green;
+
+  span {
+    margin-left: calcRem(5);
+    flex-grow: 1;
+    flex-shrink: 1;
+    font-size: calcRem(13);
+    font-weight: bold;
+  }
+}

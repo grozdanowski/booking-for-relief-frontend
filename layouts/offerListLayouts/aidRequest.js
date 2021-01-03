@@ -1,7 +1,7 @@
 import styles from './listItemStyles.module.scss'
 import { useState } from 'react'
 import Moment from 'react-moment'
-import { DateRange, Comment } from '@material-ui/icons'
+import { DateRange, Comment, DirectionsRun } from '@material-ui/icons'
 import TextField from '@material-ui/core/TextField'
 import { patchEntry } from 'utils/utils'
 import Router from 'next/router'
@@ -98,6 +98,12 @@ export default function AidRequestInList({ data }) {
                 >
                   Dodijeli sebi
                 </button>
+              )}
+              {(data.volunteer_assigned) && (
+                <div className={styles.volunteerAssignedNotice}>
+                  <DirectionsRun />
+                  <span>Volonter dodijeljen</span>
+                </div>
               )}
             </div>
             </div>
