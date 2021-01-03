@@ -1,5 +1,5 @@
-const baseUrl = 'https://lit-coast-00350.herokuapp.com'
-// const baseUrl = process.env.BASE_URL || 'http://localhost:1337'
+// const baseUrl = 'https://lit-coast-00350.herokuapp.com'
+const baseUrl = process.env.BASE_URL || 'http://localhost:1337'
 
 export async function fetchQuery(path, params = null) {
   let url
