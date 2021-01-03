@@ -36,7 +36,6 @@ export default function AidCollections({ aidCollections }) {
         <LayoutWithSideMap items = {mapItems}>
           <div className={styles.introSection}>
             <h1>Sve aktivne lokacije prikupa pomoći</h1>
-            <p className={styles.noticeText}>Napomena: Molimo da unose koje ste kreirali, a u međuvremenu su ispunjeni, označite kao "<strong>Ispunjeno</strong>" kako bi zadržali preglednost sustava. Hvala.</p>
           </div>
 
           {mapItems.map((item, index) => {

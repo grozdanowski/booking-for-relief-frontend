@@ -41,7 +41,7 @@ export default function Header() {
           <ul className={styles.menuItemsWrapper}>
             <li className={styles.menuItem}>
               <Link href='/smjestaj'>
-                <a className={styles[(router.pathname == '/smjestaj') ? 'active' : 'inactive']}>Smještaji</a>
+                <a className={styles[(router.pathname == '/smjestaj') ? 'active' : 'inactive']}>Smještaji / Ponude</a>
               </Link>
             </li>
             <li className={styles.menuItem}>
@@ -51,7 +51,7 @@ export default function Header() {
             </li>
             <li className={styles.menuItem}>
               <Link href='/prikup-donacija'>
-                <a className={styles[(router.pathname == '/prikup-donacija') ? 'active' : 'inactive']}>Prikup donacija</a>
+                <a className={styles[(router.pathname == '/prikup-donacija') ? 'active' : 'inactive']}>Prikupi donacija</a>
               </Link>
             </li>
             <li className={styles.menuItem}>

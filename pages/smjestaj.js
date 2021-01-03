@@ -28,7 +28,7 @@ export default function Accommodations({ accommodations }) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Pomoć žrtvama potresa | Smještaji</title>
+        <title>Pomoć žrtvama potresa | Smještaji i ostale ponude</title>
         <link rel="icon" href="/favicon.ico" />
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBza8tAYUna_mtCXdstnhu50rJXJ7bi5yw&libraries=places"></script>
       </Head>
@@ -36,7 +36,6 @@ export default function Accommodations({ accommodations }) {
         <LayoutWithSideMap items = {mapItems}>
           <div className={styles.introSection}>
             <h1>Sve ponude smještaja</h1>
-            <p className={styles.noticeText}>Napomena: Molimo da unose koje ste kreirali, a u međuvremenu su ispunjeni, označite kao "<strong>Ispunjeno</strong>" kako bi zadržali preglednost sustava. Hvala.</p>
           </div>
 
           {mapItems.map((item, index) => {

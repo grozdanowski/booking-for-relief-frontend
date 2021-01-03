@@ -36,7 +36,7 @@ export default function HelpNeeded({ aidRequests }) {
         <LayoutWithSideMap items = {mapItems}>
           <div className={styles.introSection}>
             <h1>Svi zahtjevi za pomoći</h1>
-            <p className={styles.noticeText}>Napomena: Molimo da unose koje ste kreirali, a u međuvremenu su ispunjeni, označite kao "<strong>Ispunjeno</strong>" kako bi zadržali preglednost sustava. Hvala.</p>
+            <p className={styles.noticeText}>Napomena: Molimo da volonteri budu iznimno odgovorni po preuzimanju pojedinih slučajeva na sebe. Hvala!</p>
           </div>
 
           {mapItems.map((item, index) => {
