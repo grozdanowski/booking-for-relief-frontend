@@ -48,25 +48,35 @@ export default (req, res) => {
       .then((data) => {
         if (data.length) {
           patchEntry(endpoint, data[0].id)
-          .then((response) => {
-            res.statusCode = 200
-            res.json({ content: 'Marked as done!' })
-          })
-          .catch((error) => {
-            console.log('Error in Potres2020 webhook:', error)
-            res.statusCode = 500
-            res.json({ content: 'Error' })
-          })
+            .then((response) => {
+              console.log('Marked item as done!')
+              res.statusCode = 200
+              res.json({ content: 'Marked as done!' })
+              res.end()
+            })
+            .catch((error) => {
+              console.log('Error in Potres2020 webhook:', error)
+              res.statusCode = 500
+              res.json({ content: 'Error' })
+              res.end()
+            })
+        } else {
+          res.statusCode = 404
+          console.log('Did not find the entry:', error)
+          res.json({ content: 'Did not find the entry.' })
+          res.end()
         }
       })
       .catch((error) => {
-        res.statusCode = 404
-        console.log('Did not find the entry:', error)
-        res.json({ content: 'Did not find the entry.' })
+        res.statusCode = 500
+        console.log('Error while searching for entry:', error)
+        res.json({ content: 'Error searching for entry.' })
+        res.end()
       })
   } else {
-    console.log('Item changed, but status not archived.')
+    console.log('Item received, but status not archived.')
     res.statusCode = 200
-    res.json({ content: 'Item changed, but status not archived.' })
+    res.json({ content: 'Item received, but status not archived.' })
+    res.end()
   }
 }
