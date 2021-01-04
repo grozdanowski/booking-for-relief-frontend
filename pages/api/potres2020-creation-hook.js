@@ -24,6 +24,7 @@ export async function addEntry(path, data) {
       body: JSON.stringify(data)
     })
     .catch( (error) => {
+      console.log('There was an error in the addEntry function!');
       return error
     })
   const payload = await response.json()
