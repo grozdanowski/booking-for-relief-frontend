@@ -10,3 +10,19 @@
   font-size: calcRem(13);
   font-style: italic;
 }
+
+.googleMapsButton {
+  display: inline-block;
+  border: 2px solid #1EA362;
+  color: #1EA362;
+  padding: calcRem(6) calcRem(15);
+  border-radius: calcRem(30);
+  margin-top: calcRem(10);
+  font-size: calcRem(16);
+
+  &:hover, &:focus {
+    background-color: #1EA362;
+    color: #fff;
+    cursor: pointer;
+  }
+}

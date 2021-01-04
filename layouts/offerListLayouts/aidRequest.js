@@ -21,9 +21,9 @@ export default function AidRequestInList({ data }) {
       'volunteer_assigned': `${session.user.name}, ${session.user.email}, ${phoneInput}`
     }
     patchEntry('aid-requests', id, data)
-      .then(() => setTimeout(() => {
-        Router.reload(window.location.pathname)
-      }, 1500))
+      // .then(() => setTimeout(() => {
+      //   Router.reload(window.location.pathname)
+      // }, 1500))
       .catch(error => {
         console.log('Error patching the entry :(', error)
       })
@@ -46,6 +46,8 @@ export default function AidRequestInList({ data }) {
     </li>
     )
   }) : []
+
+  const googleMapsUrl = (data.locationLat && data.locationLon) ? `https://www.google.com/maps/dir/?api=1&dir_action=navigate&destination=${data.locationLat},${data.locationLon}` : null;
 
   return (
     <div className={styles.listItemContainerAlert}>
@@ -93,7 +95,7 @@ export default function AidRequestInList({ data }) {
             <div className={styles.headerRight}>
               {(session && !data.volunteer_assigned) && (
                 <button
-                  className={styles.markFulfilledButton}
+                  className={styles.assignToSelfButton}
                   onClick={() => setMarkAssignmentTriggered(true)}
                 >
                   Dodijeli sebi
@@ -105,6 +107,9 @@ export default function AidRequestInList({ data }) {
                   <span>Volonter dodijeljen</span>
                 </div>
               )}
+              {(googleMapsUrl) ? (
+                <a className={styles.googleMapsButton} target='_blank' href={googleMapsUrl}>Navigiraj u Google Mapama</a>
+              ) : ''}
             </div>
             </div>
             <Link href={`/trazim-pomoc/${data.id}`}>

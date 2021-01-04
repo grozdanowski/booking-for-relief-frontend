@@ -24,6 +24,17 @@ export default function HelpNeeded({ aidRequests, id }) {
   }
 
   mapItems.sort((a, b) => (a.created_at < b.created_at) ? 1 : -1);
+
+  let mapsUrlLocations = '';
+  
+  if (mapItems.length) {
+    mapItems.forEach((item, index) => {
+      mapsUrlLocations += `${item.locationLat},${item.locationLon}|`
+    })
+    mapsUrlLocations = mapsUrlLocations.slice(0, -1);
+  }
+
+  const mapsFullUrl = `https://www.google.com/maps/dir/?api=1&dir_action=navigate&waypoints=${mapsUrlLocations}&destination=${mapItems[mapItems.length-1].locationLat},${mapItems[mapItems.length-1].locationLon}`;
   
   return (
     <div className={styles.container}>
@@ -37,6 +48,11 @@ export default function HelpNeeded({ aidRequests, id }) {
           <div className={styles.introSection}>
             <h1>Zadaci volontera</h1>
             <p><strong>{id}</strong></p>
+            <br />
+            {(mapItems.length) ? [
+              <p>Klikom na sljedeći gumb možeš otvoriti u Google Mapsima rutu sa svim destinacijama na tvojoj listi:</p>,
+              <a className={styles.googleMapsButton} target='_blank' href={mapsFullUrl}>Navigiraj u Google Mapama</a>
+            ] : ''}
           </div>
 
           {mapItems.map((item, index) => {

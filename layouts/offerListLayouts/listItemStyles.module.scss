@@ -211,3 +211,35 @@
     font-weight: bold;
   }
 }
+
+.assignToSelfButton {
+  display: block;
+  border: 2px solid $primary-color;
+  color: #fff;
+  background-color: $primary-color;
+  padding: calcRem(10) calcRem(15);
+  width: 100%;
+  border-radius: calcRem(30);
+
+  &:hover, &:focus {
+    background-color: #fff;
+    color: $primary-color;
+    cursor: pointer;
+  }
+}
+
+.googleMapsButton {
+  display: block;
+  border: 2px solid #1EA362;
+  color: #1EA362;
+  padding: calcRem(6) calcRem(15);
+  border-radius: calcRem(30);
+  margin-top: calcRem(10);
+  font-size: calcRem(14);
+
+  &:hover, &:focus {
+    background-color: #1EA362;
+    color: #fff;
+    cursor: pointer;
+  }
+}
