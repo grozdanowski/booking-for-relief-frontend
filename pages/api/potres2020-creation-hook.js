@@ -12,6 +12,8 @@ const findLatLonData = (values, requestedValue) => {
 
 export async function addEntry(path, data) {
   const url = `${baseUrl}/${path}`
+  
+  console.log('Saljem novi zapis iz potres2020 na:', url);
 
   const response = await fetch(`${url}`, {
       method: 'post',
