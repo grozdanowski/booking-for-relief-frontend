@@ -31,6 +31,7 @@ export async function addEntry(path, data) {
 }
 
 export default (req, res) => {
+  console.log('Creation event triggered!');
   console.log(req.body);
   const item = req.body;
   const newData = {
@@ -61,7 +62,7 @@ export default (req, res) => {
   console.log(newData);
   addEntry(endpoint, newData)
     .then((response) => {
-      console.log(response)
+      console.log('Backend API response:', response)
       res.statusCode = 200
     })
     .catch((error) => console.log('Error in Potres2020 webhook:', error))
