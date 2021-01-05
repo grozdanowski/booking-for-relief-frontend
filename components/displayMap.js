@@ -15,19 +15,20 @@ export default function displayMap({ items, onMarkerClick = (type, id) => consol
     if ((item.locationLat && item.locationLon)) {
       
       let markerIcon;
+      const iconAssigned = item.volunteer_assigned ? '--assigned' : '';
 
       switch (item.type) {
         case 'accommodation':
-          markerIcon = '/icons/map-marker--accommodation.svg'
+          markerIcon = `/icons/map-marker--accommodation${iconAssigned}.svg`
           break;
         case 'transport':
-          markerIcon = '/icons/map-marker--transport.svg'
+          markerIcon = `/icons/map-marker--transport${iconAssigned}.svg`
           break;
         case 'aidCollection':
-          markerIcon = '/icons/map-marker--aid-collection.svg'
+          markerIcon = `/icons/map-marker--aid-collection${iconAssigned}.svg`
           break;
         case 'aidRequest':
-          markerIcon = '/icons/map-marker--help-needed.svg'
+          markerIcon = `/icons/map-marker--help-needed${iconAssigned}.svg`
           break;
         default:
           markerIcon = null;
