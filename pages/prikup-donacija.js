@@ -55,7 +55,7 @@ export async function getServerSideProps() {
   var qs = require('qs');
   var now = new Date().toISOString();
   const query = qs.stringify({ _where: [{ fulfilled: false }] }, { encode: true });
-  const aidCollections = await fetchQuery('aid-collections', `?${query}&_limit=-1`);
+  const aidCollections = await fetchQuery('aid-collections', `?_sort=created_at:desc&${query}&_limit=-1`);
   return {
     props: {
       aidCollections,

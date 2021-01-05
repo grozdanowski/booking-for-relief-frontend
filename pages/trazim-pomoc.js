@@ -55,7 +55,7 @@ export default function HelpNeeded({ aidRequests }) {
 export async function getServerSideProps() {
   var qs = require('qs');
   const aidRequestQuery = qs.stringify({ _where: [{ fulfilled: false }] }, { encode: true });
-  const aidRequests = await fetchQuery('aid-requests', `?${aidRequestQuery}&_limit=-1`);
+  const aidRequests = await fetchQuery('aid-requests', `?_sort=created_at:desc&${aidRequestQuery}&_limit=-1`);
   return {
     props: {
       aidRequests,

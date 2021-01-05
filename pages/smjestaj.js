@@ -55,7 +55,7 @@ export async function getServerSideProps() {
   var qs = require('qs');
   var now = new Date().toISOString();
   const query = qs.stringify({ _where: [{ fulfilled: false }] }, { encode: true });
-  const accommodations = await fetchQuery('accommodations', `?${query}&_limit=-1`);
+  const accommodations = await fetchQuery('accommodations', `?_sort=created_at:desc&${query}&_limit=-1`);
   return {
     props: {
       accommodations,
