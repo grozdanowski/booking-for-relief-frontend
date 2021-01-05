@@ -54,7 +54,7 @@ export default function AidCollections({ aidCollections }) {
 export async function getServerSideProps() {
   var qs = require('qs');
   var now = new Date().toISOString();
-  const query = qs.stringify({ _where: [{ _or: [{ enddate_gte: now }, { enddate_null: true }] }, { fulfilled: false }] }, { encode: true });
+  const query = qs.stringify({ _where: [{ fulfilled: false }] }, { encode: true });
   const aidCollections = await fetchQuery('aid-collections', `?${query}&_limit=-1`);
   return {
     props: {
