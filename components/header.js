@@ -39,34 +39,34 @@ export default function Header({ itemTags }) {
       >
         <div className={styles.siteMainMenu}>
           <ul className={styles.menuItemsWrapper}>
-            <li className={styles.menuItem}>
+            <li key='menu-item-1' className={styles.menuItem}>
               <Link href='/smjestaj'>
                 <a className={styles[(router.pathname == '/smjestaj') ? 'active' : 'inactive']}>Smještaji / Ponude</a>
               </Link>
             </li>
-            <li className={styles.menuItem}>
+            <li key='menu-item-2' className={styles.menuItem}>
               <Link href='/prijevoz'>
                 <a className={styles[(router.pathname == '/prijevoz') ? 'active' : 'inactive']}>Prijevozi</a>
               </Link>
             </li>
-            <li className={styles.menuItem}>
+            <li key='menu-item-3' className={styles.menuItem}>
               <Link href='/prikup-donacija'>
                 <a className={styles[(router.pathname == '/prikup-donacija') ? 'active' : 'inactive']}>Prikupi donacija</a>
               </Link>
             </li>
-            <li className={styles.menuItem}>
+            <li key='menu-item-4' className={styles.menuItem}>
               <Link href='/trazim-pomoc'>
                 <a className={styles[(router.pathname == '/trazim-pomoc') ? 'active' : 'inactive']}><span className={styles.alert}>Tražim pomoć</span></a>
               </Link>
             </li>
             {session ? (
-              <li className={styles.menuItem}>
+              <li key='menu-item-5' className={styles.menuItem}>
                 <Link href={`/zadaci-volontera/${session.user.email}`}>
                   <a className={styles[(router.pathname == `/zadaci-volontera/${session.user.email}`) ? 'active' : 'inactive']}><span>Moji zadaci</span></a>
                 </Link>
               </li>
             ) : (
-              <li className={styles.menuItem}>
+              <li key='menu-item-6' className={styles.menuItem}>
                 <Link href='/nova-kolekcija'>
                   <a className={styles[(router.pathname == '/nova-kolekcija') ? 'active' : 'inactive']}><span>Kreiraj kolekciju</span></a>
                 </Link>
