@@ -8,14 +8,14 @@ import OfferingListItem from 'components/offeringLIstItem'
 import AidRequestInList from 'layouts/offerListLayouts/aidRequest'
 
 
-export default function HelpNeeded({ aidRequests, id, itemTags }) {
+export default function HelpNeeded({ results, id, itemTags }) {
 
   const [filter, setFilter] = useState('');
   
   const mapItems = [];
 
-  if (aidRequests) {
-    aidRequests.forEach(item => {
+  if (results) {
+    results.forEach(item => {
       mapItems.push({
         type: 'aidRequest',
         ...item
@@ -57,10 +57,14 @@ export async function getServerSideProps({ params }) {
   const id = params.id;
   const aidRequestQuery = qs.stringify({ _where: [{ fulfilled: false }, { tags_contains: params.id }] }, { encode: true });
   const aidRequests = await fetchQuery('aid-requests', `?${aidRequestQuery}&_limit=-1`);
+  const accommodations = await fetchQuery('accommodations', `?${aidRequestQuery}&_limit=-1`);
+  const transports = await fetchQuery('transports', `?${aidRequestQuery}&_limit=-1`);
+  const aidCollections = await fetchQuery('aid-collections', `?${aidRequestQuery}&_limit=-1`);
   const itemTags = await fetchQuery('item-tags', `?_sort=tag&_limit=-1`);
+  const results = aidRequests.concat(accommodations, transports, aidCollections);
   return {
     props: {
-      aidRequests,
+      results,
       id,
       itemTags,
     }
