@@ -10,7 +10,7 @@ import CommentEditor from 'components/commentEditor'
 import styles from 'pages/singleEntryStyles.module.scss'
 
 
-export default function Entry({ aidRequests }) {
+export default function Entry({ aidRequests, itemTags }) {
 
   const [filter, setFilter] = useState('');
   
@@ -34,7 +34,7 @@ export default function Entry({ aidRequests }) {
         <link rel="icon" href="/favicon.ico" />
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBza8tAYUna_mtCXdstnhu50rJXJ7bi5yw&libraries=places"></script>
       </Head>
-      <MainSiteLayout>
+      <MainSiteLayout itemTags = {itemTags}>
         <LayoutWithSideMap items = {mapItems} onMarkerClick = {(type, id) => console.log(type, id)}>
           {mapItems.map((item, index) => {
             return (
@@ -64,10 +64,12 @@ export default function Entry({ aidRequests }) {
 
 export async function getServerSideProps({ params }) {
   const fetchData = await fetchQuery('accommodations', `/${params.id}`);
+  const itemTags = await fetchQuery('item-tags', `?_sort=tag&_limit=-1`);
   const aidRequests = [fetchData]
   return {
     props: {
       aidRequests,
+      itemTags,
     }
   }
 }

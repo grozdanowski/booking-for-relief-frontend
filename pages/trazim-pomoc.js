@@ -8,7 +8,7 @@ import OfferingListItem from 'components/offeringLIstItem'
 import AidRequestInList from 'layouts/offerListLayouts/aidRequest'
 
 
-export default function HelpNeeded({ aidRequests }) {
+export default function HelpNeeded({ aidRequests, itemTags }) {
 
   const [filter, setFilter] = useState('');
   
@@ -32,7 +32,7 @@ export default function HelpNeeded({ aidRequests }) {
         <link rel="icon" href="/favicon.ico" />
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBza8tAYUna_mtCXdstnhu50rJXJ7bi5yw&libraries=places"></script>
       </Head>
-      <MainSiteLayout>
+      <MainSiteLayout itemTags = {itemTags}>
         <LayoutWithSideMap items = {mapItems}>
           <div className={styles.introSection}>
             <h1>Svi zahtjevi za pomoći</h1>
@@ -56,9 +56,11 @@ export async function getServerSideProps() {
   var qs = require('qs');
   const aidRequestQuery = qs.stringify({ _where: [{ fulfilled: false }] }, { encode: true });
   const aidRequests = await fetchQuery('aid-requests', `?_sort=created_at:desc&${aidRequestQuery}&_limit=-1`);
+  const itemTags = await fetchQuery('item-tags', `?_sort=tag&_limit=-1`);
   return {
     props: {
       aidRequests,
+      itemTags,
     }
   }
 }

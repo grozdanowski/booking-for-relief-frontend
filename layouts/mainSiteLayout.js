@@ -1,12 +1,12 @@
 import Header from 'components/header'
 import styles from './mainSiteLayout.module.scss'
 
-export default function MainSiteLayout({ filterValue, setLocationFilterFunction, children }) {
+export default function MainSiteLayout({ filterValue, setLocationFilterFunction, itemTags = [], children }) {
 
   return (
     <div className={styles.appLayout}>
       <section className={styles.appHeader}>
-        <Header filterValue = {filterValue} setLocationFilterFunction = {setLocationFilterFunction} />
+        <Header itemTags = {itemTags} />
       </section>
       {children}
       <footer className={styles.appFooter}>

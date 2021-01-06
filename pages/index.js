@@ -11,7 +11,7 @@ import AidCollectionInList from 'layouts/offerListLayouts/aidCollection'
 import AidRequestInList from 'layouts/offerListLayouts/aidRequest'
 import RedirectNotificationModal from 'components/redirectNotificationModal'
 
-export default function Home({ accommodations, aidCollections, transports, aidRequests }) {
+export default function Home({ accommodations, aidCollections, transports, aidRequests, itemTags }) {
 
   const [notificationModalActive, setNotificationModalActive] = useState(false)
   
@@ -85,7 +85,7 @@ export default function Home({ accommodations, aidCollections, transports, aidRe
         <link rel="icon" href="/favicon.ico" />
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBza8tAYUna_mtCXdstnhu50rJXJ7bi5yw&libraries=places"></script>
       </Head>
-      <MainSiteLayout>
+      <MainSiteLayout itemTags = {itemTags}>
         {notificationModalActive && (
           <RedirectNotificationModal dismissFunction={() => setNotificationModalActive(false)} />
         )}
@@ -120,12 +120,14 @@ export async function getServerSideProps() {
   const aidCollections = await fetchQuery('aid-collections', `?_sort=created_at:desc&${aidRequestQuery}&_limit=20`);
   const transports = await fetchQuery('transports', `?_sort=created_at:desc&${aidRequestQuery}&_limit=20`);
   const aidRequests = await fetchQuery('aid-requests', `?_sort=created_at:desc&${aidRequestQuery}&_limit=20`);
+  const itemTags = await fetchQuery('item-tags', `?_sort=tag&_limit=-1`);
   return {
     props: {
       accommodations,
       aidCollections,
       transports,
       aidRequests,
+      itemTags,
     }
   }
 }

@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
-import LocationAutocomplete from 'components/locationAutocomplete'
 import Router, { useRouter } from "next/router";
 import { signIn, signOut, useSession } from 'next-auth/client'
 import TextField from '@material-ui/core/TextField'
 import { Search, Menu, Close } from '@material-ui/icons'
+import Autocomplete from '@material-ui/lab/Autocomplete'
 import styles from './header.module.scss'
 import classnames from 'classnames'
 
-export default function Header() {
+export default function Header({ itemTags }) {
 
   const [ session, loading ] = useSession()
   const router = useRouter();
@@ -75,16 +75,22 @@ export default function Header() {
           </ul>
         </div>
         <div className={styles.stuffRight}>
-          <div className={styles.headerSearch}>
-            <TextField
+
+        <div className={styles.headerSearch}>
+            <Autocomplete
               className={styles.searchInputField}
-              placeholder='Pretraga po tagu'
-              onChange={(event) => setSearchInput(event.target.value)}
-              value={searchInput}
-              variant='outlined'
+              options={itemTags}
+              getOptionLabel={(tag) => tag.tag}
+              style={{ width: '100%' }}
+              renderInput={(params) => <TextField {...params} label="Pretraga po tagu" variant="outlined" />}
+              onChange={(event, newValue) => {
+                newValue ? setSearchInput(newValue.tag) : '';
+              }}
+              freeSolo={true}
             />
             <button className={styles.searchButton} onClick={() => doSearch()}><Search /></button>
           </div>
+
           <Link href='/dodaj-unos'>
             <a className={styles.addButton}>Dodaj unos</a>
           </Link>

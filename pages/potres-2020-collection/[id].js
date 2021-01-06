@@ -5,11 +5,8 @@ import MainSiteLayout from 'layouts/mainSiteLayout'
 import LayoutWithSideMap from 'layouts/layoutWithSideMap'
 import OfferingListItem from 'components/offeringLIstItem'
 import AidRequestInList from 'layouts/offerListLayouts/aidRequestFromPotres2020'
-import CommentDisplay from 'components/commentDisplay'
-import CommentEditor from 'components/commentEditor'
-import styles from 'pages/singleEntryStyles.module.scss'
 
-export default function Entry({ aidRequests }) {
+export default function Entry({ aidRequests, itemTags }) {
 
   const [filter, setFilter] = useState('');
   
@@ -53,7 +50,7 @@ export default function Entry({ aidRequests }) {
         <link rel="icon" href="/favicon.ico" />
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBza8tAYUna_mtCXdstnhu50rJXJ7bi5yw&libraries=places"></script>
       </Head>
-      <MainSiteLayout>
+      <MainSiteLayout itemTags = {itemTags}>
         <LayoutWithSideMap items = {transposedAidRequests} onMarkerClick = {(type, id) => console.log(type, id)}>
           {transposedAidRequests.map((item, index) => {
             return (
@@ -75,9 +72,11 @@ export async function getServerSideProps({ params }) {
     return Promise.all(postIds.map(postId => anAsyncFunction(postId)))
   }
   const aidRequests = await getData();
+  const itemTags = await fetchQuery('item-tags', `?_sort=tag&_limit=-1`);
   return {
     props: {
       aidRequests,
+      itemTags,
     }
   }
 }

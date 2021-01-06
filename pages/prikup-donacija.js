@@ -8,7 +8,7 @@ import OfferingListItem from 'components/offeringLIstItem'
 import AidCollectionInList from 'layouts/offerListLayouts/aidCollection'
 
 
-export default function AidCollections({ aidCollections }) {
+export default function AidCollections({ aidCollections, itemTags }) {
 
   const [filter, setFilter] = useState('');
   
@@ -32,7 +32,7 @@ export default function AidCollections({ aidCollections }) {
         <link rel="icon" href="/favicon.ico" />
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBza8tAYUna_mtCXdstnhu50rJXJ7bi5yw&libraries=places"></script>
       </Head>
-      <MainSiteLayout>
+      <MainSiteLayout itemTags = {itemTags}>
         <LayoutWithSideMap items = {mapItems}>
           <div className={styles.introSection}>
             <h1>Sve aktivne lokacije prikupa pomoći</h1>
@@ -56,9 +56,11 @@ export async function getServerSideProps() {
   var now = new Date().toISOString();
   const query = qs.stringify({ _where: [{ fulfilled: false }] }, { encode: true });
   const aidCollections = await fetchQuery('aid-collections', `?_sort=created_at:desc&${query}&_limit=-1`);
+  const itemTags = await fetchQuery('item-tags', `?_sort=tag&_limit=-1`);
   return {
     props: {
       aidCollections,
+      itemTags,
     }
   }
 }

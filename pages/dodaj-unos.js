@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import styles from './newEntry.module.scss'
 import { useState } from 'react'
-import { addEntry } from 'utils/utils'
+import { addEntry, fetchQuery } from 'utils/utils'
 import MainSiteLayout from 'layouts/mainSiteLayout'
 import LayoutWithSideMap from 'layouts/layoutWithSideMap'
 import LocationAutocompleteNewEntry from 'components/locationAutocompleteNewEntry'
@@ -13,8 +13,10 @@ import Select from '@material-ui/core/Select'
 import InputLabel from '@material-ui/core/InputLabel'
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { useRouter } from 'next/router'
+import Autocomplete from '@material-ui/lab/Autocomplete'
+import Chip from '@material-ui/core/Chip';
 
-export default function NewEntry() {
+export default function NewEntry({ itemTags }) {
 
   const [type, setType] = useState(null);
   const [locationInputValue, setLocationInputValue] = useState('')
@@ -34,8 +36,11 @@ export default function NewEntry() {
   const [numberOfChildren, setNumberOfChildren] = useState(null);
   const [numberOfAdults, setNumberOfAdults] = useState(null);
   const [petsAllowed, setPetsAllowed] = useState(null);
+  const [newItemTags, setNewItemTags] = useState([]);
   const [mapItems, setMapItems] = useState([]);
   const [submittingMessage, setSubmittingMessage] = useState('');
+
+  const tagChoices = itemTags.map((tag) => {return tag.tag});
 
   const router = useRouter();
 
@@ -94,6 +99,7 @@ export default function NewEntry() {
           'number_of_adults': numberOfAdults,
           'number_of_children': numberOfChildren,
           'pets_allowed': petsAllowed,
+          'tags': newItemTags.join(', '),
         }
         break;
       case 'transport':
@@ -111,6 +117,7 @@ export default function NewEntry() {
           'locationLon': locationLon,
           'vehicle_type': vehicleType,
           'vehicle_model': vehicleModel,
+          'tags': newItemTags.join(', '),
         }
         break;
       case 'aidCollection':
@@ -127,6 +134,7 @@ export default function NewEntry() {
           'locationLat': locationLat,
           'locationLon': locationLon,
           'aid_destination': aidDestination,
+          'tags': newItemTags.join(', '),
         }
         break;
       case 'aidRequest':
@@ -140,6 +148,7 @@ export default function NewEntry() {
           'available_on_whatsapp': availableOnWhatsapp,
           'locationLat': locationLat,
           'locationLon': locationLon,
+          'tags': newItemTags.join(', '),
         }
         break;
       default:
@@ -231,6 +240,21 @@ export default function NewEntry() {
         />
       </div>
       <div className={styles.inputWrapperFull}>
+        <Autocomplete
+          className={styles.inputField}
+          variant='outlined'
+          multiple
+          options={tagChoices}
+          getOptionLabel={(tag) => tag}
+          style={{ width: '100%' }}
+          renderInput={(params) => <TextField {...params} label="Dodaj oznake" variant="outlined" />}
+          onChange={(event, newValue) => {
+            setNewItemTags(newValue);
+          }}
+          freeSolo={true}
+        />
+      </div>
+      <div className={styles.inputWrapperFull}>
         <button className={styles.submitButton} onClick={() => handleSubmit()}>Dodaj</button>
       </div>
     </div>
@@ -313,6 +337,21 @@ export default function NewEntry() {
           multiline
           rows={7}
           required
+        />
+      </div>
+      <div className={styles.inputWrapperFull}>
+        <Autocomplete
+          className={styles.inputField}
+          variant='outlined'
+          multiple
+          options={tagChoices}
+          getOptionLabel={(tag) => tag}
+          style={{ width: '100%' }}
+          renderInput={(params) => <TextField {...params} label="Dodaj oznake" variant="outlined" />}
+          onChange={(event, newValue) => {
+            setNewItemTags(newValue);
+          }}
+          freeSolo={true}
         />
       </div>
       <div className={styles.inputWrapperHalf}>
@@ -446,6 +485,21 @@ export default function NewEntry() {
           required
         />
       </div>
+      <div className={styles.inputWrapperFull}>
+        <Autocomplete
+          className={styles.inputField}
+          variant='outlined'
+          multiple
+          options={tagChoices}
+          getOptionLabel={(tag) => tag}
+          style={{ width: '100%' }}
+          renderInput={(params) => <TextField {...params} label="Dodaj oznake" variant="outlined" />}
+          onChange={(event, newValue) => {
+            setNewItemTags(newValue);
+          }}
+          freeSolo={true}
+        />
+      </div>
       <div className={styles.inputWrapperHalf}>
         <TextField
           className={styles.inputField}
@@ -576,6 +630,21 @@ export default function NewEntry() {
           required
         />
       </div>
+      <div className={styles.inputWrapperFull}>
+        <Autocomplete
+          className={styles.inputField}
+          variant='outlined'
+          multiple
+          options={tagChoices}
+          getOptionLabel={(tag) => tag}
+          style={{ width: '100%' }}
+          renderInput={(params) => <TextField {...params} label="Dodaj oznake" variant="outlined" />}
+          onChange={(event, newValue) => {
+            setNewItemTags(newValue);
+          }}
+          freeSolo={true}
+        />
+      </div>
       <div className={styles.inputWrapperHalf}>
         <TextField
           className={styles.inputField}
@@ -615,7 +684,7 @@ export default function NewEntry() {
         <link rel="icon" href="/favicon.ico" />
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBza8tAYUna_mtCXdstnhu50rJXJ7bi5yw&libraries=places"></script>
       </Head>
-      <MainSiteLayout>
+      <MainSiteLayout itemTags = {itemTags}>
         <LayoutWithSideMap items = {[]} onMarkerClick = {(type, id) => console.log(type, id)}>
           <div className={styles.introSection}>
             <h1>Dodaj novi unos</h1>
@@ -670,4 +739,13 @@ export default function NewEntry() {
       </MainSiteLayout>
     </div>
   )
+}
+
+export async function getServerSideProps() {
+  const itemTags = await fetchQuery('item-tags', `?_sort=tag&_limit=-1`);
+  return {
+    props: {
+      itemTags,
+    }
+  }
 }

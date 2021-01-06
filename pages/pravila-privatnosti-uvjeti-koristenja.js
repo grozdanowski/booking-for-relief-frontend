@@ -1,9 +1,10 @@
 import Head from 'next/head'
 import styles from './index.module.scss'
+import { fetchQuery } from 'utils/utils'
 import MainSiteLayout from 'layouts/mainSiteLayout'
 import LayoutWithSideMap from 'layouts/layoutWithSideMap'
 
-export default function Terms() {
+export default function Terms({ itemTags }) {
   
   return (
     <div className={styles.container}>
@@ -12,7 +13,7 @@ export default function Terms() {
         <link rel="icon" href="/favicon.ico" />
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBza8tAYUna_mtCXdstnhu50rJXJ7bi5yw&libraries=places"></script>
       </Head>
-      <MainSiteLayout>
+      <MainSiteLayout itemTags = {itemTags}>
 
         <LayoutWithSideMap items = {[]}>
           <div className={styles.introSection}>
@@ -25,4 +26,13 @@ export default function Terms() {
       </MainSiteLayout>
     </div>
   )
+}
+
+export async function getServerSideProps() {
+  const itemTags = await fetchQuery('item-tags', `?_sort=tag&_limit=-1`);
+  return {
+    props: {
+      itemTags,
+    }
+  }
 }

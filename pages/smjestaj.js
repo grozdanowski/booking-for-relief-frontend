@@ -8,7 +8,7 @@ import OfferingListItem from 'components/offeringLIstItem'
 import AccommodationInList from 'layouts/offerListLayouts/accommodation'
 
 
-export default function Accommodations({ accommodations }) {
+export default function Accommodations({ accommodations, itemTags }) {
 
   const [filter, setFilter] = useState('');
   
@@ -32,7 +32,7 @@ export default function Accommodations({ accommodations }) {
         <link rel="icon" href="/favicon.ico" />
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBza8tAYUna_mtCXdstnhu50rJXJ7bi5yw&libraries=places"></script>
       </Head>
-      <MainSiteLayout>
+      <MainSiteLayout itemTags = {itemTags}>
         <LayoutWithSideMap items = {mapItems}>
           <div className={styles.introSection}>
             <h1>Sve ponude smještaja</h1>
@@ -56,9 +56,11 @@ export async function getServerSideProps() {
   var now = new Date().toISOString();
   const query = qs.stringify({ _where: [{ fulfilled: false }] }, { encode: true });
   const accommodations = await fetchQuery('accommodations', `?_sort=created_at:desc&${query}&_limit=-1`);
+  const itemTags = await fetchQuery('item-tags', `?_sort=tag&_limit=-1`);
   return {
     props: {
       accommodations,
+      itemTags,
     }
   }
 }

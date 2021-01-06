@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField'
 import { useRouter } from 'next/router'
 import { Clear } from '@material-ui/icons'
 
-export default function NewEntry() {
+export default function NewEntry({ itemTags }) {
 
   const [taskInputValue, setTaskInputValue] = useState('')
   const [allIds, setAllIds] = useState([])
@@ -81,7 +81,7 @@ export default function NewEntry() {
         <link rel="icon" href="/favicon.ico" />
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBza8tAYUna_mtCXdstnhu50rJXJ7bi5yw&libraries=places"></script>
       </Head>
-      <MainSiteLayout>
+      <MainSiteLayout itemTags = {itemTags}>
         <LayoutWithSideMap items = {[]} onMarkerClick = {(type, id) => console.log(type, id)}>
           <div className={styles.introSection}>
             <h1>Kreiraj novu kolekciju iz aplikacija Potres2020</h1>
@@ -111,4 +111,13 @@ export default function NewEntry() {
       </MainSiteLayout>
     </div>
   )
+}
+
+export async function getServerSideProps() {
+  const itemTags = await fetchQuery('item-tags', `?_sort=tag&_limit=-1`);
+  return {
+    props: {
+      itemTags,
+    }
+  }
 }
