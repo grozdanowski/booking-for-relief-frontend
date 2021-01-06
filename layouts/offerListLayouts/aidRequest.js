@@ -22,9 +22,9 @@ export default function AidRequestInList({ data }) {
       'volunteer_assigned': `${session.user.name}, ${session.user.email}, ${phoneInput}`
     }
     patchEntry('aid-requests', id, data)
-      // .then(() => setTimeout(() => {
-      //   Router.reload(window.location.pathname)
-      // }, 1500))
+      .then(() => setTimeout(() => {
+        Router.reload(window.location.pathname)
+      }, 1500))
       .catch(error => {
         console.log('Error patching the entry :(', error)
       })
