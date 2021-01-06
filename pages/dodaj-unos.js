@@ -39,6 +39,7 @@ export default function NewEntry({ itemTags }) {
   const [newItemTags, setNewItemTags] = useState([]);
   const [mapItems, setMapItems] = useState([]);
   const [submittingMessage, setSubmittingMessage] = useState('');
+  const [validationError, setValidationError] = useState(null);
 
   const tagChoices = itemTags.map((tag) => {return tag.tag});
 
@@ -80,90 +81,97 @@ export default function NewEntry({ itemTags }) {
   }
 
   const handleSubmit = () => {
-    let endpoint;
-    let data;
-    switch (type) {
-      case 'accommodation':
-        endpoint = 'accommodations';
-        data = {
-          'startdate': new Date(startdate).toISOString(),
-          'enddate': new Date(enddate).toISOString(),
-          'location': location,
-          'description': description,
-          'contact_name': contactName,
-          'contact_phone': contactPhone,
-          'submitter_email': submitterEmail,
-          'available_on_whatsapp': availableOnWhatsapp,
-          'locationLat': locationLat,
-          'locationLon': locationLon,
-          'number_of_adults': numberOfAdults,
-          'number_of_children': numberOfChildren,
-          'pets_allowed': petsAllowed,
-          'tags': newItemTags.join(', '),
-        }
-        break;
-      case 'transport':
-        endpoint = 'transports';
-        data = {
-          'startdate': new Date(startdate).toISOString(),
-          'enddate': new Date(enddate).toISOString(),
-          'location': location,
-          'description': description,
-          'contact_name': contactName,
-          'contact_phone': contactPhone,
-          'submitter_email': submitterEmail,
-          'available_on_whatsapp': availableOnWhatsapp,
-          'locationLat': locationLat,
-          'locationLon': locationLon,
-          'vehicle_type': vehicleType,
-          'vehicle_model': vehicleModel,
-          'tags': newItemTags.join(', '),
-        }
-        break;
-      case 'aidCollection':
-        endpoint = 'aid-collections';
-        data = {
-          'startdate': new Date(startdate).toISOString(),
-          'enddate': new Date(enddate).toISOString(),
-          'location': location,
-          'description': description,
-          'contact_name': contactName,
-          'contact_phone': contactPhone,
-          'submitter_email': submitterEmail,
-          'available_on_whatsapp': availableOnWhatsapp,
-          'locationLat': locationLat,
-          'locationLon': locationLon,
-          'aid_destination': aidDestination,
-          'tags': newItemTags.join(', '),
-        }
-        break;
-      case 'aidRequest':
-        endpoint = 'aid-requests';
-        data = {
-          'location': location,
-          'description': description,
-          'contact_name': contactName,
-          'contact_phone': contactPhone,
-          'submitter_email': submitterEmail,
-          'available_on_whatsapp': availableOnWhatsapp,
-          'locationLat': locationLat,
-          'locationLon': locationLon,
-          'tags': newItemTags.join(', '),
-        }
-        break;
-      default:
-        break;
+    const requiredFieldsFilled = location && description && contactName && contactPhone && newItemTags.length;
+
+    if (requiredFieldsFilled) {
+      setValidationError(null);
+      let endpoint;
+      let data;
+      switch (type) {
+        case 'accommodation':
+          endpoint = 'accommodations';
+          data = {
+            'startdate': new Date(startdate).toISOString(),
+            'enddate': new Date(enddate).toISOString(),
+            'location': location,
+            'description': description,
+            'contact_name': contactName,
+            'contact_phone': contactPhone,
+            'submitter_email': submitterEmail,
+            'available_on_whatsapp': availableOnWhatsapp,
+            'locationLat': locationLat,
+            'locationLon': locationLon,
+            'number_of_adults': numberOfAdults,
+            'number_of_children': numberOfChildren,
+            'pets_allowed': petsAllowed,
+            'tags': newItemTags.join(', '),
+          }
+          break;
+        case 'transport':
+          endpoint = 'transports';
+          data = {
+            'startdate': new Date(startdate).toISOString(),
+            'enddate': new Date(enddate).toISOString(),
+            'location': location,
+            'description': description,
+            'contact_name': contactName,
+            'contact_phone': contactPhone,
+            'submitter_email': submitterEmail,
+            'available_on_whatsapp': availableOnWhatsapp,
+            'locationLat': locationLat,
+            'locationLon': locationLon,
+            'vehicle_type': vehicleType,
+            'vehicle_model': vehicleModel,
+            'tags': newItemTags.join(', '),
+          }
+          break;
+        case 'aidCollection':
+          endpoint = 'aid-collections';
+          data = {
+            'startdate': new Date(startdate).toISOString(),
+            'enddate': new Date(enddate).toISOString(),
+            'location': location,
+            'description': description,
+            'contact_name': contactName,
+            'contact_phone': contactPhone,
+            'submitter_email': submitterEmail,
+            'available_on_whatsapp': availableOnWhatsapp,
+            'locationLat': locationLat,
+            'locationLon': locationLon,
+            'aid_destination': aidDestination,
+            'tags': newItemTags.join(', '),
+          }
+          break;
+        case 'aidRequest':
+          endpoint = 'aid-requests';
+          data = {
+            'location': location,
+            'description': description,
+            'contact_name': contactName,
+            'contact_phone': contactPhone,
+            'submitter_email': submitterEmail,
+            'available_on_whatsapp': availableOnWhatsapp,
+            'locationLat': locationLat,
+            'locationLon': locationLon,
+            'tags': newItemTags.join(', '),
+          }
+          break;
+        default:
+          break;
+      }
+      setType('submitting');
+      setSubmittingMessage('Dodajemo tvoj unos...');
+      addEntry(endpoint, data)
+        .then(() => {
+          router.push('/')
+        })
+        .catch((error) => {
+          console.error('Error publishing an entry :(', error)
+          setSubmittingMessage('Problem pri dodavanju tvoj unosa. Molimo te da se obratiš administratorima.');
+        });           
+    } else {
+      setValidationError('Molimo unesite sva obavezna polja (označena zvjezdicom *).')
     }
-    setType('submitting');
-    setSubmittingMessage('Dodajemo tvoj unos...');
-    addEntry(endpoint, data)
-      .then(() => {
-        router.push('/')
-      })
-      .catch((error) => {
-        console.error('Error publishing an entry :(', error)
-        setSubmittingMessage('Problem pri dodavanju tvoj unosa. Molimo te da se obratiš administratorima.');
-      });
   }
 
   const submittingContent = (
@@ -177,7 +185,7 @@ export default function NewEntry({ itemTags }) {
       <div className={styles.inputWrapperLocation}>
         <div className={styles.locationLabelWrapper}>
           <label className={styles.locationLabel}>Lokacija<span className={styles.requiredMarker}>*</span></label>
-          <span className={styles.locationInstructions}>Pretražite lokacije i odaberite željenu.</span>
+          <span className={styles.locationInstructions}>OBAVEZNO: Pretražite lokacije i odaberite željenu.</span>
         </div>
         <LocationAutocompleteNewEntry value={locationInputValue} setValue={setLocationInputValue} setLocationFunction={handleSetLocation} />
       </div>
@@ -186,7 +194,7 @@ export default function NewEntry({ itemTags }) {
           className={styles.inputField}
           label='Ime kontakt osobe'
           placeholder='Ime osobe'
-          helperText='Važno: ime kontakt osobe'
+          helperText='OBAVEZNO: ime kontakt osobe'
           onChange={(event) => setContactName(event.target.value)}
           value={contactName}
           variant='outlined'
@@ -198,12 +206,11 @@ export default function NewEntry({ itemTags }) {
           className={styles.inputField}
           label='Kontakt mail adresa'
           placeholder='moj@email.hr'
-          helperText='Važno: mail adresa služi kako bi mogli označiti Vaš unos kao ispunjen'
+          helperText='Vaša mail adresa.'
           onChange={(event) => setSubmitterEmail(event.target.value)}
           value={submitterEmail}
           variant='outlined'
           type='email'
-          required
         />
       </div>
       <div className={styles.inputWrapperHalf}>
@@ -211,7 +218,7 @@ export default function NewEntry({ itemTags }) {
           className={styles.inputField}
           label='Broj telefona kontakt osobe'
           placeholder='Broj telefona'
-          helperText='Važno: broj telefona kontakt osobe u formatu +385000...'
+          helperText='OBAVEZNO: broj telefona kontakt osobe u formatu +385000...'
           onChange={(event) => setContactPhone(event.target.value)}
           value={contactPhone}
           variant='outlined'
@@ -230,7 +237,7 @@ export default function NewEntry({ itemTags }) {
           className={styles.inputField}
           label='Opis Vaše potrebe'
           placeholder='Opis...'
-          helperText='Opišite što Vam je potrebno (radna snaga, materijali, hrana, ...)'
+          helperText='OBAVEZNO: Opišite što Vam je potrebno (radna snaga, materijali, hrana, ...)'
           onChange={(event) => setDescription(event.target.value)}
           value={description}
           variant='outlined'
@@ -247,11 +254,12 @@ export default function NewEntry({ itemTags }) {
           options={tagChoices}
           getOptionLabel={(tag) => tag}
           style={{ width: '100%' }}
-          renderInput={(params) => <TextField {...params} label="Dodaj oznake" variant="outlined" />}
+          renderInput={(params) => <TextField {...params} helperText='OBAVEZNO: Obavezno unesite bar jednu oznaku (tag) kako bi nam pomogli klasificirati vaš unos.' label="Dodaj oznake" variant="outlined" />}
           onChange={(event, newValue) => {
             setNewItemTags(newValue);
           }}
           freeSolo={true}
+          required
         />
       </div>
       <div className={styles.inputWrapperFull}>
@@ -265,7 +273,7 @@ export default function NewEntry({ itemTags }) {
       <div className={styles.inputWrapperLocation}>
         <div className={styles.locationLabelWrapper}>
           <label className={styles.locationLabel}>Lokacija<span className={styles.requiredMarker}>*</span></label>
-          <span className={styles.locationInstructions}>Pretražite lokacije i odaberite željenu.</span>
+          <span className={styles.locationInstructions}>OBAVEZNO: Pretražite lokacije i odaberite željenu.</span>
         </div>
         <LocationAutocompleteNewEntry value={locationInputValue} setValue={setLocationInputValue} setLocationFunction={handleSetLocation} />
       </div>
@@ -274,7 +282,7 @@ export default function NewEntry({ itemTags }) {
           className={styles.inputField}
           label='Ime kontakt osobe / udruge'
           placeholder='Ime osobe / udruge'
-          helperText='Važno: ime kontakt osobe/udruge'
+          helperText='OBAVEZNO: ime kontakt osobe/udruge'
           onChange={(event) => setContactName(event.target.value)}
           value={contactName}
           variant='outlined'
@@ -286,12 +294,11 @@ export default function NewEntry({ itemTags }) {
           className={styles.inputField}
           label='Kontakt mail adresa'
           placeholder='moj@email.hr'
-          helperText='Važno: mail adresa služi kako bi mogli označiti Vaš unos kao ispunjen'
+          helperText='Vaša mail adresa.'
           onChange={(event) => setSubmitterEmail(event.target.value)}
           value={submitterEmail}
           variant='outlined'
           type='email'
-          required
         />
       </div>
       <div className={styles.inputWrapperHalf}>
@@ -299,7 +306,7 @@ export default function NewEntry({ itemTags }) {
           className={styles.inputField}
           label='Broj telefona kontakt osobe'
           placeholder='Broj telefona'
-          helperText='Važno: broj telefona kontakt osobe u formatu +385000...'
+          helperText='OBAVEZNO: broj telefona kontakt osobe u formatu +385000...'
           onChange={(event) => setContactPhone(event.target.value)}
           value={contactPhone}
           variant='outlined'
@@ -330,7 +337,7 @@ export default function NewEntry({ itemTags }) {
           className={styles.inputField}
           label='Opis prikupa'
           placeholder='Opis...'
-          helperText='Opišite što se skuplja, koje su namirnice najbitnije, kratke upute za pakiranje...'
+          helperText='OBAVEZNO: Opišite što se skuplja, koje su namirnice najbitnije, kratke upute za pakiranje...'
           onChange={(event) => setDescription(event.target.value)}
           value={description}
           variant='outlined'
@@ -347,11 +354,12 @@ export default function NewEntry({ itemTags }) {
           options={tagChoices}
           getOptionLabel={(tag) => tag}
           style={{ width: '100%' }}
-          renderInput={(params) => <TextField {...params} label="Dodaj oznake" variant="outlined" />}
+          renderInput={(params) => <TextField {...params} helperText='OBAVEZNO: Obavezno unesite bar jednu oznaku (tag) kako bi nam pomogli klasificirati vaš unos.' label="Dodaj oznake" variant="outlined" />}
           onChange={(event, newValue) => {
             setNewItemTags(newValue);
           }}
           freeSolo={true}
+          required
         />
       </div>
       <div className={styles.inputWrapperHalf}>
@@ -391,7 +399,7 @@ export default function NewEntry({ itemTags }) {
       <div className={styles.inputWrapperLocation}>
         <div className={styles.locationLabelWrapper}>
           <label className={styles.locationLabel}>Lokacija<span className={styles.requiredMarker}>*</span></label>
-          <span className={styles.locationInstructions}>Pretražite lokacije i odaberite željenu.</span>
+          <span className={styles.locationInstructions}>OBAVEZNO: Pretražite lokacije i odaberite željenu.</span>
         </div>
         <LocationAutocompleteNewEntry value={locationInputValue} setValue={setLocationInputValue} setLocationFunction={handleSetLocation} />
       </div>
@@ -400,7 +408,7 @@ export default function NewEntry({ itemTags }) {
           className={styles.inputField}
           label='Ime kontakt osobe / udruge'
           placeholder='Ime osobe / udruge'
-          helperText='Važno: ime kontakt osobe/udruge'
+          helperText='OBAVEZNO: ime kontakt osobe/udruge'
           onChange={(event) => setContactName(event.target.value)}
           value={contactName}
           variant='outlined'
@@ -412,12 +420,11 @@ export default function NewEntry({ itemTags }) {
           className={styles.inputField}
           label='Kontakt mail adresa'
           placeholder='moj@email.hr'
-          helperText='Važno: mail adresa služi kako bi mogli označiti Vaš unos kao ispunjen'
+          helperText='Vaša mail adresa'
           onChange={(event) => setSubmitterEmail(event.target.value)}
           value={submitterEmail}
           variant='outlined'
           type='email'
-          required
         />
       </div>
       <div className={styles.inputWrapperHalf}>
@@ -425,7 +432,7 @@ export default function NewEntry({ itemTags }) {
           className={styles.inputField}
           label='Broj telefona kontakt osobe'
           placeholder='Broj telefona'
-          helperText='Važno: broj telefona kontakt osobe u formatu +385000...'
+          helperText='OBAVEZNO: broj telefona kontakt osobe u formatu +385000...'
           onChange={(event) => setContactPhone(event.target.value)}
           value={contactPhone}
           variant='outlined'
@@ -476,7 +483,7 @@ export default function NewEntry({ itemTags }) {
           className={styles.inputField}
           label='Opis Vaše ponude'
           placeholder='Opis...'
-          helperText='Opišite što nudite'
+          helperText='OBAVEZNO: Opišite što nudite'
           onChange={(event) => setDescription(event.target.value)}
           value={description}
           variant='outlined'
@@ -493,11 +500,12 @@ export default function NewEntry({ itemTags }) {
           options={tagChoices}
           getOptionLabel={(tag) => tag}
           style={{ width: '100%' }}
-          renderInput={(params) => <TextField {...params} label="Dodaj oznake" variant="outlined" />}
+          renderInput={(params) => <TextField {...params} helperText='OBAVEZNO: Obavezno unesite bar jednu oznaku (tag) kako bi nam pomogli klasificirati vaš unos.' label="Dodaj oznake" variant="outlined" />}
           onChange={(event, newValue) => {
             setNewItemTags(newValue);
           }}
           freeSolo={true}
+          required
         />
       </div>
       <div className={styles.inputWrapperHalf}>
@@ -537,7 +545,7 @@ export default function NewEntry({ itemTags }) {
       <div className={styles.inputWrapperLocation}>
         <div className={styles.locationLabelWrapper}>
           <label className={styles.locationLabel}>Lokacija<span className={styles.requiredMarker}>*</span></label>
-          <span className={styles.locationInstructions}>Pretražite lokacije i odaberite željenu.</span>
+          <span className={styles.locationInstructions}>OBAVEZNO: Pretražite lokacije i odaberite željenu.</span>
         </div>
         <LocationAutocompleteNewEntry value={locationInputValue} setValue={setLocationInputValue} setLocationFunction={handleSetLocation} />
       </div>
@@ -546,7 +554,7 @@ export default function NewEntry({ itemTags }) {
           className={styles.inputField}
           label='Ime kontakt osobe / udruge / tvrtke'
           placeholder='Ime osobe / udruge / tvrtke'
-          helperText='Važno: ime kontakt osobe/udruge/tvrtke'
+          helperText='OBAVEZNO: ime kontakt osobe/udruge/tvrtke'
           onChange={(event) => setContactName(event.target.value)}
           value={contactName}
           variant='outlined'
@@ -558,12 +566,11 @@ export default function NewEntry({ itemTags }) {
           className={styles.inputField}
           label='Kontakt mail adresa'
           placeholder='moj@email.hr'
-          helperText='Važno: mail adresa služi kako bi mogli označiti Vaš unos kao ispunjen'
+          helperText='Vaša mail adresa'
           onChange={(event) => setSubmitterEmail(event.target.value)}
           value={submitterEmail}
           variant='outlined'
           type='email'
-          required
         />
       </div>
       <div className={styles.inputWrapperHalf}>
@@ -571,7 +578,7 @@ export default function NewEntry({ itemTags }) {
           className={styles.inputField}
           label='Broj telefona kontakt osobe'
           placeholder='Broj telefona'
-          helperText='Važno: broj telefona kontakt osobe u formatu +385000...'
+          helperText='OBAVEZNO: broj telefona kontakt osobe u formatu +385000...'
           onChange={(event) => setContactPhone(event.target.value)}
           value={contactPhone}
           variant='outlined'
@@ -621,7 +628,7 @@ export default function NewEntry({ itemTags }) {
           className={styles.inputField}
           label='Opis Vaše ponude'
           placeholder='Opis...'
-          helperText='Opišite što nudite'
+          helperText='OBAVEZNO: Opišite što nudite'
           onChange={(event) => setDescription(event.target.value)}
           value={description}
           variant='outlined'
@@ -638,11 +645,12 @@ export default function NewEntry({ itemTags }) {
           options={tagChoices}
           getOptionLabel={(tag) => tag}
           style={{ width: '100%' }}
-          renderInput={(params) => <TextField {...params} label="Dodaj oznake" variant="outlined" />}
+          renderInput={(params) => <TextField {...params} helperText='OBAVEZNO: Obavezno unesite bar jednu oznaku (tag) kako bi nam pomogli klasificirati vaš unos.' label="Dodaj oznake" variant="outlined" />}
           onChange={(event, newValue) => {
             setNewItemTags(newValue);
           }}
           freeSolo={true}
+          required
         />
       </div>
       <div className={styles.inputWrapperHalf}>
@@ -691,7 +699,19 @@ export default function NewEntry({ itemTags }) {
             <p className={styles.noticeText}>Napomena: Molimo da unose koje ste kreirali, a u međuvremenu su ispunjeni, označite kao "<strong>Ispunjeno</strong>" kako bi zadržali preglednost sustava. Hvala.</p>
           </div>
           {type ? (
-            renderForm()
+            <div>
+              {validationError ? (
+                <div className={styles.validationErrorMessage}>
+                  {validationError}
+                </div>
+              ) : ''}
+              {renderForm()}
+              {validationError ? (
+                <div className={styles.validationErrorMessage}>
+                  {validationError}
+                </div>
+              ) : ''}
+            </div>
           ) : (
             <div className={styles.typeChoiceWrapper}>
               <h2>Odaberi tip unosa:</h2>

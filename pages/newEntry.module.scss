@@ -192,3 +192,11 @@
   padding: calcRem(10) 0;
   display: block;
 }
+
+.validationErrorMessage {
+  padding: calcRem(15) 0;
+  margin: calcRem(15) 0;
+  border-top: 1px solid $negative-color;
+  border-bottom: 1px solid $negative-color;
+  color: $negative-color;
+}
