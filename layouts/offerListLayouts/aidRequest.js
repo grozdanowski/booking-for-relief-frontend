@@ -7,6 +7,7 @@ import { patchEntry } from 'utils/utils'
 import Router from 'next/router'
 import Link from 'next/link'
 import React from 'react'
+import Chip from '@material-ui/core/Chip'
 import { signIn, signOut, useSession } from 'next-auth/client'
 
 export default function AidRequestInList({ data }) {
@@ -39,9 +40,7 @@ export default function AidRequestInList({ data }) {
     return (
       <li key={`item-${data.id}-tag-${index}`} className={styles.tagWrapper}>
       <Link href={`/search/${tag}`}>
-        <a className={styles.tagContainer}>
-          {tag}
-        </a>
+        <Chip label={tag} />
       </Link>
     </li>
     )
@@ -89,7 +88,7 @@ export default function AidRequestInList({ data }) {
         <div>
           <div className={styles.itemHeader}>
             <div className={styles.headerLeft}>
-              <span className={styles.typeLabelAlert}>Tražim pomoć!</span>
+              <span className={styles.typeLabelAlert}>TP{data.id} - Tražim pomoć!</span>
               <Link href={`/trazim-pomoc/${data.id}`}><span className={styles.mainLabel}>{data.location}</span></Link>
             </div>
             <div className={styles.headerRight}>
@@ -108,7 +107,7 @@ export default function AidRequestInList({ data }) {
                 </div>
               )}
               {(googleMapsUrl) ? (
-                <a className={styles.googleMapsButton} target='_blank' href={googleMapsUrl}>Navigiraj u Google Mapama</a>
+                <a className={styles.googleMapsButton} target='_blank' href={googleMapsUrl}>Navigiraj</a>
               ) : ''}
             </div>
             </div>
@@ -116,7 +115,7 @@ export default function AidRequestInList({ data }) {
               <ul className={styles.meta}>
                 <li key='created-at'>
                   <i className={styles.metaIcon}>
-                    <DateRange/>
+                    <DateRange className={styles.metaIconInner} />
                   </i>
                   <span>
                   <Moment date={data.created_at} format='DD.MM.YYYY, H:mm' />
@@ -124,7 +123,7 @@ export default function AidRequestInList({ data }) {
                 </li>
                 <li>
                   <i className={styles.metaIcon}>
-                    <Comment/>
+                    <Comment className={styles.metaIconInner} />
                   </i>
                   <span>
                     {data.comments && data.comments.length}

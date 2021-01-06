@@ -7,6 +7,7 @@ import { markEntryAsFulfilled } from 'utils/utils'
 import Router from 'next/router'
 import Link from 'next/link'
 import React from 'react'
+import Chip from '@material-ui/core/Chip'
 import { signIn, signOut, useSession } from 'next-auth/client'
 
 export default function AidCollectionInList({ data }) {
@@ -25,6 +26,16 @@ export default function AidCollectionInList({ data }) {
         console.log('Error marking entry as fulfilled :(', error)
       })
   }
+
+  const tags = data.tags ? data.tags.split(',').map((tag, index) => {
+    return (
+      <li key={`item-${data.id}-tag-${index}`} className={styles.tagWrapper}>
+      <Link href={`/search/${tag}`}>
+        <Chip label={tag} />
+      </Link>
+    </li>
+    )
+  }) : []
 
   return (
     <div className={styles.listItemContainer}>
@@ -65,7 +76,7 @@ export default function AidCollectionInList({ data }) {
         <div>
           <div className={styles.itemHeader}>
             <div className={styles.headerLeft}>
-              <span className={styles.typeLabel}>Prikupljanje pomoći</span>
+              <span className={styles.typeLabel}>PP{data.id} - Prikupljanje pomoći</span>
               <Link href={`/prikup-donacija/${data.id}`}><span className={styles.mainLabel}>{data.location}</span></Link>
             </div>
             <div className={styles.headerRight}>
@@ -76,7 +87,7 @@ export default function AidCollectionInList({ data }) {
             <ul className={styles.meta}>
               <li key='aid-destination'>
                 <i className={styles.metaIcon}>
-                  <Favorite/>
+                  <Favorite className={styles.metaIconInner} />
                 </i>
                 <span>
                   Destinacija: {data.aid_destination}
@@ -84,7 +95,7 @@ export default function AidCollectionInList({ data }) {
               </li>
               <li>
                 <i className={styles.metaIcon}>
-                  <DateRange/>
+                  <DateRange className={styles.metaIconInner} />
                 </i>
                 <span>
                   {data.startdate ? <Moment date={data.startdate} format='DD.MM.YYYY, H:mm' /> : '-'} - {data.enddate ? <Moment date={data.enddate} format='DD.MM.YYYY, H:mm' /> : '-'}
@@ -92,7 +103,7 @@ export default function AidCollectionInList({ data }) {
               </li>
               <li>
                   <i className={styles.metaIcon}>
-                    <Comment/>
+                    <Comment className={styles.metaIconInner} />
                   </i>
                   <span>
                     {data.comments && data.comments.length}
@@ -100,6 +111,9 @@ export default function AidCollectionInList({ data }) {
                 </li>
             </ul>
           </Link>
+          <ul className={styles.tagsWrapper}>
+              {tags}
+            </ul>
           <div className={styles.descriptionWrapper}>
             {data.description}
           </div>

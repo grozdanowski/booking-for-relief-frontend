@@ -7,6 +7,7 @@ import { markEntryAsFulfilled } from 'utils/utils'
 import Router from 'next/router'
 import Link from 'next/link'
 import React from 'react'
+import Chip from '@material-ui/core/Chip'
 import { signIn, signOut, useSession } from 'next-auth/client'
 
 export default function AccommodationInList({ data }) {
@@ -25,6 +26,16 @@ export default function AccommodationInList({ data }) {
         console.log('Error marking entry as fulfilled :(', error)
       })
   }
+
+  const tags = data.tags ? data.tags.split(',').map((tag, index) => {
+    return (
+      <li key={`item-${data.id}-tag-${index}`} className={styles.tagWrapper}>
+      <Link href={`/search/${tag}`}>
+        <Chip label={tag} />
+      </Link>
+    </li>
+    )
+  }) : []
 
   return (
     <div className={styles.listItemContainer}>
@@ -65,7 +76,7 @@ export default function AccommodationInList({ data }) {
         <div>
           <div className={styles.itemHeader}>
             <div className={styles.headerLeft}>
-              <span className={styles.typeLabel}>Smještaj / pomoć</span>
+              <span className={styles.typeLabel}>NP{data.id} - Smještaj / pomoć</span>
               <Link href={`/smjestaj/${data.id}`}><span className={styles.mainLabel}>{data.location}</span></Link>
             </div>
             <div className={styles.headerRight}>
@@ -76,7 +87,7 @@ export default function AccommodationInList({ data }) {
             <ul className={styles.meta}>
               <li key='number-adults'>
                 <i className={styles.metaIcon}>
-                  <Face/>
+                  <Face className={styles.metaIconInner} />
                 </i>
                 <span>
                   {data.number_of_adults}
@@ -85,7 +96,7 @@ export default function AccommodationInList({ data }) {
               {data.number_of_children && (
                 <li key='number-kids'>
                   <i className={styles.metaIcon}>
-                    <ChildCare/>
+                    <ChildCare className={styles.metaIconInner}/>
                   </i>
                   <span>
                     {data.number_of_children}
@@ -94,7 +105,7 @@ export default function AccommodationInList({ data }) {
               )}
               <li>
                 <i className={styles.metaIcon}>
-                  <Pets/>
+                  <Pets className={styles.metaIconInner}/>
                 </i>
                 <span>
                   {data.pets_allowed ? 'Da' : '-'}
@@ -102,7 +113,7 @@ export default function AccommodationInList({ data }) {
               </li>
               <li>
                 <i className={styles.metaIcon}>
-                  <DateRange/>
+                  <DateRange className={styles.metaIconInner}/>
                 </i>
                 <span>
                   {data.startdate ? <Moment date={data.startdate} format='DD.MM.YYYY' /> : '-'} - {data.enddate ? <Moment date={data.enddate} format='DD.MM.YYYY' /> : '-'}
@@ -110,7 +121,7 @@ export default function AccommodationInList({ data }) {
               </li>
               <li>
                 <i className={styles.metaIcon}>
-                  <Comment/>
+                  <Comment className={styles.metaIconInner}/>
                 </i>
                 <span>
                   {data.comments && data.comments.length}
@@ -118,6 +129,9 @@ export default function AccommodationInList({ data }) {
               </li>
             </ul>
           </Link>
+          <ul className={styles.tagsWrapper}>
+              {tags}
+            </ul>
           <div className={styles.descriptionWrapper}>
             {data.description}
           </div>

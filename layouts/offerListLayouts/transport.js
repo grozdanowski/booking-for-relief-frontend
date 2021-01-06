@@ -7,6 +7,7 @@ import { markEntryAsFulfilled } from 'utils/utils'
 import Router from 'next/router'
 import Link from 'next/link'
 import React from 'react'
+import Chip from '@material-ui/core/Chip'
 import { signIn, signOut, useSession } from 'next-auth/client'
 
 export default function TransportInList({ data }) {
@@ -64,6 +65,16 @@ export default function TransportInList({ data }) {
     }
   }
 
+  const tags = data.tags ? data.tags.split(',').map((tag, index) => {
+    return (
+      <li key={`item-${data.id}-tag-${index}`} className={styles.tagWrapper}>
+      <Link href={`/search/${tag}`}>
+        <Chip label={tag} />
+      </Link>
+    </li>
+    )
+  }) : []
+
   return (
     <div className={styles.listItemContainer}>
       {markFulfilledTriggered ? (
@@ -103,7 +114,7 @@ export default function TransportInList({ data }) {
         <div>
           <div className={styles.itemHeader}>
             <div className={styles.headerLeft}>
-              <span className={styles.typeLabel}>Prijevoz</span>
+              <span className={styles.typeLabel}>PR{data.id} - Prijevoz</span>
               <Link href={`/prijevoz/${data.id}`}><span className={styles.mainLabel}>{data.location}</span></Link>
             </div>
             <div className={styles.headerRight}>
@@ -125,7 +136,7 @@ export default function TransportInList({ data }) {
               )}
               <li>
                 <i className={styles.metaIcon}>
-                  <DateRange/>
+                  <DateRange className={styles.metaIconInner} />
                 </i>
                 <span>
                   {data.startdate ? <Moment date={data.startdate} format='DD.MM.YYYY' /> : '-'} - {data.enddate ? <Moment date={data.enddate} format='DD.MM.YYYY' /> : '-'}
@@ -133,7 +144,7 @@ export default function TransportInList({ data }) {
               </li>
               <li>
                 <i className={styles.metaIcon}>
-                  <Comment/>
+                  <Comment className={styles.metaIconInner} />
                 </i>
                 <span>
                   {data.comments && data.comments.length}
@@ -141,6 +152,9 @@ export default function TransportInList({ data }) {
               </li>
             </ul>
           </Link>
+          <ul className={styles.tagsWrapper}>
+              {tags}
+            </ul>
           <div className={styles.descriptionWrapper}>
             {data.description}
           </div>

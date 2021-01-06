@@ -32,6 +32,17 @@
   }
 }
 
+.headerRight {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: calcRem(15);
+  align-items: center;
+
+  @media (max-width: $mobile-breakpoint) {
+    margin: calcRem(10) 0;
+  }
+}
+
 .markFulfilledButton {
   opacity: 1;
   transition: all 0.3s ease-in-out;
@@ -61,7 +72,7 @@
 }
 
 .mainLabel {
-  font-size: calcRem(24);
+  font-size: calcRem(22);
   font-weight: bold;
   color: $primary-color;
 
@@ -75,7 +86,8 @@
   align-items: center;
   flex-wrap: wrap;
   padding: 0;
-  margin: calcRem(15) 0;
+  margin: calcRem(8) 0;
+  font-size: calcRem(14);
 
   &:hover {
     cursor: pointer;
@@ -103,6 +115,10 @@
     margin-right: calcRem(8);
     margin-top: calcRem(4);
   }
+
+  .metaIconInner {
+    font-size: calcRem(18);
+  }
 }
 
 .descriptionWrapper {
@@ -116,6 +132,7 @@
   padding-top: calcRem(20);
   margin-top: calcRem(20);
   border-top: 1px solid #dedede;
+  font-size: calcRem(14);
 
   @media (max-width: $mobile-breakpoint) {
     display: grid;
@@ -158,7 +175,8 @@
   margin-left: calcRem(-5);
   margin-right: calcRem(-5);
   margin-top: calcRem(-5);
-  padding-bottom: calcRem(20);
+  margin-bottom: calcRem(5);
+  padding-bottom: calcRem(10);
 }
 
 .tagWrapper {
@@ -234,8 +252,9 @@
   color: #1EA362;
   padding: calcRem(6) calcRem(15);
   border-radius: calcRem(30);
-  margin-top: calcRem(10);
   font-size: calcRem(14);
+  font-weight: bold;
+  text-align: center;
 
   &:hover, &:focus {
     background-color: #1EA362;
