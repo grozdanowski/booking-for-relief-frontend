@@ -26,7 +26,7 @@ export default function Header({ itemTags }) {
     <header className={styles.headerContainer}>
       <div className={styles.siteLogo}>
         <Link href='/'>
-          <a>potres<span>2020</span></a>
+          <a>relief<span>app</span></a>
         </Link>
       </div>
       <div
