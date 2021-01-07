@@ -2,6 +2,7 @@ import Head from 'next/head'
 import styles from './newEntry.module.scss'
 import { useState } from 'react'
 import { fetchQuery } from 'utils/potres2020utils'
+import { fetchQuery as tagFetchQuery } from 'utils/utils'
 import MainSiteLayout from 'layouts/mainSiteLayout'
 import LayoutWithSideMap from 'layouts/layoutWithSideMap'
 import TextField from '@material-ui/core/TextField'
@@ -114,7 +115,7 @@ export default function NewEntry({ itemTags }) {
 }
 
 export async function getServerSideProps() {
-  const itemTags = await fetchQuery('item-tags', `?_sort=tag&_limit=-1`);
+  const itemTags = await tagFetchQuery('item-tags', `?_sort=tag&_limit=-1`);
   return {
     props: {
       itemTags,
