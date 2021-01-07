@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { GoogleMap, Marker } from '@react-google-maps/api';
+import { GoogleMap, Marker, Polygon } from '@react-google-maps/api';
+import { mapZones } from './mapZones'
 
 export default function displayMap({ items, onMarkerClick = (type, id) => console.log(`Marker ${id} of ${type} clicked.`) }) {
 
@@ -49,6 +50,22 @@ export default function displayMap({ items, onMarkerClick = (type, id) => consol
     }
   })
 
+  const zonePolygons = mapZones.map((zone, index) => {
+
+    return (
+      <Polygon
+        path={zone.polygon}
+        options={{
+          fillColor: zone.color,
+          fillOpacity: 0.3,
+          strokeColor: zone.color,
+          strokeOpacity: 0.4,
+          strokeWeight: 0.25,
+        }}
+      />
+    )
+  })
+
   const containerStyle = {
     position: 'absolute',
     top: 0,
@@ -91,6 +108,7 @@ export default function displayMap({ items, onMarkerClick = (type, id) => consol
       >
         { /* Child components, such as markers, info windows, etc. */ }
         {mapPins}
+        {zonePolygons}
       </GoogleMap>
     </div>
   )
