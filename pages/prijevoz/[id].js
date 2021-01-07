@@ -4,7 +4,7 @@ import { useState } from 'react'
 import MainSiteLayout from 'layouts/mainSiteLayout'
 import LayoutWithSideMap from 'layouts/layoutWithSideMap'
 import OfferingListItem from 'components/offeringLIstItem'
-import AidRequestInList from 'layouts/offerListLayouts/aidRequest'
+import TransportInList from 'layouts/offerListLayouts/transport'
 import CommentDisplay from 'components/commentDisplay'
 import CommentEditor from 'components/commentEditor'
 import styles from 'pages/singleEntryStyles.module.scss'
@@ -39,7 +39,7 @@ export default function Entry({ aidRequests, itemTags }) {
           {mapItems.map((item, index) => {
             return (
               <OfferingListItem key={`item-${index}`}>
-                <AidRequestInList data = {item} />
+                <TransportInList data = {item} />
               </OfferingListItem>
             )
           })}

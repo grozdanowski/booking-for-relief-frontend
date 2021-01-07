@@ -5,6 +5,9 @@ import styles from 'pages/index.module.scss'
 import MainSiteLayout from 'layouts/mainSiteLayout'
 import LayoutWithSideMap from 'layouts/layoutWithSideMap'
 import OfferingListItem from 'components/offeringLIstItem'
+import AccommodationInList from 'layouts/offerListLayouts/accommodation'
+import TransportInList from 'layouts/offerListLayouts/transport'
+import AidCollectionInList from 'layouts/offerListLayouts/aidCollection'
 import AidRequestInList from 'layouts/offerListLayouts/aidRequest'
 
 
@@ -24,6 +27,29 @@ export default function HelpNeeded({ results, id, itemTags }) {
   }
 
   mapItems.sort((a, b) => (a.created_at < b.created_at) ? 1 : -1);
+
+  const displayItem = (item) => {
+    switch (item.type) {
+      case 'accommodation':
+        return (
+          <AccommodationInList data = {item} />
+        )
+      case 'transport':
+        return (
+          <TransportInList data = {item} />
+        )
+      case 'aidCollection':
+        return (
+          <AidCollectionInList data = {item} />
+        )
+      case 'aidRequest':
+        return (
+          <AidRequestInList data = {item} />
+        )
+      default:
+        break;
+    }
+  }
   
   return (
     <div className={styles.container}>
@@ -42,7 +68,7 @@ export default function HelpNeeded({ results, id, itemTags }) {
           {mapItems.map((item, index) => {
             return (
               <OfferingListItem key={`item-${index}`}>
-                <AidRequestInList data = {item} />
+                {displayItem(item)}
               </OfferingListItem>
             )
           })}
