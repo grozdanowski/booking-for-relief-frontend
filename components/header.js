@@ -68,7 +68,7 @@ export default function Header({ itemTags }) {
             ) : (
               <li key='menu-item-6' className={styles.menuItem}>
                 <Link href='/nova-kolekcija'>
-                  <a className={styles[(router.pathname == '/nova-kolekcija') ? 'active' : 'inactive']}><span>Kreiraj kolekciju</span></a>
+                  <a className={styles[(router.pathname == '/nova-kolekcija') ? 'active' : 'inactive']}><span>Kreiraj iz Potres2020</span></a>
                 </Link>
               </li>
             )}
