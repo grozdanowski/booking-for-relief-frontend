@@ -28,8 +28,12 @@ export default function layoutWithSideMap({ items, onMarkerClick = null, childre
   return (
     <div className={styles.wrapper}>
       <aside className={items.length ? styles.mapWrapper : styles.noMap}>
-        {items.length && (
+        {items.length ? (
           <DynamicMap items = { items } onMarkerClick = { onMarkerClick ? onMarkerClick : (type, id) => handleMarkerClick(type, id) } />
+        ) : (
+          <div className={styles.noMapIllustrationContainer}>
+            <img src='images/caring_illustration.svg' />
+          </div>
         )}
       </aside>
       <main className={styles.mainWrapper}>
