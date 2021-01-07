@@ -26,6 +26,7 @@
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
+  grid-column-gap: calcRem(15);
 
   @media (max-width: $mobile-breakpoint) {
     grid-template-columns: 1fr;
