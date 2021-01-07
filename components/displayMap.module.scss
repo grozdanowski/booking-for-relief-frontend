@@ -1,0 +1,66 @@
+@import 'styles/helpers';
+
+.mapLegend {
+  @include shadow-1;
+  position: absolute;
+  bottom: calcRem(20);
+  left: calcRem(20);
+  background-color: #fff;
+  padding: calcRem(20) calcRem(50) calcRem(20) calcRem(20);
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: calcRem(8);
+  border-radius: calcRem(10);
+}
+
+.singleZone {
+  font-size: calcRem(12);
+  display: grid;
+  align-items: center;
+  grid-template-columns: auto 1fr;
+  grid-gap: calcRem(10);
+}
+
+.zoneColorSquare {
+  display: block;
+  width: calcRem(14);
+  height: calcRem(14);
+  opacity: 0.4;
+}
+
+.zoneName {
+  display: block;
+}
+
+.legendTriggerButton {
+  position: absolute;
+  top: calcRem(16);
+  right: calcRem(10);
+  width: calcRem(28);
+  height: calcRem(28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  outline: none;
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+
+  &:hover, &:focus {
+    cursor: pointer;
+    outline: none;
+  }
+
+  &:hover {
+    opacity: 0.6;
+  }
+}
+
+.legendTriggerButtonIcon {
+
+}
+
+.legendLabel {
+  font-size: calcRem(14);
+}

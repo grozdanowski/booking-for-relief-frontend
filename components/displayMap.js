@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { GoogleMap, Marker, Polygon } from '@react-google-maps/api';
 import { mapZones } from './mapZones'
+import { ExpandLess, ExpandMore } from '@material-ui/icons'
+import styles from './displayMap.module.scss'
 
 export default function displayMap({ items, onMarkerClick = (type, id) => console.log(`Marker ${id} of ${type} clicked.`) }) {
 
   const [map, setMap] = useState(null);
   const [mapItems, setMapItems] = useState([]);
+  const [legendExpanded, setLegendExpanded] = useState(true);
 
   useEffect( () => {
     setMapItems(items);
@@ -54,6 +57,7 @@ export default function displayMap({ items, onMarkerClick = (type, id) => consol
 
     return (
       <Polygon
+        key={`mapZone-${index}`}
         path={zone.polygon}
         options={{
           fillColor: zone.color,
@@ -63,6 +67,16 @@ export default function displayMap({ items, onMarkerClick = (type, id) => consol
           strokeWeight: 0.25,
         }}
       />
+    )
+  })
+
+  const mapLegendZones = mapZones.map((zone, index) => {
+
+    return (
+      <div key={`legendZone-${index}`} className={styles.singleZone}>
+        <span className={styles.zoneColorSquare} style={{ backgroundColor: zone.color }}></span>
+        <span className={styles.zoneName}>{zone.name}</span>
+      </div>
     )
   })
 
@@ -109,6 +123,21 @@ export default function displayMap({ items, onMarkerClick = (type, id) => consol
         { /* Child components, such as markers, info windows, etc. */ }
         {mapPins}
         {zonePolygons}
+        {mapLegendZones ? (
+          <div className={styles.mapLegend}>
+            <button
+              className={styles.legendTriggerButton}
+              onClick={() => setLegendExpanded(!legendExpanded)}
+            >
+              {legendExpanded ? <ExpandMore className={styles.legendTriggerButtonIcon} /> : <ExpandLess className={styles.legendTriggerButtonIcon} /> }
+            </button>
+            {legendExpanded ? (
+              mapLegendZones
+            ) : (
+              <span className={styles.legendLabel}>Legenda</span>
+            )}
+          </div>
+        ) : ''}
       </GoogleMap>
     </div>
   )
