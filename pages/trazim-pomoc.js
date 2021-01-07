@@ -28,7 +28,7 @@ export default function HelpNeeded({ aidRequests, itemTags }) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Pomoć žrtvama potresa | Apeli za pomoć</title>
+        <title>Pomoć žrtvama potresa | Potrebe za pomoći</title>
         <link rel="icon" href="/favicon.ico" />
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBza8tAYUna_mtCXdstnhu50rJXJ7bi5yw&libraries=places"></script>
       </Head>

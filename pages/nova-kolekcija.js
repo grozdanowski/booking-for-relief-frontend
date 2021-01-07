@@ -78,7 +78,7 @@ export default function NewEntry({ itemTags }) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Pomoć žrtvama potresa | Novi unos</title>
+        <title>Pomoć žrtvama potresa |Nova kolekcija iz aplikacije Potres2020</title>
         <link rel="icon" href="/favicon.ico" />
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBza8tAYUna_mtCXdstnhu50rJXJ7bi5yw&libraries=places"></script>
       </Head>
