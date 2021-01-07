@@ -26,7 +26,7 @@ export default function Header({ itemTags }) {
     <header className={styles.headerContainer}>
       <div className={styles.siteLogo}>
         <Link href='/'>
-          <a>relief<span>app</span></a>
+          <a>potres<span>app</span></a>
         </Link>
       </div>
       <div
