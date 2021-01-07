@@ -35,7 +35,7 @@
 
 .headerRight {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto auto auto;
   grid-gap: calcRem(15);
   align-items: center;
 
@@ -244,6 +244,49 @@
     background-color: #fff;
     color: $primary-color;
     cursor: pointer;
+  }
+}
+
+.unAssignSelfButton {
+  display: block;
+  border: 2px solid $primary-color;
+  color: $primary-color;
+  background-color: #fff;
+  padding: calcRem(10) calcRem(15);
+  width: 100%;
+  border-radius: calcRem(30);
+
+  &:hover, &:focus {
+    color: #fff;
+    background-color: $primary-color;
+    cursor: pointer;
+  }
+}
+
+.markDoneButton {
+  display: block;
+  border: 2px solid #1EA362;
+  color: #fff;
+  background-color: #1EA362;
+  padding: calcRem(10) calcRem(15);
+  width: 100%;
+  border-radius: calcRem(30);
+
+  &:hover, &:focus {
+    background-color: #fff;
+    color: #1EA362;
+    cursor: pointer;
+  }
+
+  &:disabled, &[disabled] {
+    filter: grayscale(1);
+    opacity: 0.6;
+
+    &:hover, &:focus {
+      color: #fff;
+      background-color: #1EA362;
+      cursor: default;
+    }
   }
 }
 

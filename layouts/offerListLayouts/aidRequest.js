@@ -1,7 +1,7 @@
 import styles from './listItemStyles.module.scss'
 import { useState } from 'react'
 import Moment from 'react-moment'
-import { DateRange, Comment, DirectionsRun } from '@material-ui/icons'
+import { DateRange, Comment, DirectionsRun, NetworkCellOutlined } from '@material-ui/icons'
 import TextField from '@material-ui/core/TextField'
 import { patchEntry } from 'utils/utils'
 import Router from 'next/router'
@@ -10,25 +10,206 @@ import React from 'react'
 import Chip from '@material-ui/core/Chip'
 import { signIn, signOut, useSession } from 'next-auth/client'
 import ZoneMarker from 'components/zoneMarker'
+import { emitVolunteerAssigned, emitVolunteerMarkedTaskDone } from 'utils/integromatUtils'
 
 export default function AidRequestInList({ data }) {
 
   const [ session, loading ] = useSession()
 
-  const [markAssignmentTriggered, setMarkAssignmentTriggered] = useState(false);
+  const [modalViewTriggered, setModalViewTriggered] = useState(false);
+  const [modalContent, setModalContent] = useState('assignSelf');
   const [phoneInput, setPhoneInput] = useState('');
+  const [resolvedComment, setResolvedComment] = useState('');
+
+  const handleTriggerAssignModal = () => {
+    setModalContent('assignSelf');
+    setModalViewTriggered(true);
+  }
+
+  const handleTriggerUnassignModal = () => {
+    setModalContent('unAssignSelf');
+    setModalViewTriggered(true);
+  }
+
+  const handleTriggerMarkDoneModal = () => {
+    setModalContent('markDone');
+    setModalViewTriggered(true);
+  }
 
   const handleAssignToMe = (id) => {
-    data = {
+    const newData = {
       'volunteer_assigned': `${session.user.name}, ${session.user.email}, ${phoneInput}`
     }
-    patchEntry('aid-requests', id, data)
+    const integromatData = {
+      id: data.id,
+      event: 'Volonter se assignao!',
+      location: data.location,
+      itemUrl: `https://potres.app/aid-requests/${data.id}`,
+      potres2020Url: data.original_app_id ? `https://potres2020.openit.hr/posts/${data.id}` : '-',
+      volunteerName: session.user.name,
+      volunteerEmail: session.user.email,
+      volunteerPhone: phoneInput,
+    }
+    patchEntry('aid-requests', id, newData)
       .then(() => setTimeout(() => {
-        Router.reload(window.location.pathname)
-      }, 1500))
+        // emit event to Integromat
+        emitVolunteerAssigned(integromatData)
+          .then(() => Router.reload(window.location.pathname))
+      }, 1000))
       .catch(error => {
         console.log('Error patching the entry :(', error)
       })
+  }
+
+  const handleUnassignMe = (id) => {
+    const newData = {
+      'volunteer_assigned': ''
+    }
+    const integromatData = {
+      id: data.id,
+      event: 'Volonter se unassignao!',
+      location: data.location,
+      itemUrl: `https://potres.app/aid-requests/${data.id}`,
+      potres2020Url: data.original_app_id ? `https://potres2020.openit.hr/posts/${data.id}` : '-',
+      volunteerName: session.user.name,
+      volunteerEmail: session.user.email,
+      volunteerPhone: phoneInput,
+    }
+    patchEntry('aid-requests', id, newData)
+      .then(() => setTimeout(() => {
+        // emit event to Integromat
+        emitVolunteerAssigned(integromatData)
+          .then(() => Router.reload(window.location.pathname))
+      }, 1000))
+      .catch(error => {
+        console.log('Error patching the entry :(', error)
+      })
+  }
+
+  const handleMarkAsDone = (id) => {
+    const currentTime = new Date().toLocaleString();
+    const newData = {
+      'notes': `${data.notes} \n ${currentTime} Volonter označio gotovim uz napomenu: \n ${resolvedComment}`,
+      'volunteerMarkedAsDone': true,
+    }
+    const integromatData = {
+      id: data.id,
+      event: 'Volonter je označio task kao RIJEŠEN',
+      location: data.location,
+      itemUrl: `https://potres.app/aid-requests/${data.id}`,
+      potres2020Url: data.original_app_id ? `https://potres2020.openit.hr/posts/${data.id}` : '-',
+      volunteerComment: resolvedComment,
+      volunteerName: session.user.name,
+      volunteerEmail: session.user.email,
+      volunteerPhone: phoneInput,
+    }
+    patchEntry('aid-requests', id, newData)
+      .then(() => setTimeout(() => {
+        // emit event to Integromat
+        emitVolunteerMarkedTaskDone(integromatData)
+          .then(() => Router.reload(window.location.pathname))
+      }, 1000))
+      .catch(error => {
+        console.log('Error patching the entry :(', error)
+      })
+  }
+
+  const modalContentRender = () => {
+    switch (modalContent) {
+      case 'assignSelf':
+        return (
+          <div className={styles.markAsFulfilledContainer}>
+            <h3>Dodijeli ovaj upit sebi</h3>
+            <p>Molimo te da budeš maksimalno odgovoran/na po preuzimanju ovoga slučaja/upita. Bez unosa broja telefona ne možeš preuzeti slučaj.</p>
+            <div className={styles.emailInputWrapper}>
+              <TextField
+                className={styles.inputField}
+                label='Moj broj telefona'
+                placeholder='+385900000000'
+                helperText='Važno: molimo te da uneseš svoj broj kako bi te koordinatori volontera mogli kontaktirati!'
+                onChange={(event) => setPhoneInput(event.target.value)}
+                value={phoneInput}
+                variant='outlined'
+                type='phone'
+                required
+              />
+            </div>
+            <div className={styles.buttonsWrapper}>
+              {(phoneInput) && (
+                <button
+                  className={styles.submitButton}
+                  onClick={() => handleAssignToMe(data.id)}
+                >
+                  Dodijeli meni!
+                </button>
+              )}
+              <button
+                className={styles.cancelButton}
+                onClick={() => setModalViewTriggered(false)}
+              >
+                Odustani
+              </button>
+            </div>
+          </div>
+        )
+      case 'unAssignSelf':
+        return (
+          <div className={styles.markAsFulfilledContainer}>
+            <h3>Ukloni svoj assignment sa ovog zahtjeva</h3>
+            <p>Ukoliko smatraš da ipak ne možeš raditi na rješavanju ovog slučaja, unatoč tome što si se već na njega dodijelio/la, ukloni se sa istoga.</p>
+            <div className={styles.buttonsWrapper}>
+            <button
+              className={styles.submitButton}
+              onClick={() => handleUnassignMe(data.id)}
+            >
+              Ukloni assignment
+            </button>
+              <button
+                className={styles.cancelButton}
+                onClick={() => setModalViewTriggered(false)}
+              >
+                Zadrži
+              </button>
+            </div>
+          </div>
+        )
+      default:
+        return (
+          <div className={styles.markAsFulfilledContainer}>
+            <h3>Označi da je zahtjev riješen</h3>
+            <p>Ukoliko si ispunio/la ovaj zahtjev, možeš predati zahtjev da ga se označi kao riješenoga. Molimo unesi i komentar.</p>
+            <div>
+            <TextField
+              className={styles.inputField}
+              label='Komentar po rješenju'
+              placeholder='Komentar...'
+              helperText='Molimo: opiši što je napravljeno ili bitnu napomenu'
+              onChange={(event) => setResolvedComment(event.target.value)}
+              value={resolvedComment}
+              style={{ width: '100%' }}
+              variant='outlined'
+              multiline
+              rows={6}
+              required
+            />
+            </div>
+            <div className={styles.buttonsWrapper}>
+            <button
+              className={styles.submitButton}
+              onClick={() => handleMarkAsDone(data.id)}
+            >
+              Označi riješenim
+            </button>
+              <button
+                className={styles.cancelButton}
+                onClick={() => setModalViewTriggered(false)}
+              >
+                Odustani
+              </button>
+            </div>
+          </div>
+        )
+    }
   }
 
   const shouldDisplayNotes = () => {
@@ -47,44 +228,49 @@ export default function AidRequestInList({ data }) {
     )
   }) : []
 
+  const volunteerAssignedContent = (data.volunteer_assigned && session) ? (
+    data.volunteer_assigned.includes(session.user.email) ? (
+      <button
+          className={styles.unAssignSelfButton}
+          onClick={() => handleTriggerUnassignModal()}
+        >
+          Ukloni dodjelu
+      </button>
+    ) : (
+      <div className={styles.volunteerAssignedNotice}>
+        <DirectionsRun />
+        <span>Volonter dodijeljen</span>
+      </div>
+    )
+  ) : (
+    <div className={styles.volunteerAssignedNotice}>
+      <DirectionsRun />
+      <span>Volonter dodijeljen</span>
+    </div>
+  )
+
+  const markDoneButton = (data.volunteer_assigned && session) ? (
+    data.volunteer_assigned.includes(session.user.email) ? (
+      <button
+          className={styles.markDoneButton}
+          onClick={() => handleTriggerMarkDoneModal()}
+          disabled={data.volunteerMarkedAsDone}
+        >
+          {data.volunteerMarkedAsDone ? 'Status poslan...' : 'Označi riješenim'}
+      </button>
+    ) : (
+      null
+    )
+  ) : (
+    null
+  )
+
   const googleMapsUrl = (data.locationLat && data.locationLon) ? `https://www.google.com/maps/dir/?api=1&dir_action=navigate&destination=${data.locationLat},${data.locationLon}` : null;
 
   return (
     <div className={styles.listItemContainerAlert}>
-      {markAssignmentTriggered ? (
-        <div className={styles.markAsFulfilledContainer}>
-          <h3>Dodijeli ovaj upit sebi</h3>
-          <p>Molimo te da budeš maksimalno odgovoran/na po preuzimanju ovoga slučaja/upita. Bez unosa broja telefona ne možeš preuzeti slučaj.</p>
-          <div className={styles.emailInputWrapper}>
-            <TextField
-              className={styles.inputField}
-              label='Moj broj telefona'
-              placeholder='+385900000000'
-              helperText='Važno: molimo te da uneseš svoj broj kako bi te koordinatori volontera mogli kontaktirati!'
-              onChange={(event) => setPhoneInput(event.target.value)}
-              value={phoneInput}
-              variant='outlined'
-              type='phone'
-              required
-            />
-          </div>
-          <div className={styles.buttonsWrapper}>
-            {(phoneInput) && (
-              <button
-                className={styles.submitButton}
-                onClick={() => handleAssignToMe(data.id)}
-              >
-                Dodijeli meni!
-              </button>
-            )}
-            <button
-              className={styles.cancelButton}
-              onClick={() => setMarkAssignmentTriggered(false)}
-            >
-              Odustani
-            </button>
-          </div>
-        </div>
+      {modalViewTriggered ? (
+        modalContentRender()
       ) : (
         <div>
           <div className={styles.itemHeader}>
@@ -96,20 +282,18 @@ export default function AidRequestInList({ data }) {
               {(session && !data.volunteer_assigned) && (
                 <button
                   className={styles.assignToSelfButton}
-                  onClick={() => setMarkAssignmentTriggered(true)}
+                  onClick={() => handleTriggerAssignModal()}
                 >
                   Dodijeli sebi
                 </button>
               )}
               {(data.volunteer_assigned) && (
-                <div className={styles.volunteerAssignedNotice}>
-                  <DirectionsRun />
-                  <span>Volonter dodijeljen</span>
-                </div>
+                volunteerAssignedContent
               )}
               {(googleMapsUrl) ? (
                 <a className={styles.googleMapsButton} target='_blank' href={googleMapsUrl}>Navigiraj</a>
               ) : ''}
+              { markDoneButton ? markDoneButton : '' }
             </div>
             </div>
             <Link href={`/trazim-pomoc/${data.id}`}>
