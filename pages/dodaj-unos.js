@@ -254,7 +254,7 @@ export default function NewEntry({ itemTags }) {
           options={tagChoices}
           getOptionLabel={(tag) => tag}
           style={{ width: '100%' }}
-          renderInput={(params) => <TextField {...params} helperText='OBAVEZNO: Obavezno unesite bar jednu oznaku (tag) kako bi nam pomogli klasificirati vaš unos.' label="Dodaj oznake" variant="outlined" />}
+          renderInput={(params) => <TextField {...params} helperText='MOLIMO: unesite bar jednu oznaku (tag) kako bi nam pomogli klasificirati vaš unos.' label="Dodaj oznake (tagove)" variant="outlined" />}
           onChange={(event, newValue) => {
             setNewItemTags(newValue);
           }}
@@ -354,7 +354,7 @@ export default function NewEntry({ itemTags }) {
           options={tagChoices}
           getOptionLabel={(tag) => tag}
           style={{ width: '100%' }}
-          renderInput={(params) => <TextField {...params} helperText='OBAVEZNO: Obavezno unesite bar jednu oznaku (tag) kako bi nam pomogli klasificirati vaš unos.' label="Dodaj oznake" variant="outlined" />}
+          renderInput={(params) => <TextField {...params} helperText='MOLIMO: unesite bar jednu oznaku (tag) kako bi nam pomogli klasificirati vaš unos.' label="Dodaj oznake (tagove)" variant="outlined" />}
           onChange={(event, newValue) => {
             setNewItemTags(newValue);
           }}
@@ -455,7 +455,6 @@ export default function NewEntry({ itemTags }) {
           onChange={(event) => setNumberOfAdults(event.target.value)}
           value={numberOfAdults}
           variant='outlined'
-          required
           type='number'
         />
       </div>
@@ -468,7 +467,6 @@ export default function NewEntry({ itemTags }) {
           onChange={(event) => setNumberOfChildren(event.target.value)}
           value={numberOfChildren}
           variant='outlined'
-          required
           type='number'
         />
       </div>
@@ -500,7 +498,7 @@ export default function NewEntry({ itemTags }) {
           options={tagChoices}
           getOptionLabel={(tag) => tag}
           style={{ width: '100%' }}
-          renderInput={(params) => <TextField {...params} helperText='OBAVEZNO: Obavezno unesite bar jednu oznaku (tag) kako bi nam pomogli klasificirati vaš unos.' label="Dodaj oznake" variant="outlined" />}
+          renderInput={(params) => <TextField {...params} helperText='MOLIMO: unesite bar jednu oznaku (tag) kako bi nam pomogli klasificirati vaš unos.' label="Dodaj oznake (tagove)" variant="outlined" />}
           onChange={(event, newValue) => {
             setNewItemTags(newValue);
           }}
@@ -511,27 +509,21 @@ export default function NewEntry({ itemTags }) {
       <div className={styles.inputWrapperHalf}>
         <TextField
           className={styles.inputField}
-          label='Dostupno od:'
-          placeholder=''
           helperText='Od kad je smještaj dostupan'
           onChange={(event) => setStartdate(event.target.value)}
           value={startdate}
           variant='outlined'
           type='datetime-local'
-          required
         />
       </div>
       <div className={styles.inputWrapperHalf}>
         <TextField
           className={styles.inputField}
-          label='Dostupno do:'
-          placeholder=''
           helperText='Do kad je smještaj dostupan'
           onChange={(event) => setEnddate(event.target.value)}
           value={enddate}
           variant='outlined'
           type='datetime-local'
-          required
         />
       </div>
       <div className={styles.inputWrapperFull}>
@@ -593,10 +585,11 @@ export default function NewEntry({ itemTags }) {
         />
       </div>
       <div className={styles.inputWrapperHalf}>
-        <FormControl variant="outlined">
-          <InputLabel htmlFor='select-vehicle-type'>Vehicle type</InputLabel>
+        <FormControl className={styles.inputField} variant="outlined">
+          <InputLabel htmlFor='select-vehicle-type'>Tip vozila</InputLabel>
           <Select
             native
+            className={styles.inputField}
             value={vehicleType}
             onChange={(event) => setVehicleType(event.target.value)}
             label='Tip vozila'
@@ -645,7 +638,7 @@ export default function NewEntry({ itemTags }) {
           options={tagChoices}
           getOptionLabel={(tag) => tag}
           style={{ width: '100%' }}
-          renderInput={(params) => <TextField {...params} helperText='OBAVEZNO: Obavezno unesite bar jednu oznaku (tag) kako bi nam pomogli klasificirati vaš unos.' label="Dodaj oznake" variant="outlined" />}
+          renderInput={(params) => <TextField {...params} helperText='MOLIMO: unesite bar jednu oznaku (tag) kako bi nam pomogli klasificirati vaš unos.' label="Dodaj oznake (tagove)" variant="outlined" />}
           onChange={(event, newValue) => {
             setNewItemTags(newValue);
           }}
@@ -656,27 +649,21 @@ export default function NewEntry({ itemTags }) {
       <div className={styles.inputWrapperHalf}>
         <TextField
           className={styles.inputField}
-          label='Dostupno od:'
-          placeholder=''
-          helperText='Od kad je smještaj dostupan'
+          helperText='Od kad je prijevoz dostupan'
           onChange={(event) => setStartdate(event.target.value)}
           value={startdate}
           variant='outlined'
           type='datetime-local'
-          required
         />
       </div>
       <div className={styles.inputWrapperHalf}>
         <TextField
           className={styles.inputField}
-          label='Dostupno do:'
-          placeholder=''
-          helperText='Do kad je smještaj dostupan'
+          helperText='Do kad je prijevoz dostupan'
           onChange={(event) => setEnddate(event.target.value)}
           value={enddate}
           variant='outlined'
           type='datetime-local'
-          required
         />
       </div>
       <div className={styles.inputWrapperFull}>
