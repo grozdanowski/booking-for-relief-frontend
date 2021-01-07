@@ -1,0 +1,12 @@
+@import 'styles/helpers';
+
+.zoneMarker {
+  width: calcRem(18);
+  height: calcRem(18);
+  border-radius: 100%;
+  display: inline-block;
+  margin-left: calcRem(5);
+  flex-grow: 0;
+  flex-shrink: 0;
+  opacity: 0.5;
+}

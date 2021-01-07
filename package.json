@@ -17,6 +17,7 @@
     "moment": "^2.29.1",
     "next": "10.0.4",
     "next-auth": "^3.1.0",
+    "node-geometry-library": "^1.2.3",
     "qs": "^6.9.4",
     "react": "17.0.1",
     "react-dom": "17.0.1",

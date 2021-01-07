@@ -9,6 +9,7 @@ import Link from 'next/link'
 import React from 'react'
 import Chip from '@material-ui/core/Chip'
 import { signIn, signOut, useSession } from 'next-auth/client'
+import ZoneMarker from 'components/zoneMarker'
 
 export default function AidRequestInList({ data }) {
 
@@ -89,7 +90,7 @@ export default function AidRequestInList({ data }) {
           <div className={styles.itemHeader}>
             <div className={styles.headerLeft}>
               <span className={styles.typeLabelAlert}>TP{data.id} - Tražim pomoć!</span>
-              <Link href={`/trazim-pomoc/${data.id}`}><span className={styles.mainLabel}>{data.location}</span></Link>
+              <Link href={`/trazim-pomoc/${data.id}`}><span className={styles.mainLabel}>{data.location} <ZoneMarker point={{lat: data.locationLat, lng: data.locationLon}} /></span></Link>
             </div>
             <div className={styles.headerRight}>
               {(session && !data.volunteer_assigned) && (
