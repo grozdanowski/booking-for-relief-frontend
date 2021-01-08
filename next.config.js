@@ -6,7 +6,7 @@ module.exports = {
     return [
       {
         source: '/admin',
-        destination: 'https://lit-coast-00350.herokuapp.com/admin',
+        destination: 'https://relief-app-backend.herokuapp.com/admin',
         permanent: true,
       },
     ]

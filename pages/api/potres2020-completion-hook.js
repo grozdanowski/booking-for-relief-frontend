@@ -1,4 +1,4 @@
-const baseUrl = process.env.BASE_URL || 'https://lit-coast-00350.herokuapp.com'
+const baseUrl = process.env.BASE_URL || 'https://relief-app-backend.herokuapp.com'
 
 export async function findEntry(path, originalAppId) {
   const url = `${baseUrl}/${path}?original_app_id=${originalAppId}`

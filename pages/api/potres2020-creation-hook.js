@@ -1,4 +1,4 @@
-const baseUrl = process.env.BASE_URL || 'https://lit-coast-00350.herokuapp.com'
+const baseUrl = process.env.BASE_URL || 'https://relief-app-backend.herokuapp.com'
 
 const findLatLonData = (values, requestedValue) => {
   let value = null;
