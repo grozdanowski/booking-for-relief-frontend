@@ -17,10 +17,15 @@ export default function Header({ itemTags }) {
   const [slideOutTriggered, setSlideOutTriggered] = useState(false);
 
   const doSearch = () => {
+
     if (searchInput) {
       Router.push(`/search/${searchInput}`)
     }
   }
+
+  console.log(searchInput);
+
+  const availableTags = itemTags.map((tag) => { return tag.tag });
 
   return (
     <header className={styles.headerContainer}>
@@ -79,12 +84,15 @@ export default function Header({ itemTags }) {
         <div className={styles.headerSearch}>
             <Autocomplete
               className={styles.searchInputField}
-              options={itemTags}
-              getOptionLabel={(tag) => tag.tag}
+              options={availableTags}
+              getOptionLabel={(tag) => tag}
               style={{ width: '100%' }}
               renderInput={(params) => <TextField {...params} label="Pretraga po tagu" variant="outlined" />}
               onChange={(event, newValue) => {
-                newValue ? setSearchInput(newValue.tag) : '';
+                newValue ? setSearchInput(newValue) : '';
+              }}
+              onInputChange={(event, newValue) => {
+                setSearchInput(newValue)
               }}
               freeSolo={true}
             />
