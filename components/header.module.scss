@@ -135,6 +135,8 @@
   @media (max-width: $mobile-breakpoint) {
     grid-template-columns: 1fr;
     margin: calcRem(30) auto;
+    width: 100%;
+    padding: 0 calcRem(30);
   }
 }
 
@@ -176,6 +178,14 @@
   display: flex;
   align-items: center;
   width: 100%;
+
+  @media (max-width: $mobile-breakpoint) {
+    flex-direction: column;
+
+    span {
+      margin-bottom: calcRem(15);
+    }
+  }
 }
 
 @media (max-width: $mobile-breakpoint){
