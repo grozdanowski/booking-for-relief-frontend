@@ -81,7 +81,7 @@ export default function HelpNeeded({ results, id, itemTags }) {
 export async function getServerSideProps({ params }) {
   var qs = require('qs');
   const id = params.id;
-  const aidRequestQuery = qs.stringify({ _where: [{ fulfilled: false }, { tags_contains: params.id }] }, { encode: true });
+  const aidRequestQuery = qs.stringify({ _where: [{ fulfilled: false }, { _or: [ { tags_contains: params.id }, { location_contains: params.id }, { description_contains: params.id }  ] }] }, { encode: true });
   const aidRequests = await fetchQuery('aid-requests', `?${aidRequestQuery}&_limit=-1`);
   const accommodations = await fetchQuery('accommodations', `?${aidRequestQuery}&_limit=-1`);
   const transports = await fetchQuery('transports', `?${aidRequestQuery}&_limit=-1`);
