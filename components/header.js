@@ -23,8 +23,6 @@ export default function Header({ itemTags }) {
     }
   }
 
-  console.log(searchInput);
-
   const availableTags = itemTags.map((tag) => { return tag.tag });
 
   return (
