@@ -44,7 +44,7 @@ export default function Header({ itemTags }) {
           <ul className={styles.menuItemsWrapper}>
             <li key='menu-item-1' className={styles.menuItem}>
               <Link href='/smjestaj'>
-                <a className={styles[(router.pathname == '/smjestaj') ? 'active' : 'inactive']}>Smještaji / Ponude</a>
+                <a className={styles[(router.pathname == '/smjestaj') ? 'active' : 'inactive']}>Smještaji / Usluge</a>
               </Link>
             </li>
             <li key='menu-item-2' className={styles.menuItem}>
