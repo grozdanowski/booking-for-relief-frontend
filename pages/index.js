@@ -112,22 +112,14 @@ export default function Home({ accommodations, aidCollections, transports, aidRe
 }
 
 export async function getServerSideProps() {
-  var qs = require('qs');
-  var now = new Date().toISOString();
-  const query = qs.stringify({ _where: [{ _or: [{ enddate_gte: now }, { enddate_null: true }] }, { fulfilled: false }] }, { encode: true });
-  const aidRequestQuery = qs.stringify({ _where: [{ fulfilled: false }] }, { encode: true });
-  const accommodations = await fetchQuery('accommodations', `?_sort=created_at:desc&${aidRequestQuery}&_limit=20`);
-  const aidCollections = await fetchQuery('aid-collections', `?_sort=created_at:desc&${aidRequestQuery}&_limit=20`);
-  const transports = await fetchQuery('transports', `?_sort=created_at:desc&${aidRequestQuery}&_limit=20`);
-  const aidRequests = await fetchQuery('aid-requests', `?_sort=created_at:desc&${aidRequestQuery}&_limit=20`);
-  const itemTags = await fetchQuery('item-tags', `?_sort=tag&_limit=-1`);
+  const results = await fetchQuery('data-api/latest');
   return {
     props: {
-      accommodations,
-      aidCollections,
-      transports,
-      aidRequests,
-      itemTags,
+      accommodations: results.accommodations,
+      aidCollections: results.aidCollections,
+      transports: results.transports,
+      aidRequests: results.aidRequests,
+      itemTags: results.itemTags,
     }
   }
 }
