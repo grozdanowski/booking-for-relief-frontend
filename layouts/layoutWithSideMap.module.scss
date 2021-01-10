@@ -7,6 +7,10 @@
   grid-template-columns: 1fr calcRem(800);
   padding-top: calcRem(100);
 
+  @media (max-width: $tablet-breakpoint) {
+    grid-template-columns: 1fr calcRem(600);
+  }
+
   @media (max-width: $mobile-breakpoint) {
     grid-template-columns: 1fr;
     height: auto;

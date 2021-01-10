@@ -39,6 +39,10 @@
   grid-gap: calcRem(15);
   align-items: center;
 
+  @media (max-width: $tablet-breakpoint) {
+    grid-template-columns: auto;
+  }
+
   @media (max-width: $mobile-breakpoint) {
     margin: calcRem(10) 0;
   }
