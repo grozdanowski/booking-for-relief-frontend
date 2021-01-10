@@ -83,7 +83,6 @@ export default function Home({ accommodations, aidCollections, transports, aidRe
       <Head>
         <title>Pomoć žrtvama potresa</title>
         <link rel="icon" href="/favicon.ico" />
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBza8tAYUna_mtCXdstnhu50rJXJ7bi5yw&libraries=places"></script>
       </Head>
       <MainSiteLayout itemTags = {itemTags}>
         {notificationModalActive && (

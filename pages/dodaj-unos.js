@@ -677,7 +677,6 @@ export default function NewEntry({ itemTags }) {
       <Head>
         <title>Pomoć žrtvama potresa | Novi unos</title>
         <link rel="icon" href="/favicon.ico" />
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBza8tAYUna_mtCXdstnhu50rJXJ7bi5yw&libraries=places"></script>
       </Head>
       <MainSiteLayout itemTags = {itemTags}>
         <LayoutWithSideMap items = {[]} onMarkerClick = {(type, id) => console.log(type, id)}>

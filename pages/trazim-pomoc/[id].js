@@ -31,7 +31,6 @@ export default function Entry({ aidRequests, itemTags }) {
       <Head>
         <title>Pomoć žrtvama potresa | Zahtjev za pomoć</title>
         <link rel="icon" href="/favicon.ico" />
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBza8tAYUna_mtCXdstnhu50rJXJ7bi5yw&libraries=places"></script>
       </Head>
       <MainSiteLayout itemTags = {itemTags}>
         <LayoutWithSideMap items = {mapItems} onMarkerClick = {(type, id) => console.log(type, id)}>
