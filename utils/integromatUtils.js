@@ -1,6 +1,9 @@
+import getConfig from 'next/config'
+const { publicRuntimeConfig } = getConfig()
+
 export async function emitVolunteerAssigned(data) {
 
-  const response = await fetch(`https://hook.integromat.com/cstg7grfhn82p97enudy6xiybrxuw8x9`, {
+  const response = await fetch(publicRuntimeConfig.emitVolunteerAssignedHook, {
       method: 'post',
       headers: {
         'Accept': 'application/json',
@@ -17,7 +20,7 @@ export async function emitVolunteerAssigned(data) {
 
 export async function emitVolunteerMarkedTaskDone(data) {
 
-  const response = await fetch(`https://hook.integromat.com/ribyav1lly9nj6n6spd1pwt5escwd255`, {
+  const response = await fetch(publicRuntimeConfig.emitVolunteerDoneHook, {
       method: 'post',
       headers: {
         'Accept': 'application/json',

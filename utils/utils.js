@@ -1,4 +1,7 @@
-const baseUrl = process.env.BASE_URL || 'https://relief-app-backend.herokuapp.com'
+import getConfig from 'next/config'
+const { publicRuntimeConfig } = getConfig()
+
+const baseUrl = publicRuntimeConfig.baseUrl || 'https://relief-app-backend.herokuapp.com'
 
 export async function fetchQuery(path, params = null) {
   let url
