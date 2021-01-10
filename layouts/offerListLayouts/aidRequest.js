@@ -89,7 +89,7 @@ export default function AidRequestInList({ data }) {
   const handleMarkAsDone = (id) => {
     const currentTime = new Date().toLocaleString();
     const newData = {
-      'notes': `${data.notes} \n ${currentTime} Volonter označio gotovim uz napomenu: \n ${resolvedComment}`,
+      'notes': `${data.notes} \n ${currentTime} Volonter ${session.user.name} označio gotovim uz napomenu: \n ${resolvedComment}`,
       'volunteerMarkedAsDone': true,
     }
     const integromatData = {
