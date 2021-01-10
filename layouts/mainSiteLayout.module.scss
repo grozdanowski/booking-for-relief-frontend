@@ -28,3 +28,22 @@
     font-weight: bold;
   }
 }
+
+.floating-action-button {
+  position: fixed;
+  bottom: calcRem(40);
+  right: calcRem(40);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calcRem(54);
+  height: calcRem(54);
+  border-radius: 100%;
+  color: #fff;
+  background-color: $negative-color;
+  @include shadow-2;
+
+  @media (min-width: $tablet-breakpoint) {
+    display: none;
+  }
+}
