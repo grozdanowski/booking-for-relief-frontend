@@ -85,7 +85,7 @@ export default function Header({ itemTags }) {
               options={availableTags}
               getOptionLabel={(tag) => tag}
               style={{ width: '100%' }}
-              renderInput={(params) => <TextField {...params} label="Pretraga po tagu" variant="outlined" />}
+              renderInput={(params) => <TextField {...params} label="Pretraga po tagu ili sadržaju..." variant="outlined" />}
               onChange={(event, newValue) => {
                 newValue ? setSearchInput(newValue) : '';
               }}
@@ -100,6 +100,11 @@ export default function Header({ itemTags }) {
           <Link href='/dodaj-unos'>
             <a className={styles.addButton}>Dodaj unos</a>
           </Link>
+          <div className={styles.headerAdditionalLinks}>
+            <Link href='/info'>
+              <a className={styles[(router.pathname == '/info') ? 'active' : 'inactive']}>Korisne informacije</a>
+            </Link>
+          </div>
           <div className={styles.headerAuth}>
             {session ? [
               <span className={styles.signedInHello}>Bok, {session.user.name.split(' ')[0]}</span>,
