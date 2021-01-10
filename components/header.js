@@ -79,7 +79,7 @@ export default function Header({ itemTags }) {
         </div>
         <div className={styles.stuffRight}>
 
-        <div className={styles.headerSearch}>
+          <div className={styles.headerSearch}>
             <Autocomplete
               className={styles.searchInputField}
               options={availableTags}
