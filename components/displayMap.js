@@ -97,6 +97,13 @@ export default function displayMap({ items, onMarkerClick = (type, id) => consol
       }
     })
 
+    if (items.length === 1)  {
+      const offset = 0.008;     
+      const center = mapBounds.getCenter();                            
+      mapBounds.extend(new google.maps.LatLng(center.lat() + offset, center.lng() + offset));
+      mapBounds.extend(new google.maps.LatLng(center.lat() - offset, center.lng() - offset));
+    }
+
     map.fitBounds(mapBounds);
     setMap(map)
   }, [])
@@ -107,7 +114,7 @@ export default function displayMap({ items, onMarkerClick = (type, id) => consol
 
   const OPTIONS = {
     minZoom: 4,
-    maxZoom: 18,
+    maxZoom: 20,
   }
 
   return (
