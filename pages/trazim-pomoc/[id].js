@@ -8,6 +8,7 @@ import AidRequestInList from 'layouts/offerListLayouts/aidRequest'
 import CommentDisplay from 'components/commentDisplay'
 import CommentEditor from 'components/commentEditor'
 import styles from 'pages/singleEntryStyles.module.scss'
+import NavigateBack from 'components/navigateBack'
 
 export default function Entry({ aidRequests, itemTags }) {
 
@@ -34,6 +35,7 @@ export default function Entry({ aidRequests, itemTags }) {
       </Head>
       <MainSiteLayout itemTags = {itemTags}>
         <LayoutWithSideMap items = {mapItems} onMarkerClick = {(type, id) => console.log(type, id)}>
+          <NavigateBack />
           {mapItems.map((item, index) => {
             return (
               <OfferingListItem key={`item-${index}`}>

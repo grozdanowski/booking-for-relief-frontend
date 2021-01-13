@@ -1,0 +1,29 @@
+@import 'styles/helpers';
+
+.navigateBack {
+  padding: calcRem(10) 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: calcRem(10);
+  align-items: center;
+  border: none;
+  outline: none;
+  background: none;
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.6;
+  }
+}
+
+.icon {
+
+}
+
+.label {
+  text-align: left;
+}

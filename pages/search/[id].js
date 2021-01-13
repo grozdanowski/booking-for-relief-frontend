@@ -9,6 +9,7 @@ import AccommodationInList from 'layouts/offerListLayouts/accommodation'
 import TransportInList from 'layouts/offerListLayouts/transport'
 import AidCollectionInList from 'layouts/offerListLayouts/aidCollection'
 import AidRequestInList from 'layouts/offerListLayouts/aidRequest'
+import NavigateBack from 'components/navigateBack'
 
 
 export default function HelpNeeded({ results, id, itemTags }) {
@@ -63,6 +64,8 @@ export default function HelpNeeded({ results, id, itemTags }) {
             <h1>Rezultati pretrage po tagu "{id}"</h1>
             <p className={styles.noticeText}>Napomena: Molimo da unose koje ste kreirali, a u međuvremenu su ispunjeni, označite kao "<strong>Ispunjeno</strong>" kako bi zadržali preglednost sustava. Hvala.</p>
           </div>
+
+          <NavigateBack />
 
           {mapItems.map((item, index) => {
             return (
