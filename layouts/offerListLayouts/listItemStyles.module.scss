@@ -179,7 +179,7 @@
   padding: 0;
   margin-left: calcRem(-5);
   margin-right: calcRem(-5);
-  margin-top: calcRem(-5);
+  margin-top: calcRem(0);
   margin-bottom: calcRem(5);
   padding-bottom: calcRem(10);
 }
@@ -309,4 +309,13 @@
     color: #fff;
     cursor: pointer;
   }
+}
+
+.statusMarker {
+  display: block;
+  padding: calcRem(2) calcRem(8);
+  border-radius: calcRem(5);
+  border: 2px solid #666;
+  font-weight: bold;
+  color: #666;
 }

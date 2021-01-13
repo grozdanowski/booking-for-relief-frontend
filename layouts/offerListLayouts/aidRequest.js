@@ -12,6 +12,27 @@ import { signIn, signOut, useSession } from 'next-auth/client'
 import ZoneMarker from 'components/zoneMarker'
 import { emitVolunteerAssigned, emitVolunteerMarkedTaskDone } from 'utils/integromatUtils'
 
+const statusRender = (status) => {
+  switch (status) {
+    case 'provjereno':
+      return 'Novo'
+    case 'rizicno_opasno':
+      return 'Novo'
+    case 'preuzeto':
+      return 'Preuzeto'
+    case 'u_izvrsavanju':
+      return 'Preuzeto'
+    case 'parcijalno_rijeseno':
+      return 'Parcijalno riješeno'
+    case 'treba_ponoviti':
+      return 'Treba ponoviti'
+    case 'zavrseno':
+      return 'Završeno'
+    default:
+      return 'Novo'
+  }
+}
+
 export default function AidRequestInList({ data }) {
 
   const [ session, loading ] = useSession()
@@ -298,6 +319,11 @@ export default function AidRequestInList({ data }) {
             </div>
             <Link href={`/trazim-pomoc/${data.id}`}>
               <ul className={styles.meta}>
+                <li key='status'>
+                  <span className={styles.statusMarker}>
+                    {statusRender(data.status)}
+                  </span>
+                </li>
                 <li key='created-at'>
                   <i className={styles.metaIcon}>
                     <DateRange className={styles.metaIconInner} />
