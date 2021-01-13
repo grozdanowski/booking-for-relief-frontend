@@ -34,7 +34,7 @@ export default function HelpNeeded({ aidRequests, id, itemTags }) {
     mapsUrlLocations = mapsUrlLocations.slice(0, -1);
   }
 
-  const mapsFullUrl = `https://www.google.com/maps/dir/?api=1&dir_action=navigate&waypoints=${mapsUrlLocations}&destination=${mapItems[mapItems.length-1].locationLat},${mapItems[mapItems.length-1].locationLon}`;
+  const mapsFullUrl = mapItems.length ? `https://www.google.com/maps/dir/?api=1&dir_action=navigate&waypoints=${mapsUrlLocations}&destination=${mapItems[mapItems.length-1].locationLat},${mapItems[mapItems.length-1].locationLon}` : '#';
   
   return (
     <div className={styles.container}>
