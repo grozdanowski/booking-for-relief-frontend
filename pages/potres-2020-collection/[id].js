@@ -23,25 +23,23 @@ export default function Entry({ aidRequests, itemTags }) {
     return value;
   }
 
-  aidRequests.map((item, index) => {
-    transposedAidRequests.push({
-      id: item.id,
-      type: 'aidRequest',
-      locationLat: findLatLonData(item.values, 'lat'),
-      locationLon: findLatLonData(item.values, 'lon'),
-      location: item.title,
-      description: item.content,
-      additionalContent: item.values['3c8441b3-5744-48bb-9d9e-d6ec4be50613'],
-      contact_phone: item.values['4583d2a1-331a-4da2-86df-3391e152198e'],
-      contact_name: item.values['1328cf24-09de-44cd-b159-6242e6165530'],
-      originalUrl: item.url,
-      created_at: item.created,
-    })
+  aidRequests.forEach((item, index) => {
+    if (item) {
+      transposedAidRequests.push({
+        id: item.id,
+        type: 'aidRequest',
+        locationLat: findLatLonData(item.values, 'lat'),
+        locationLon: findLatLonData(item.values, 'lon'),
+        location: item.title,
+        description: item.content,
+        additionalContent: item.values['3c8441b3-5744-48bb-9d9e-d6ec4be50613'],
+        contact_phone: item.values['4583d2a1-331a-4da2-86df-3391e152198e'],
+        contact_name: item.values['1328cf24-09de-44cd-b159-6242e6165530'],
+        originalUrl: item.url,
+        created_at: item.created,
+      })
+    }
   })
-
-  console.log('Transposed:',transposedAidRequests);
-
-  // mapItems.sort((a, b) => (a.created_at < b.created_at) ? 1 : -1);
 
   
   return (

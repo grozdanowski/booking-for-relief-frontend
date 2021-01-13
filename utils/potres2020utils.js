@@ -7,7 +7,12 @@ export async function fetchQuery(path, params = null) {
   } else {
     url = `${API_URL}/${path}`
   }
-  const response = await fetch(`${url}`)
-  const data = await response.json()
-  return data
+  try {
+    const response = await fetch(`${url}`)
+    const text = await response.text()
+    const data = JSON.parse(text)
+    return data
+  } catch {
+    return null
+  }
 }
