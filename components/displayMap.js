@@ -85,6 +85,7 @@ export default function displayMap({ items, onMarkerClick = (type, id) => consol
 
   const handleMarkerClick = (itemData) => {
     setInfoBoxVisible(true);
+    setLegendExpanded(false);
     setInfoBoxData(itemData);
   }
 
