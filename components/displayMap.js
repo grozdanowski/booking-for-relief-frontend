@@ -163,6 +163,8 @@ export default function displayMap({ items, onMarkerClick = (type, id) => consol
   const OPTIONS = {
     minZoom: 4,
     maxZoom: 20,
+    streetViewControl: false,
+    mapTypeControl: false,
   }
 
   return (
