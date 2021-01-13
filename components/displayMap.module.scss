@@ -64,3 +64,72 @@
 .legendLabel {
   font-size: calcRem(14);
 }
+
+
+// map infoBox for an item
+
+.infoBoxContainer {
+  width: calcRem(240);
+  background-color: #fff;
+  @include shadow-2;
+  padding: calcRem(20);
+}
+
+.infoWrapper {
+
+}
+
+.infoLocation {
+  font-size: calcRem(16);
+  font-weight: bold;
+}
+
+.infoMeta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: calcRem(15);
+  color: #666;
+  padding: calcRem(10) 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.itemDate {
+  display: flex;
+  align-items: center;
+}
+
+.metaIcon {
+  margin-right: calcRem(5);
+}
+
+.volunteerAssigned {
+  display: flex;
+  align-items: center;
+  color: green;
+}
+
+.infoDescription {
+  padding: calcRem(15) 0;
+  font-size: calcRem(14);
+}
+
+.boxFooter {
+  padding-top: calcRem(15);
+  border-top: 1px solid #ccc;
+  text-align: right;
+}
+
+.navigateButton {
+  font-size: calcRem(12);
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  outline: none;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: green;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

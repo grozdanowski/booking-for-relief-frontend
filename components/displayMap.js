@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { GoogleMap, Marker, Polygon } from '@react-google-maps/api';
+import { GoogleMap, Marker, Polygon, InfoBox } from '@react-google-maps/api';
 import { mapZones } from './mapZones'
-import { ExpandLess, ExpandMore } from '@material-ui/icons'
+import Moment from 'react-moment'
+import { ExpandLess, ExpandMore, DateRange, DirectionsRun, Close } from '@material-ui/icons'
 import styles from './displayMap.module.scss'
 
 export default function displayMap({ items, onMarkerClick = (type, id) => console.log(`Marker ${id} of ${type} clicked.`) }) {
@@ -9,6 +10,8 @@ export default function displayMap({ items, onMarkerClick = (type, id) => consol
   const [map, setMap] = useState(null);
   const [mapItems, setMapItems] = useState([]);
   const [legendExpanded, setLegendExpanded] = useState(true);
+  const [infoBoxVisible, setInfoBoxVisible] = useState(false);
+  const [infoBoxData, setInfoBoxData] = useState(null);
 
   useEffect( () => {
     setMapItems(items);
@@ -42,7 +45,7 @@ export default function displayMap({ items, onMarkerClick = (type, id) => consol
         <Marker
           defaultOptions = {{mapTypeControl: false}}
           position = {{lat: item.locationLat, lng: item.locationLon}}
-          onClick = {() => onMarkerClick(item.type, item.id) }
+          onClick = {() => handleMarkerClick(item) }
           key = {`mapmarker-${index}`}
           icon ={{
             url: markerIcon,
@@ -79,6 +82,51 @@ export default function displayMap({ items, onMarkerClick = (type, id) => consol
       </div>
     )
   })
+
+  const handleMarkerClick = (itemData) => {
+    setInfoBoxVisible(true);
+    setInfoBoxData(itemData);
+  }
+
+  const infoBoxRender = infoBoxData ? (
+    <InfoBox
+      position={{lat: infoBoxData.locationLat, lng: infoBoxData.locationLon}}
+      onCloseClick={() => setInfoBoxVisible(false)}
+    >
+      <div className={styles.infoBoxContainer}>
+        <div className={styles.infoWrapper}>
+          <span className={styles.infoLocation}>
+            {infoBoxData.location}
+          </span>
+          <div className={styles.infoMeta}>
+            <div className={styles.itemDate}>
+              <DateRange className={styles.metaIcon} />
+              <span>
+                <Moment date={infoBoxData.created_at} format='DD.MM.YYYY' />
+              </span>
+            </div>
+            {infoBoxData.volunteer_assigned ? (
+              <div className={styles.volunteerAssigned}>
+                <DirectionsRun className={styles.metaIcon} />
+                <span>Volonter dodijeljen</span>
+              </div>
+            ) : ''}
+          </div>
+          <div className={styles.infoDescription}>
+            {(infoBoxData.description.length > 180) ? `${infoBoxData.description.substring(0, 180)}...` : infoBoxData.description}
+          </div>
+        </div>
+        <div className={styles.boxFooter}>
+          <button
+            onClick={() => onMarkerClick(infoBoxData.type, infoBoxData.id)}
+            className={styles.navigateButton}
+          >
+            Otvori detalje
+          </button>
+        </div>
+      </div>
+    </InfoBox>
+  ) : '';
 
   const containerStyle = {
     position: 'absolute',
@@ -130,6 +178,7 @@ export default function displayMap({ items, onMarkerClick = (type, id) => consol
         { /* Child components, such as markers, info windows, etc. */ }
         {mapPins}
         {zonePolygons}
+        {infoBoxVisible ? infoBoxRender : ''}
         {mapLegendZones ? (
           <div className={styles.mapLegend}>
             <button

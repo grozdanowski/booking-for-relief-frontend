@@ -37,8 +37,12 @@
 .mainWrapper {
   overflow-y: auto;
   padding-bottom: calcRem(40);
-  padding-top: calcRem(20);
+  padding-top: calcRem(40);
   background-color: #FAFAFA;
+
+  @media (max-width: $mobile-breakpoint) {
+    padding-top: calcRem(10);
+  }
 }
 
 .mainInner {
