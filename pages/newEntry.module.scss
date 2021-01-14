@@ -118,6 +118,7 @@
   &:hover, &:focus {
     background-color: #fff;
     color: $primary-color;
+    outline: none;
   }
 }
 
@@ -199,4 +200,15 @@
   border-top: 1px solid $negative-color;
   border-bottom: 1px solid $negative-color;
   color: $negative-color;
+  font-size: calcRem(14);
+  font-weight: bold;
+}
+
+.fieldValidationError {
+  color: $negative-color;
+  margin-top: calcRem(10);
+  padding: calcRem(10);
+  border: 1px solid $negative-color;
+  display: block;
+  font-size: calcRem(13);
 }
