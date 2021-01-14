@@ -1,17 +1,13 @@
-import getConfig from 'next/config'
-const { publicRuntimeConfig } = getConfig()
-
 export async function doPhoneNumberLookup(number) {
 
   const data = {
-    'to': [ number ]
+    "to": [ number ]
   }
 
-  const response = await fetch(`${publicRuntimeConfig.infobipApiBaseUrl}/number/1/query`, {
+  const response = await fetch(`/api/check-number`, {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `App ${publicRuntimeConfig.infobipApiKey}`
       },
       body: JSON.stringify(data)
     })
