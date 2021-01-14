@@ -254,7 +254,7 @@ export default function NewEntry({ itemTags }) {
           options={tagChoices}
           getOptionLabel={(tag) => tag}
           style={{ width: '100%' }}
-          renderInput={(params) => <TextField {...params} helperText='MOLIMO: unesite bar jednu oznaku (tag) kako bi nam pomogli klasificirati vaš unos.' label="Dodaj oznake (tagove)" variant="outlined" />}
+          renderInput={(params) => <TextField {...params} helperText='MOLIMO: unesite bar jednu oznaku (tag) kako biste nam pomogli klasificirati vaš unos.' label="Dodaj oznake (tagove)" variant="outlined" />}
           onChange={(event, newValue) => {
             setNewItemTags(newValue);
           }}
@@ -363,7 +363,7 @@ export default function NewEntry({ itemTags }) {
           options={tagChoices}
           getOptionLabel={(tag) => tag}
           style={{ width: '100%' }}
-          renderInput={(params) => <TextField {...params} helperText='MOLIMO: unesite bar jednu oznaku (tag) kako bi nam pomogli klasificirati vaš unos.' label="Dodaj oznake (tagove)" variant="outlined" />}
+          renderInput={(params) => <TextField {...params} helperText='MOLIMO: unesite bar jednu oznaku (tag) kako biste nam pomogli klasificirati vaš unos.' label="Dodaj oznake (tagove)" variant="outlined" />}
           onChange={(event, newValue) => {
             setNewItemTags(newValue);
           }}
@@ -507,7 +507,7 @@ export default function NewEntry({ itemTags }) {
           options={tagChoices}
           getOptionLabel={(tag) => tag}
           style={{ width: '100%' }}
-          renderInput={(params) => <TextField {...params} helperText='MOLIMO: unesite bar jednu oznaku (tag) kako bi nam pomogli klasificirati vaš unos.' label="Dodaj oznake (tagove)" variant="outlined" />}
+          renderInput={(params) => <TextField {...params} helperText='MOLIMO: unesite bar jednu oznaku (tag) kako biste nam pomogli klasificirati vaš unos.' label="Dodaj oznake (tagove)" variant="outlined" />}
           onChange={(event, newValue) => {
             setNewItemTags(newValue);
           }}
@@ -647,7 +647,7 @@ export default function NewEntry({ itemTags }) {
           options={tagChoices}
           getOptionLabel={(tag) => tag}
           style={{ width: '100%' }}
-          renderInput={(params) => <TextField {...params} helperText='MOLIMO: unesite bar jednu oznaku (tag) kako bi nam pomogli klasificirati vaš unos.' label="Dodaj oznake (tagove)" variant="outlined" />}
+          renderInput={(params) => <TextField {...params} helperText='MOLIMO: unesite bar jednu oznaku (tag) kako biste nam pomogli klasificirati vaš unos.' label="Dodaj oznake (tagove)" variant="outlined" />}
           onChange={(event, newValue) => {
             setNewItemTags(newValue);
           }}
