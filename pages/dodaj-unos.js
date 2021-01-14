@@ -91,8 +91,8 @@ export default function NewEntry({ itemTags }) {
         case 'accommodation':
           endpoint = 'accommodations';
           data = {
-            'startdate': new Date(startdate).toISOString(),
-            'enddate': new Date(enddate).toISOString(),
+            'startdate': startdate ? new Date(startdate).toISOString() : null,
+            'enddate': enddate ? new Date(enddate).toISOString() : null,
             'location': location,
             'description': description,
             'contact_name': contactName,
@@ -110,8 +110,8 @@ export default function NewEntry({ itemTags }) {
         case 'transport':
           endpoint = 'transports';
           data = {
-            'startdate': new Date(startdate).toISOString(),
-            'enddate': new Date(enddate).toISOString(),
+            'startdate': startdate ? new Date(startdate).toISOString() : null,
+            'enddate': enddate ? new Date(enddate).toISOString() : null,
             'location': location,
             'description': description,
             'contact_name': contactName,
@@ -128,8 +128,8 @@ export default function NewEntry({ itemTags }) {
         case 'aidCollection':
           endpoint = 'aid-collections';
           data = {
-            'startdate': new Date(startdate).toISOString(),
-            'enddate': new Date(enddate).toISOString(),
+            'startdate': startdate ? new Date(startdate).toISOString() : null,
+            'enddate': enddate ? new Date(enddate).toISOString() : null,
             'location': location,
             'description': description,
             'contact_name': contactName,
