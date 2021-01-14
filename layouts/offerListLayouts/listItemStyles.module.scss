@@ -319,3 +319,12 @@
   font-weight: bold;
   color: #666;
 }
+
+.fieldValidationError {
+  color: $negative-color;
+  margin: calcRem(10) 0;
+  padding: calcRem(10);
+  border: 1px solid $negative-color;
+  display: block;
+  font-size: calcRem(13);
+}
