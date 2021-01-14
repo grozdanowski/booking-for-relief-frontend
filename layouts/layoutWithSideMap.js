@@ -4,7 +4,10 @@ import Router from 'next/router'
 
 export default function layoutWithSideMap({ items, onMarkerClick = null, children }) {
 
-  const DynamicMap = dynamic(() => import('components/displayMap'))
+  const DynamicMap = dynamic(
+    () => import('components/displayMap'),
+    { loading: () => <p>Loading...</p> }
+  )
 
   const handleMarkerClick = (type, id) => {
     switch (type) {
