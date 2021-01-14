@@ -42,7 +42,7 @@ export default function NewEntry({ itemTags }) {
   const [mapItems, setMapItems] = useState([]);
   const [submittingMessage, setSubmittingMessage] = useState('');
   const [validationError, setValidationError] = useState(null);
-  const [numberIsValid, setNumberIsValid] = useState(true);
+  const [numberIsValid, setNumberIsValid] = useState(null);
 
   const tagChoices = itemTags.map((tag) => {return tag.tag});
 
@@ -100,16 +100,15 @@ export default function NewEntry({ itemTags }) {
       required
     />,
     <div>
-      {numberIsValid ? '' : (
+      {(!numberIsValid && (contactPhone !== '') && (numberIsValid !== null)) ? (
         <span className={styles.fieldValidationError}>
-        Broj telefona nije ispravan ili uređaj/broj nije aktivan. Molimo provjerite unos.
-      </span>
-      )}
+          Broj telefona nije ispravan ili uređaj/broj nije aktivan. Molimo provjerite unos.
+        </span>
+      ) : ''}
     </div>
   ]
 
   const handlePhoneNumberInput = async(value) => {
-    console.log(value[0])
     const transposedNumber = (value[0] === '0') ? value.substring(1) : value;
     const phoneNumberCheck = await doPhoneNumberLookup(`385${transposedNumber}`);
     if (phoneNumberCheck.results[0].status.groupName === 'DELIVERED') {
