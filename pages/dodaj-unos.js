@@ -258,6 +258,15 @@ export default function NewEntry({ itemTags }) {
           onChange={(event, newValue) => {
             setNewItemTags(newValue);
           }}
+          onClose={(event, newValue) => {
+            if (!(Number.isInteger(event.target.value) || (event.target.value === ''))) {
+              console.log('wut', event.target.value);
+              const tempItemTags = newItemTags;
+              tempItemTags.push(event.target.value);
+              console.log(tempItemTags);
+              setNewItemTags(tempItemTags);
+            }
+          }}
           freeSolo={true}
           required
         />
