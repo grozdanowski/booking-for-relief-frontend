@@ -110,6 +110,10 @@ export default function NewEntry({ itemTags }) {
 
   const handlePhoneNumberInput = async(value) => {
     const transposedNumber = (value[0] === '0') ? value.substring(1) : value;
+    if (transposedNumber.length < 2+6) { // basic validation - to avoid calling doPhoneNumberLookup API for invalid phone numbers (saving donated resources)
+      setNumberIsValid(false)
+      return
+    }
     const phoneNumberCheck = await doPhoneNumberLookup(`385${transposedNumber}`);
     if (phoneNumberCheck.results[0].status.groupName === 'DELIVERED') {
       setNumberIsValid(true)
