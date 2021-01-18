@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Moment from 'react-moment'
 import { DateRange, Comment, DirectionsRun, NetworkCellOutlined } from '@material-ui/icons'
 import TextField from '@material-ui/core/TextField'
+import InputAdornment from '@material-ui/core/InputAdornment'
 import { patchEntry } from 'utils/utils'
 import Router from 'next/router'
 import Link from 'next/link'
@@ -11,6 +12,7 @@ import Chip from '@material-ui/core/Chip'
 import { signIn, signOut, useSession } from 'next-auth/client'
 import ZoneMarker from 'components/zoneMarker'
 import { emitVolunteerAssigned, emitVolunteerMarkedTaskDone } from 'utils/integromatUtils'
+import { doPhoneNumberLookup } from 'utils/infobipApiUtils'
 
 const statusRender = (status) => {
   switch (status) {
@@ -41,6 +43,7 @@ export default function AidRequestInList({ data }) {
   const [modalContent, setModalContent] = useState('assignSelf');
   const [phoneInput, setPhoneInput] = useState('');
   const [resolvedComment, setResolvedComment] = useState('');
+  const [numberIsValid, setNumberIsValid] = useState(null);
 
   const handleTriggerAssignModal = () => {
     setModalContent('assignSelf');
@@ -135,6 +138,16 @@ export default function AidRequestInList({ data }) {
       })
   }
 
+  const handlePhoneNumberInput = async(value) => {
+    const transposedNumber = (value[0] === '0') ? value.substring(1) : value;
+    const phoneNumberCheck = await doPhoneNumberLookup(`385${transposedNumber}`);
+    if (phoneNumberCheck.results[0].status.groupName === 'DELIVERED') {
+      setNumberIsValid(true)
+    } else {
+      setNumberIsValid(false)
+    }
+  }
+
   const modalContentRender = () => {
     switch (modalContent) {
       case 'assignSelf':
@@ -145,25 +158,35 @@ export default function AidRequestInList({ data }) {
             <div className={styles.emailInputWrapper}>
               <TextField
                 className={styles.inputField}
-                label='Moj broj telefona'
-                placeholder='+385900000000'
-                helperText='Važno: molimo te da uneseš svoj broj kako bi te koordinatori volontera mogli kontaktirati!'
+                label='Moj broj mobitela'
+                placeholder='0900000000'
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">+385</InputAdornment>,
+                }}
+                helperText='OBAVEZNO: molimo te da uneseš svoj broj mobitela u formatu 09111... kako bi te koordinatori volontera mogli kontaktirati! Molimo da ne unosiš predznak zemlje. Broj (i uređaj) mora biti aktivan, te mora biti mobilni broj.'
                 onChange={(event) => setPhoneInput(event.target.value)}
+                onBlur={(event) => handlePhoneNumberInput(event.target.value)}
                 value={phoneInput}
                 variant='outlined'
                 type='phone'
                 required
               />
+              <div>
+                {(!numberIsValid && (phoneInput !== '') && (numberIsValid !== null)) ? (
+                  <span className={styles.fieldValidationError}>
+                    Broj telefona nije ispravan ili uređaj/broj nije aktivan. Molimo provjerite unos.
+                  </span>
+                ) : ''}
+              </div>
             </div>
             <div className={styles.buttonsWrapper}>
-              {(phoneInput) && (
-                <button
-                  className={styles.submitButton}
-                  onClick={() => handleAssignToMe(data.id)}
-                >
-                  Dodijeli meni!
-                </button>
-              )}
+              <button
+                className={styles.submitButton}
+                onClick={() => handleAssignToMe(data.id)}
+                disabled={!(phoneInput && numberIsValid)}
+              >
+                Dodijeli meni!
+              </button>
               <button
                 className={styles.cancelButton}
                 onClick={() => setModalViewTriggered(false)}

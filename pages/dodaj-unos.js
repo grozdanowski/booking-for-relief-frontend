@@ -11,10 +11,12 @@ import Checkbox from '@material-ui/core/Checkbox'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import InputLabel from '@material-ui/core/InputLabel'
-import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import InputAdornment from '@material-ui/core/InputAdornment'
+import { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 import { useRouter } from 'next/router'
 import Autocomplete from '@material-ui/lab/Autocomplete'
-import Chip from '@material-ui/core/Chip';
+import Chip from '@material-ui/core/Chip'
+import { doPhoneNumberLookup } from 'utils/infobipApiUtils'
 
 export default function NewEntry({ itemTags }) {
 
@@ -40,6 +42,7 @@ export default function NewEntry({ itemTags }) {
   const [mapItems, setMapItems] = useState([]);
   const [submittingMessage, setSubmittingMessage] = useState('');
   const [validationError, setValidationError] = useState(null);
+  const [numberIsValid, setNumberIsValid] = useState(null);
 
   const tagChoices = itemTags.map((tag) => {return tag.tag});
 
@@ -80,8 +83,47 @@ export default function NewEntry({ itemTags }) {
     }
   }
 
+  const phoneNumberInput = [
+    <TextField
+      className={styles.inputField}
+      label='Broj MOBITELA kontakt osobe'
+      placeholder='Broj mobitela'
+      InputProps={{
+        startAdornment: <InputAdornment position="start">+385</InputAdornment>,
+      }}
+      helperText='OBAVEZNO: broj mobitela kontakt osobe u formatu 09111... Molimo da ne unosiš predznak zemlje. Broj (i uređaj) mora biti aktivan, te mora biti mobilni broj.'
+      onChange={(event) => setContactPhone(event.target.value)}
+      onBlur={(event) => handlePhoneNumberInput(event.target.value)}
+      value={contactPhone}
+      variant='outlined'
+      type='tel'
+      required
+    />,
+    <div>
+      {(!numberIsValid && (contactPhone !== '') && (numberIsValid !== null)) ? (
+        <span className={styles.fieldValidationError}>
+          Broj telefona nije ispravan ili uređaj/broj nije aktivan. Molimo provjerite unos.
+        </span>
+      ) : ''}
+    </div>
+  ]
+
+  const handlePhoneNumberInput = async(value) => {
+    const transposedNumber = (value[0] === '0') ? value.substring(1) : value;
+    if (transposedNumber.length < 2+6) { // basic validation - to avoid calling doPhoneNumberLookup API for invalid phone numbers (saving donated resources)
+      setNumberIsValid(false)
+      return
+    }
+    const phoneNumberCheck = await doPhoneNumberLookup(`385${transposedNumber}`);
+    if (phoneNumberCheck.results[0].status.groupName === 'DELIVERED') {
+      setNumberIsValid(true)
+    } else {
+      setNumberIsValid(false)
+    }
+  }
+
   const handleSubmit = () => {
-    const requiredFieldsFilled = location && description && contactName && contactPhone && newItemTags.length;
+    const requiredFieldsFilled = location && description && contactName && numberIsValid && newItemTags.length;
 
     if (requiredFieldsFilled) {
       setValidationError(null);
@@ -170,7 +212,7 @@ export default function NewEntry({ itemTags }) {
           setSubmittingMessage('Problem pri dodavanju tvoj unosa. Molimo te da se obratiš administratorima.');
         });           
     } else {
-      setValidationError('Molimo unesite sva obavezna polja (označena zvjezdicom *).')
+      setValidationError('Molimo unesite sva obavezna polja (označena zvjezdicom *) i provjerite postoje li greške kod pojedinih polja.')
     }
   }
 
@@ -214,17 +256,7 @@ export default function NewEntry({ itemTags }) {
         />
       </div>
       <div className={styles.inputWrapperHalf}>
-        <TextField
-          className={styles.inputField}
-          label='Broj telefona kontakt osobe'
-          placeholder='Broj telefona'
-          helperText='OBAVEZNO: broj telefona kontakt osobe u formatu +385000...'
-          onChange={(event) => setContactPhone(event.target.value)}
-          value={contactPhone}
-          variant='outlined'
-          type='tel'
-          required
-        />
+        {phoneNumberInput}
       </div>
       <div className={styles.inputWrapperHalf}>
       <FormControlLabel
@@ -311,17 +343,7 @@ export default function NewEntry({ itemTags }) {
         />
       </div>
       <div className={styles.inputWrapperHalf}>
-        <TextField
-          className={styles.inputField}
-          label='Broj telefona kontakt osobe'
-          placeholder='Broj telefona'
-          helperText='OBAVEZNO: broj telefona kontakt osobe u formatu +385000...'
-          onChange={(event) => setContactPhone(event.target.value)}
-          value={contactPhone}
-          variant='outlined'
-          type='tel'
-          required
-        />
+        {phoneNumberInput}
       </div>
       <div className={styles.inputWrapperHalf}>
       <FormControlLabel
@@ -437,17 +459,7 @@ export default function NewEntry({ itemTags }) {
         />
       </div>
       <div className={styles.inputWrapperHalf}>
-        <TextField
-          className={styles.inputField}
-          label='Broj telefona kontakt osobe'
-          placeholder='Broj telefona'
-          helperText='OBAVEZNO: broj telefona kontakt osobe u formatu +385000...'
-          onChange={(event) => setContactPhone(event.target.value)}
-          value={contactPhone}
-          variant='outlined'
-          type='tel'
-          required
-        />
+        {phoneNumberInput}
       </div>
       <div className={styles.inputWrapperHalf}>
         <FormControlLabel
@@ -575,17 +587,7 @@ export default function NewEntry({ itemTags }) {
         />
       </div>
       <div className={styles.inputWrapperHalf}>
-        <TextField
-          className={styles.inputField}
-          label='Broj telefona kontakt osobe'
-          placeholder='Broj telefona'
-          helperText='OBAVEZNO: broj telefona kontakt osobe u formatu +385000...'
-          onChange={(event) => setContactPhone(event.target.value)}
-          value={contactPhone}
-          variant='outlined'
-          type='tel'
-          required
-        />
+        {phoneNumberInput}
       </div>
       <div className={styles.inputWrapperHalf}>
         <FormControlLabel
