@@ -35,7 +35,16 @@ export default function HelpNeeded({ aidRequests, itemTags }) {
         <LayoutWithSideMap items = {mapItems}>
           <div className={styles.introSection}>
             <h1>Svi zahtjevi za pomoći</h1>
-            <p className={styles.noticeText}>Napomena: Molimo da volonteri budu iznimno odgovorni po preuzimanju pojedinih slučajeva na sebe. Hvala!</p>
+            <br />
+            <strong>Upute za donatore:</strong>
+            <ul>
+              <li>Obavezno nazovite tražitelje pomoći za provjeru je li im u međuvremenu pružena pomoć!</li>
+              <li>Ukoliko im je u međuvremenu pružena pomoć, ali to nije naznačeno u sustavu, molimo Vas da dodate tu napomenu u komentar.</li>
+              <li>Ulogirajte se u aplikaciju i prebacite zahtjev na sebe ako planirate pomoći.</li>
+              <li>Status zahtjeva naznačite kao "ispunjeno" nakon što je zahtjev ispunjen!</li>
+            </ul>
+            <br />
+            <strong>Hvala na pomoći ❤️</strong>
           </div>
 
           {mapItems.map((item, index) => {

@@ -36,6 +36,16 @@ export default function Entry({ aidRequests, itemTags }) {
       <MainSiteLayout itemTags = {itemTags}>
         <LayoutWithSideMap items = {mapItems} onMarkerClick = {(type, id) => console.log(type, id)}>
           <NavigateBack />
+          <br />
+          <strong>Upute za donatore:</strong>
+          <ul>
+            <li>Obavezno nazovite tražitelje pomoći za provjeru je li im u međuvremenu pružena pomoć!</li>
+            <li>Ukoliko im je u međuvremenu pružena pomoć, ali to nije naznačeno u sustavu, molimo Vas da dodate tu napomenu u komentar.</li>
+            <li>Ulogirajte se u aplikaciju i prebacite zahtjev na sebe ako planirate pomoći.</li>
+            <li>Status zahtjeva naznačite kao "ispunjeno" nakon što je zahtjev ispunjen!</li>
+          </ul>
+          <br />
+          <strong>Hvala na pomoći ❤️</strong>
           {mapItems.map((item, index) => {
             return (
               <OfferingListItem key={`item-${index}`}>

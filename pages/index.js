@@ -94,7 +94,16 @@ export default function Home({ accommodations, aidCollections, transports, aidRe
             <h1>Najnoviji unosi:</h1>
             <p>Ova stranica služi kao "oglasna ploča" sa svrhom lakšeg koordiniranja pomoći žrtvama potresa koji je pogodio centralnu Hrvatsku.</p>
             <p>Ispod možete pronaći najnovije unose iz kategorija ponude <strong>prijevoza</strong>, <strong>ponude smještaja</strong>, <strong>lokacija za prikupljanje pomoći</strong>, kao i lokacija gdje je <strong>potrebna pomoć</strong>. Iste možete pronaći i na karti.</p>
-            <p className={styles.noticeText}>Napomena: Molimo da unose koje ste kreirali, a u međuvremenu su ispunjeni, označite kao "<strong>Ispunjeno</strong>" kako bi zadržali preglednost sustava. Hvala.</p>
+            <br />
+            <strong>Upute za donatore:</strong>
+            <ul>
+              <li>Obavezno nazovite tražitelje pomoći za provjeru je li im u međuvremenu pružena pomoć!</li>
+              <li>Ukoliko im je u međuvremenu pružena pomoć, ali to nije naznačeno u sustavu, molimo Vas da dodate tu napomenu u komentar.</li>
+              <li>Ulogirajte se u aplikaciju i prebacite zahtjev na sebe ako planirate pomoći.</li>
+              <li>Status zahtjeva naznačite kao "ispunjeno" nakon što je zahtjev ispunjen!</li>
+            </ul>
+            <br />
+            <strong>Hvala na pomoći ❤️</strong>
           </div>
 
           {mapItems.map((item, index) => {
