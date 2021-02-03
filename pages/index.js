@@ -119,7 +119,7 @@ export default function Home({ accommodations, aidCollections, transports, aidRe
   )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const results = await fetchQuery('data-api/latest');
   return {
     props: {
@@ -128,6 +128,7 @@ export async function getServerSideProps() {
       transports: results.transports,
       aidRequests: results.aidRequests,
       itemTags: results.itemTags,
-    }
+    },
+    revalidate: 1,
   }
 }
