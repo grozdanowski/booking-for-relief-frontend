@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { authenticatedFetchQuery } from 'utils/utils'
-import styles from 'pages/index.module.scss'
+import styles from './volunteerTasks.module.scss'
 import MainSiteLayout from 'layouts/mainSiteLayout'
 import LayoutWithSideMap from 'layouts/layoutWithSideMap'
 import OfferingListItem from 'components/offeringLIstItem'
