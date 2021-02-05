@@ -56,7 +56,7 @@ export default function displayMap({ items, mapZones = [], onMarkerClick = (type
     }
   })
 
-  const zonePolygons = mapZones.map((zone, index) => {
+  const zonePolygons = mapZones ? mapZones.map((zone, index) => {
 
     return (
       <Polygon
@@ -71,7 +71,7 @@ export default function displayMap({ items, mapZones = [], onMarkerClick = (type
         }}
       />
     )
-  })
+  }) : []
 
   const mapLegendZones = mapZones.map((zone, index) => {
 
