@@ -65,7 +65,7 @@ export async function getServerSideProps({ params }) {
     props: {
       results: results.entries,
       itemTags: results.itemTags,
-      siteSettings: results.publicSiteSettings[0],
+      siteSettings: results.publicSiteSettings ? results.publicSiteSettings[0] : [],
       availableEntryCategories: results.availableEntryCategories,
       id: id,
     }

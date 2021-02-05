@@ -325,7 +325,7 @@ export async function getStaticProps() {
   return {
     props: {
       itemTags: results.itemTags,
-      siteSettings: results.publicSiteSettings[0],
+      siteSettings: results.publicSiteSettings ? results.publicSiteSettings[0] : [],
       availableEntryCategories: results.availableEntryCategories,
     },
     revalidate: 1,

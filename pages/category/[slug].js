@@ -73,7 +73,7 @@ export async function getStaticProps({params}) {
     props: {
       entries: results.entries,
       itemTags: results.itemTags,
-      siteSettings: results.publicSiteSettings[0],
+      siteSettings: results.publicSiteSettings ? results.publicSiteSettings[0] : [],
       availableEntryCategories: results.availableEntryCategories,
       currentSlug: currentSlug,
     },
