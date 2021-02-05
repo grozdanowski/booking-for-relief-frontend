@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { authenticatedFetchQuery } from 'utils/utils'
-import styles from 'pages/volunteer-tasks/node_modules/pages/index.module.scss'
+import styles from './searchResults.module.scss'
 import MainSiteLayout from 'layouts/mainSiteLayout'
 import LayoutWithSideMap from 'layouts/layoutWithSideMap'
 import OfferingListItem from 'components/offeringLIstItem'
