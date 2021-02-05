@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic'
 import styles from './layoutWithSideMap.module.scss'
 import Router from 'next/router'
 
-export default function layoutWithSideMap({ items, onMarkerClick = null, children }) {
+export default function layoutWithSideMap({ items, onMarkerClick = null, mapZones = [], children }) {
 
   const DynamicMap = dynamic(
     () => import('components/displayMap'),
@@ -32,7 +32,7 @@ export default function layoutWithSideMap({ items, onMarkerClick = null, childre
     <div className={styles.wrapper}>
       <aside className={items.length ? styles.mapWrapper : styles.noMap}>
         {items.length ? (
-          <DynamicMap items = { items } onMarkerClick = { onMarkerClick ? onMarkerClick : (type, id) => handleMarkerClick(type, id) } />
+          <DynamicMap items = { items } mapZones = { mapZones } onMarkerClick = { onMarkerClick ? onMarkerClick : (type, id) => handleMarkerClick(type, id) } />
         ) : (
           <div className={styles.noMapIllustrationContainer}>
             <img src='/images/caring_illustration.svg' />

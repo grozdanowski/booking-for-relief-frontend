@@ -21,11 +21,34 @@
 .appFooter {
   padding: calcRem(15) calcRem(30);
   font-size: calcRem(14);
-  text-align: right;
   border-top: 2px solid #ccc;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: calcRem(50);
+
+  @media (max-width: $mobile-breakpoint) {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: calcRem(40);
+  }
 
   a {
     font-weight: bold;
+  }
+
+  .footerMenu {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .footerMenuItem {
+      margin: calcRem(10) calcRem(30) calcRem(10) 0;
+    }
+  }
+  
+  .footerNotice {
+    text-align: right;
+    padding: calcRem(10) 0;
   }
 }
 

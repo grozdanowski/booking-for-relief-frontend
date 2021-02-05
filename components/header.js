@@ -8,7 +8,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete'
 import styles from './header.module.scss'
 import classnames from 'classnames'
 
-export default function Header({ itemTags }) {
+export default function Header({ itemTags, availableEntryCategories, siteSettings }) {
 
   const [ session, loading ] = useSession()
   const router = useRouter();
@@ -25,14 +25,38 @@ export default function Header({ itemTags }) {
 
   const availableTags = itemTags.map((tag) => { return tag.tag });
 
+  const entryCategoriesMenuRender = availableEntryCategories.map((category) => {
+    return (
+      <li key={`menu-item--${category.type_slug}`} className={styles.menuItem}>
+        <Link href={`/category/${category.type_slug}`}>
+          <a
+            style={{ color: category.category_color_hex }}
+            className={styles[(router.pathname == `/category/${category.type_slug}`) ? 'active' : 'inactive']}
+          >
+            {category.menu_title}
+          </a>
+        </Link>
+      </li>
+    )
+  })
+
+  const headerAdditionalLinksRender = siteSettings.header_menu_marketing_items ? siteSettings.header_menu_marketing_items.map((item) => {
+    return (
+      <Link key={`header-additional-menu-item--${item.id}`} href={item.item_url}>
+        <a className={styles[(router.pathname == item.item_url) ? 'active' : 'inactive']}>{item.item_title}</a>
+      </Link>
+    )
+  }) : []
+
   return (
     <header className={styles.headerContainer}>
-      <div className={styles.siteLogo}>
+      <div key='logo-container' className={styles.siteLogo}>
         <Link href='/'>
           <a>potres<span>app</span></a>
         </Link>
       </div>
       <div
+        key='slideout-menu'
         className={
           classnames(
             styles.slideOutMenu,
@@ -40,36 +64,17 @@ export default function Header({ itemTags }) {
           )
         }
       >
-        <div className={styles.siteMainMenu}>
+        <div key='main-categories-menu' className={styles.siteMainMenu}>
           <ul className={styles.menuItemsWrapper}>
-            <li key='menu-item-1' className={styles.menuItem}>
-              <Link href='/smjestaj'>
-                <a className={styles[(router.pathname == '/smjestaj') ? 'active' : 'inactive']}>Smještaji / Usluge</a>
-              </Link>
-            </li>
-            <li key='menu-item-2' className={styles.menuItem}>
-              <Link href='/prijevoz'>
-                <a className={styles[(router.pathname == '/prijevoz') ? 'active' : 'inactive']}>Prijevozi</a>
-              </Link>
-            </li>
-            <li key='menu-item-3' className={styles.menuItem}>
-              <Link href='/prikup-donacija'>
-                <a className={styles[(router.pathname == '/prikup-donacija') ? 'active' : 'inactive']}>Prikupi donacija</a>
-              </Link>
-            </li>
-            <li key='menu-item-4' className={styles.menuItem}>
-              <Link href='/trazim-pomoc'>
-                <a className={styles[(router.pathname == '/trazim-pomoc') ? 'active' : 'inactive']}><span className={styles.alert}>Tražim pomoć</span></a>
-              </Link>
-            </li>
+            {entryCategoriesMenuRender}
             {session ? (
-              <li key='menu-item-5' className={styles.menuItem}>
-                <Link href={`/zadaci-volontera/${session.user.email}`}>
-                  <a className={styles[(router.pathname == `/zadaci-volontera/${session.user.email}`) ? 'active' : 'inactive']}><span>Moji zadaci</span></a>
+              <li key='menu-item--my-tasks' className={styles.menuItem}>
+                <Link href={`/volunteer-tasks/${session.user.email}`}>
+                  <a className={styles[(router.pathname == `/volunteer-tasks/${session.user.email}`) ? 'active' : 'inactive']}><span>Moji zadaci</span></a>
                 </Link>
               </li>
             ) : (
-              <li key='menu-item-6' className={styles.menuItem}>
+              <li key='menu-item--potres2020-collection' className={styles.menuItem}>
                 <Link href='/nova-kolekcija'>
                   <a className={styles[(router.pathname == '/nova-kolekcija') ? 'active' : 'inactive']}><span>Kreiraj iz Potres2020</span></a>
                 </Link>
@@ -77,7 +82,7 @@ export default function Header({ itemTags }) {
             )}
           </ul>
         </div>
-        <div className={styles.stuffRight}>
+        <div key='right-menu-section' className={styles.stuffRight}>
 
           <div className={styles.headerSearch}>
             <Autocomplete
@@ -97,13 +102,11 @@ export default function Header({ itemTags }) {
             <button className={styles.searchButton} onClick={() => doSearch()}><Search /></button>
           </div>
 
-          <Link href='/dodaj-unos'>
+          <Link href='/add-entry'>
             <a className={styles.addButton}>Dodaj unos</a>
           </Link>
           <div className={styles.headerAdditionalLinks}>
-            <Link href='/info'>
-              <a className={styles[(router.pathname == '/info') ? 'active' : 'inactive']}>Korisne informacije</a>
-            </Link>
+            {headerAdditionalLinksRender}
           </div>
           <div className={styles.headerAuth}>
             {session ? [

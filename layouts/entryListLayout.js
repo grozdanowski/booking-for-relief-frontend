@@ -1,15 +1,15 @@
-import styles from './listItemStyles.module.scss'
+import styles from './entryListLayout.module.scss'
 import { useState } from 'react'
 import Moment from 'react-moment'
-import { DateRange, Comment, DirectionsRun, NetworkCellOutlined } from '@material-ui/icons'
+import { Today, DateRange, Comment, DirectionsRun, Place } from '@material-ui/icons'
 import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
-import { patchEntry } from 'utils/utils'
+import { authenticatedPostQuery } from 'utils/utils'
 import Router from 'next/router'
 import Link from 'next/link'
 import React from 'react'
 import Chip from '@material-ui/core/Chip'
-import { signIn, signOut, useSession } from 'next-auth/client'
+import { useSession } from 'next-auth/client'
 import ZoneMarker from 'components/zoneMarker'
 import { emitVolunteerAssigned, emitVolunteerMarkedTaskDone } from 'utils/integromatUtils'
 import { doPhoneNumberLookup } from 'utils/infobipApiUtils'
@@ -35,7 +35,7 @@ const statusRender = (status) => {
   }
 }
 
-export default function AidRequestInList({ data }) {
+export default function EntryInList({ data, mapZones = [] }) {
 
   const [ session, loading ] = useSession()
 
@@ -61,20 +61,25 @@ export default function AidRequestInList({ data }) {
   }
 
   const handleAssignToMe = (id) => {
+    setModalContent('submittingFeedback');
     const newData = {
-      'volunteer_assigned': `${session.user.name}, ${session.user.email}, ${phoneInput}`
+      volunteer_assigned: `${session.user.name}, ${session.user.email}, ${phoneInput}`,
+      entryId: id
     }
+    // defines what data gets sent to Integromat upon volunteer assignment
     const integromatData = {
       id: data.id,
-      event: 'Volonter se assignao!',
+      event: 'task_volunteer_assigned',
+      title: data.title,
       location: data.location,
-      itemUrl: `https://potres.app/aid-requests/${data.id}`,
-      potres2020Url: data.original_app_id ? `https://potres2020.openit.hr/posts/${data.id}` : '-',
+      itemUrl: `https://potres.app/entries/${data.id}`,
+      appIntegrationsData: data.integrations_data,
       volunteerName: session.user.name,
       volunteerEmail: session.user.email,
       volunteerPhone: phoneInput,
     }
-    patchEntry('aid-requests', id, newData)
+    // makes the change in the entry
+    authenticatedPostQuery('data-api/set-entry-volunteer', newData)
       .then(() => setTimeout(() => {
         // emit event to Integromat
         emitVolunteerAssigned(integromatData)
@@ -86,20 +91,23 @@ export default function AidRequestInList({ data }) {
   }
 
   const handleUnassignMe = (id) => {
+    setModalContent('submittingFeedback');
     const newData = {
-      'volunteer_assigned': ''
+      volunteer_assigned: '',
+      entryId: id
     }
     const integromatData = {
       id: data.id,
-      event: 'Volonter se unassignao!',
+      event: 'task_volunteer_unassigned',
+      title: data.title,
       location: data.location,
-      itemUrl: `https://potres.app/aid-requests/${data.id}`,
-      potres2020Url: data.original_app_id ? `https://potres2020.openit.hr/posts/${data.id}` : '-',
+      itemUrl: `https://potres.app/entries/${data.id}`,
+      appIntegrationsData: data.integrations_data,
       volunteerName: session.user.name,
       volunteerEmail: session.user.email,
       volunteerPhone: phoneInput,
     }
-    patchEntry('aid-requests', id, newData)
+    authenticatedPostQuery('data-api/set-entry-volunteer', newData)
       .then(() => setTimeout(() => {
         // emit event to Integromat
         emitVolunteerAssigned(integromatData)
@@ -111,23 +119,26 @@ export default function AidRequestInList({ data }) {
   }
 
   const handleMarkAsDone = (id) => {
+    setModalContent('submittingFeedback');
     const currentTime = new Date().toLocaleString();
     const newData = {
-      'notes': `${data.notes} \n ${currentTime} Volonter ${session.user.name} označio gotovim uz napomenu: \n ${resolvedComment}`,
-      'volunteerMarkedAsDone': true,
+      notes: `${data.notes} \n ${currentTime} Volonter ${session.user.name} označio gotovim uz napomenu: \n ${resolvedComment}`,
+      volunteer_marked_as_done: true,
+      entryId: id
     }
     const integromatData = {
       id: data.id,
-      event: 'Volonter je označio task kao RIJEŠEN',
+      event: 'task_done',
+      title: data.title,
       location: data.location,
-      itemUrl: `https://potres.app/aid-requests/${data.id}`,
-      potres2020Url: data.original_app_id ? `https://potres2020.openit.hr/posts/${data.id}` : '-',
+      itemUrl: `https://potres.app/entries/${data.id}`,
+      appIntegrationsData: data.integrations_data,
       volunteerComment: resolvedComment,
       volunteerName: session.user.name,
       volunteerEmail: session.user.email,
       volunteerPhone: phoneInput,
     }
-    patchEntry('aid-requests', id, newData)
+    authenticatedPostQuery('data-api/volunteer-mark-entry-done', newData)
       .then(() => setTimeout(() => {
         // emit event to Integromat
         emitVolunteerMarkedTaskDone(integromatData)
@@ -217,6 +228,12 @@ export default function AidRequestInList({ data }) {
             </div>
           </div>
         )
+      case 'submittingFeedback':
+          return (
+            <div className={styles.markAsFulfilledContainer}>
+              Šaljem podatke...
+            </div>
+          )
       default:
         return (
           <div className={styles.markAsFulfilledContainer}>
@@ -298,9 +315,9 @@ export default function AidRequestInList({ data }) {
       <button
           className={styles.markDoneButton}
           onClick={() => handleTriggerMarkDoneModal()}
-          disabled={data.volunteerMarkedAsDone}
+          disabled={data.volunteer_marked_as_done}
         >
-          {data.volunteerMarkedAsDone ? 'Status poslan...' : 'Označi riješenim'}
+          {data.volunteer_marked_as_done ? 'Status poslan...' : 'Označi riješenim'}
       </button>
     ) : (
       null
@@ -309,18 +326,18 @@ export default function AidRequestInList({ data }) {
     null
   )
 
-  const googleMapsUrl = (data.locationLat && data.locationLon) ? `https://www.google.com/maps/dir/?api=1&dir_action=navigate&destination=${data.locationLat},${data.locationLon}` : null;
+  const googleMapsUrl = (data.location_latitude && data.location_longitude) ? `https://www.google.com/maps/dir/?api=1&dir_action=navigate&destination=${data.location_latitude},${data.location_longitude}` : null;
 
   return (
-    <div className={styles.listItemContainerAlert}>
+    <div className={styles.listItemContainerAlert} style={{ borderRightColor: data.entry_category.category_color_hex }}>
       {modalViewTriggered ? (
         modalContentRender()
       ) : (
         <div>
           <div className={styles.itemHeader}>
             <div className={styles.headerLeft}>
-              <span className={styles.typeLabelAlert}>TP{data.id} - Tražim pomoć!</span>
-              <Link href={`/trazim-pomoc/${data.id}`}><span className={styles.mainLabel}>{data.location} <ZoneMarker point={{lat: data.locationLat, lng: data.locationLon}} /></span></Link>
+              <span className={styles.typeLabel} style={{ color: data.entry_category.category_color_hex }}>{data.id} - {data.entry_category.type_name}</span>
+              <Link href={`/entry/${data.id}`}><span className={styles.mainLabel}>{data.title} <ZoneMarker point={{lat: data.location_latitude, lng: data.location_longitude}} mapZones={mapZones} /></span></Link>
             </div>
             <div className={styles.headerRight}>
               {(session && !data.volunteer_assigned) && (
@@ -340,16 +357,24 @@ export default function AidRequestInList({ data }) {
               { markDoneButton ? markDoneButton : '' }
             </div>
             </div>
-            <Link href={`/trazim-pomoc/${data.id}`}>
+            <Link href={`/entry/${data.id}`}>
               <ul className={styles.meta}>
                 <li key='status'>
                   <span className={styles.statusMarker}>
                     {statusRender(data.status)}
                   </span>
                 </li>
+                <li key='location'>
+                  <i className={styles.metaIcon}>
+                    <Place className={styles.metaIconInner} />
+                  </i>
+                  <span>
+                    {data.location}
+                  </span>
+                </li>
                 <li key='created-at'>
                   <i className={styles.metaIcon}>
-                    <DateRange className={styles.metaIconInner} />
+                    <Today className={styles.metaIconInner} />
                   </i>
                   <span>
                   <Moment date={data.created_at} format='DD.MM.YYYY, H:mm' />
@@ -363,6 +388,16 @@ export default function AidRequestInList({ data }) {
                     {data.comments && data.comments.length}
                   </span>
                 </li>
+                { ( data.date_from || data.date_until ) ? (
+                  <li>
+                    <i className={styles.metaIcon}>
+                      <DateRange className={styles.metaIconInner} />
+                    </i>
+                    <span>
+                      {data.date_from ? <Moment date={data.date_from} format='DD.MM.YYYY' /> : '-'} - {data.date_until ? <Moment date={data.date_until} format='DD.MM.YYYY' /> : '-'}
+                    </span>
+                  </li>
+                ) : '' }
               </ul>
             </Link>
             <ul className={styles.tagsWrapper}>

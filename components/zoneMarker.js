@@ -1,9 +1,8 @@
 import React from 'react'
-import { mapZones } from 'components/mapZones'
 import { PolyUtil } from 'node-geometry-library'
 import styles from './zoneMarker.module.scss'
 
-export default function ZoneMarker({ point }) {
+export default function ZoneMarker({ point, mapZones = [] }) {
 
   let markerColor = null;
 
