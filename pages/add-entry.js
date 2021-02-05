@@ -40,8 +40,6 @@ export default function NewEntry({ itemTags, siteSettings, availableEntryCategor
 
   const tagChoices = itemTags.map((tag) => {return tag.tag});
 
-  console.log(availableEntryCategories)
-
   const router = useRouter();
 
   const handleSetLocation = (location) => {
@@ -242,10 +240,8 @@ export default function NewEntry({ itemTags, siteSettings, availableEntryCategor
           }}
           onClose={(event, newValue) => {
             if (!(Number.isInteger(event.target.value) || (event.target.value === ''))) {
-              console.log('wut', event.target.value);
               const tempItemTags = newItemTags;
               tempItemTags.push(event.target.value);
-              console.log(tempItemTags);
               setNewItemTags(tempItemTags);
             }
           }}

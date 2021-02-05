@@ -19,8 +19,6 @@ export default function Home({ entries, itemTags, siteSettings, availableEntryCa
   const currentCategoryObject = availableEntryCategories.find(category => {
     return category.type_slug === currentSlug
   })
-
-  console.log(siteSettings);
   
   return (
     <div className={styles.container}>
