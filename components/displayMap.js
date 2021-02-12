@@ -23,22 +23,26 @@ export default function displayMap({ items, mapZones = [], onMarkerClick = (type
 
     if ((item.location_latitude && item.location_longitude)) {
 
-      if (item.entry_category.category_map_pin_icon && item.entry_category.category_map_pin_icon_assigned) {
+      if (item.entry_category) {
 
-        const markerIcon = item.volunteer_assigned ? `${publicRuntimeConfig.baseUrl}${item.entry_category.category_map_pin_icon_assigned.url}` : `${publicRuntimeConfig.baseUrl}${item.entry_category.category_map_pin_icon.url}`
+        if (item.entry_category.category_map_pin_icon && item.entry_category.category_map_pin_icon_assigned) {
 
-        return (
-          <Marker
-            defaultOptions = {{mapTypeControl: false}}
-            position = {{lat: item.location_latitude, lng: item.location_longitude}}
-            onClick = {() => handleMarkerClick(item) }
-            key = {`mapmarker-${index}`}
-            icon ={{
-              url: markerIcon,
-              scaledSize:  new window.google.maps.Size(42, 50)
-              }}
-          />
-        )
+          const markerIcon = item.volunteer_assigned ? `${publicRuntimeConfig.baseUrl}${item.entry_category.category_map_pin_icon_assigned.url}` : `${publicRuntimeConfig.baseUrl}${item.entry_category.category_map_pin_icon.url}`
+
+          return (
+            <Marker
+              defaultOptions = {{mapTypeControl: false}}
+              position = {{lat: item.location_latitude, lng: item.location_longitude}}
+              onClick = {() => handleMarkerClick(item) }
+              key = {`mapmarker-${index}`}
+              icon ={{
+                url: markerIcon,
+                scaledSize:  new window.google.maps.Size(42, 50)
+                }}
+            />
+          )
+
+        }
 
       } else {
 

@@ -11,7 +11,7 @@ import NavigateBack from 'components/navigateBack'
 
 export default function Entry({ entry, itemTags, siteSettings, availableEntryCategories }) {
   
-  const mapItems = [ entry ];
+  const mapItems = entry ? [ entry ] : [];
 
   mapItems.sort((a, b) => (a.created_at < b.created_at) ? 1 : -1);
   

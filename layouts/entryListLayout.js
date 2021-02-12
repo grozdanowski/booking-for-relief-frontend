@@ -329,14 +329,14 @@ export default function EntryInList({ data, mapZones = [] }) {
   const googleMapsUrl = (data.location_latitude && data.location_longitude) ? `https://www.google.com/maps/dir/?api=1&dir_action=navigate&destination=${data.location_latitude},${data.location_longitude}` : null;
 
   return (
-    <div className={styles.listItemContainerAlert} style={{ borderRightColor: data.entry_category.category_color_hex }}>
+    <div className={styles.listItemContainerAlert} style={{ borderRightColor: data.entry_category ? data.entry_category.category_color_hex : '' }}>
       {modalViewTriggered ? (
         modalContentRender()
       ) : (
         <div>
           <div className={styles.itemHeader}>
             <div className={styles.headerLeft}>
-              <span className={styles.typeLabel} style={{ color: data.entry_category.category_color_hex }}>{data.id} - {data.entry_category.type_name}</span>
+              <span className={styles.typeLabel} style={{ color: data.entry_category ? data.entry_category.category_color_hex : '' }}>{data.id} - {data.entry_category ? data.entry_category.type_name : ''}</span>
               <Link href={`/entry/${data.id}`}><span className={styles.mainLabel}>{data.title} <ZoneMarker point={{lat: data.location_latitude, lng: data.location_longitude}} mapZones={mapZones} /></span></Link>
             </div>
             <div className={styles.headerRight}>
