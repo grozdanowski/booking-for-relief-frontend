@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
+import getConfig from 'next/config'
 import { GoogleMap, Marker, Polygon, InfoBox } from '@react-google-maps/api';
-import { mapZones } from './mapZones'
 import Moment from 'react-moment'
-import { ExpandLess, ExpandMore, DateRange, DirectionsRun, Close } from '@material-ui/icons'
+import { ExpandLess, ExpandMore, DateRange, DirectionsRun } from '@material-ui/icons'
 import styles from './displayMap.module.scss'
 
-export default function displayMap({ items, onMarkerClick = (type, id) => console.log(`Marker ${id} of ${type} clicked.`) }) {
+const { publicRuntimeConfig } = getConfig()
+
+export default function displayMap({ items, mapZones = [], onMarkerClick = (type, id) => console.log(`Marker ${id} of ${type} clicked.`) }) {
 
   const [map, setMap] = useState(null);
   const [mapItems, setMapItems] = useState([]);
@@ -19,44 +21,42 @@ export default function displayMap({ items, onMarkerClick = (type, id) => consol
 
   const mapPins = mapItems.map((item, index) => {
 
-    if ((item.locationLat && item.locationLon)) {
-      
-      let markerIcon;
-      const iconAssigned = item.volunteer_assigned ? '--assigned' : '';
+    if ((item.location_latitude && item.location_longitude)) {
 
-      switch (item.type) {
-        case 'accommodation':
-          markerIcon = `/icons/map-marker--accommodation${iconAssigned}.svg`
-          break;
-        case 'transport':
-          markerIcon = `/icons/map-marker--transport${iconAssigned}.svg`
-          break;
-        case 'aidCollection':
-          markerIcon = `/icons/map-marker--aid-collection${iconAssigned}.svg`
-          break;
-        case 'aidRequest':
-          markerIcon = `/icons/map-marker--help-needed${iconAssigned}.svg`
-          break;
-        default:
-          markerIcon = null;
+      if (item.entry_category.category_map_pin_icon && item.entry_category.category_map_pin_icon_assigned) {
+
+        const markerIcon = item.volunteer_assigned ? `${publicRuntimeConfig.baseUrl}${item.entry_category.category_map_pin_icon_assigned.url}` : `${publicRuntimeConfig.baseUrl}${item.entry_category.category_map_pin_icon.url}`
+
+        return (
+          <Marker
+            defaultOptions = {{mapTypeControl: false}}
+            position = {{lat: item.location_latitude, lng: item.location_longitude}}
+            onClick = {() => handleMarkerClick(item) }
+            key = {`mapmarker-${index}`}
+            icon ={{
+              url: markerIcon,
+              scaledSize:  new window.google.maps.Size(42, 50)
+              }}
+          />
+        )
+
+      } else {
+
+        return (
+          <Marker
+            defaultOptions = {{mapTypeControl: false}}
+            position = {{lat: item.location_latitude, lng: item.location_longitude}}
+            onClick = {() => handleMarkerClick(item) }
+            key = {`mapmarker-${index}`}
+          />
+        )
+
       }
 
-      return (
-        <Marker
-          defaultOptions = {{mapTypeControl: false}}
-          position = {{lat: item.locationLat, lng: item.locationLon}}
-          onClick = {() => handleMarkerClick(item) }
-          key = {`mapmarker-${index}`}
-          icon ={{
-            url: markerIcon,
-            scaledSize:  new window.google.maps.Size(42, 50)
-            }}
-        />
-      )
     }
   })
 
-  const zonePolygons = mapZones.map((zone, index) => {
+  const zonePolygons = mapZones ? mapZones.map((zone, index) => {
 
     return (
       <Polygon
@@ -71,7 +71,7 @@ export default function displayMap({ items, onMarkerClick = (type, id) => consol
         }}
       />
     )
-  })
+  }) : []
 
   const mapLegendZones = mapZones.map((zone, index) => {
 
@@ -91,7 +91,7 @@ export default function displayMap({ items, onMarkerClick = (type, id) => consol
 
   const infoBoxRender = infoBoxData ? (
     <InfoBox
-      position={{lat: infoBoxData.locationLat, lng: infoBoxData.locationLon}}
+      position={{lat: infoBoxData.location_latitude, lng: infoBoxData.location_longitude}}
       onCloseClick={() => setInfoBoxVisible(false)}
     >
       <div className={styles.infoBoxContainer}>
@@ -141,8 +141,8 @@ export default function displayMap({ items, onMarkerClick = (type, id) => consol
     const mapBounds = new window.google.maps.LatLngBounds();
 
     items.forEach((item) => {
-      if ((item.locationLat && item.locationLon)) {
-        mapBounds.extend({lat: item.locationLat, lng: item.locationLon})
+      if ((item.location_latitude && item.location_longitude)) {
+        mapBounds.extend({lat: item.location_latitude, lng: item.location_longitude})
       }
     })
 
@@ -171,7 +171,7 @@ export default function displayMap({ items, onMarkerClick = (type, id) => consol
   return (
     <div>
       <GoogleMap
-        key={items.length ? items[0].locationLat : 'empty-map'}
+        key={items.length ? items[0].location_latitude : 'empty-map'}
         mapContainerStyle={containerStyle}
         zoom={6}
         onLoad={onLoad}

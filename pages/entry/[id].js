@@ -1,36 +1,31 @@
 import Head from 'next/head'
 import { authenticatedFetchQuery } from 'utils/utils'
-import styles from './searchResults.module.scss'
 import MainSiteLayout from 'layouts/mainSiteLayout'
 import LayoutWithSideMap from 'layouts/layoutWithSideMap'
 import OfferingListItem from 'components/offeringLIstItem'
 import EntryInList from 'layouts/entryListLayout'
+import CommentDisplay from 'components/commentDisplay'
+import CommentEditor from 'components/commentEditor'
+import styles from 'pages/singleEntryStyles.module.scss'
 import NavigateBack from 'components/navigateBack'
 
-
-export default function HelpNeeded({ results, itemTags, siteSettings, availableEntryCategories, searchTerm }) {
+export default function Entry({ entry, itemTags, siteSettings, availableEntryCategories }) {
   
-  const mapItems = results;
+  const mapItems = [ entry ];
 
   mapItems.sort((a, b) => (a.created_at < b.created_at) ? 1 : -1);
   
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
-        <title>Pretraga | {siteSettings.site_title}</title>
+        <title>{entry.title} | {siteSettings.site_title}</title>
         <meta name="description" content={siteSettings.site_description}></meta>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <MainSiteLayout itemTags = {itemTags} availableEntryCategories = {availableEntryCategories} siteSettings = {siteSettings}>
         <LayoutWithSideMap items = {mapItems} mapZones = {siteSettings.map_zones}>
-          <div className={styles.introSection}>
-            <h1>Rezultati pretrage za: "{searchTerm}"</h1>
-            <br />
-            <div dangerouslySetInnerHTML={{ __html: siteSettings.donor_instructions }}></div>
-          </div>
-
           <NavigateBack />
-
           {mapItems.map((item, index) => {
             return (
               <OfferingListItem key={`item-${index}`}>
@@ -38,22 +33,47 @@ export default function HelpNeeded({ results, itemTags, siteSettings, availableE
               </OfferingListItem>
             )
           })}
+          {entry.comments && (
+            <div className={styles.comments}>
+              <h2 className={styles.commentsTitle}>Komentari:</h2>
+              {entry.comments.map((comment, index) => (
+                <CommentDisplay key={`comment-${index}`} data = {comment} />
+              ))}
+              <CommentEditor
+                parentId = {entry.id}
+              />              
+            </div>
+          )}
         </LayoutWithSideMap>
       </MainSiteLayout>
     </div>
   )
 }
 
-export async function getServerSideProps({ params }) {
-  const id = params.id;
-  const results = await authenticatedFetchQuery(`data-api/search-entries/${params.id}`);
+export async function getStaticPaths() {
+  const results = await authenticatedFetchQuery('data-api/all-entries');
+  const paths = results.entries.map((entry) => {
+    return {
+      params: {
+        id: `${entry.id}`
+      }
+    }
+  })
+  return {
+    paths,
+    fallback: false
+  }
+}
+
+export async function getStaticProps({params}) {
+  const results = await authenticatedFetchQuery(`data-api/entry/${params.id}`);
   return {
     props: {
-      results: results.entries,
+      entry: results.entry,
       itemTags: results.itemTags,
       siteSettings: results.publicSiteSettings ? results.publicSiteSettings[0] : [],
       availableEntryCategories: results.availableEntryCategories,
-      searchTerm: id,
-    }
+    },
+    revalidate: 1,
   }
 }
