@@ -50,22 +50,7 @@ export default function Entry({ entry, itemTags, siteSettings, availableEntryCat
   )
 }
 
-export async function getStaticPaths() {
-  const results = await authenticatedFetchQuery('data-api/all-entries');
-  const paths = results.entries.map((entry) => {
-    return {
-      params: {
-        id: `${entry.id}`
-      }
-    }
-  })
-  return {
-    paths,
-    fallback: false
-  }
-}
-
-export async function getStaticProps({params}) {
+export async function getServerSideProps({params}) {
   const results = await authenticatedFetchQuery(`data-api/entry/${params.id}`);
   return {
     props: {
@@ -73,7 +58,6 @@ export async function getStaticProps({params}) {
       itemTags: results.itemTags,
       siteSettings: results.publicSiteSettings ? results.publicSiteSettings[0] : [],
       availableEntryCategories: results.availableEntryCategories,
-    },
-    revalidate: 1,
+    }
   }
 }
