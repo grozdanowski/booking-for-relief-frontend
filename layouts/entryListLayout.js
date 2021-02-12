@@ -337,7 +337,7 @@ export default function EntryInList({ data, mapZones = [] }) {
           <div className={styles.itemHeader}>
             <div className={styles.headerLeft}>
               <span className={styles.typeLabel} style={{ color: data.entry_category ? data.entry_category.category_color_hex : '' }}>{data.id} - {data.entry_category ? data.entry_category.type_name : ''}</span>
-              <Link href={`/entry/${data.id}`}><span className={styles.mainLabel}>{data.title} <ZoneMarker point={{lat: data.location_latitude, lng: data.location_longitude}} mapZones={mapZones} /></span></Link>
+              <Link href={`/single-entry/${data.id}`} as={`/entry/${data.id}`}><span className={styles.mainLabel}>{data.title} <ZoneMarker point={{lat: data.location_latitude, lng: data.location_longitude}} mapZones={mapZones} /></span></Link>
             </div>
             <div className={styles.headerRight}>
               {(session && !data.volunteer_assigned) && (
