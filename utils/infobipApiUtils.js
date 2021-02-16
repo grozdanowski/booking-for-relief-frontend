@@ -17,3 +17,17 @@ export async function doPhoneNumberLookup(number) {
   const payload = await response.json()
   return payload
 }
+
+export async function isNumberActive(number) {
+  if (!process.env.INFOBIP_API_KEY || !process.env.INFOBIP_API_BASE_URL) {
+    console.log("Infobip API number check is not configured! Numbers will always be considered active!")
+    return true;
+  }
+
+  const phoneNumberCheck = await doPhoneNumberLookup(number);
+  if (phoneNumberCheck.results[0].status.groupName === 'DELIVERED') {
+    return true;
+  } else {
+    return false;
+  }
+}
