@@ -12,7 +12,7 @@ import Chip from '@material-ui/core/Chip'
 import { useSession } from 'next-auth/client'
 import ZoneMarker from 'components/zoneMarker'
 import { emitVolunteerAssigned, emitVolunteerMarkedTaskDone } from 'utils/integromatUtils'
-import { doPhoneNumberLookup } from 'utils/infobipApiUtils'
+import {isNumberActive} from 'utils/infobipApiUtils'
 
 const statusRender = (status) => {
   switch (status) {
@@ -151,8 +151,8 @@ export default function EntryInList({ data, mapZones = [] }) {
 
   const handlePhoneNumberInput = async(value) => {
     const transposedNumber = (value[0] === '0') ? value.substring(1) : value;
-    const phoneNumberCheck = await doPhoneNumberLookup(`385${transposedNumber}`);
-    if (phoneNumberCheck.results[0].status.groupName === 'DELIVERED') {
+    const phoneNumberActive = await isNumberActive(`385${transposedNumber}`);
+    if (phoneNumberActive) {
       setNumberIsValid(true)
     } else {
       setNumberIsValid(false)

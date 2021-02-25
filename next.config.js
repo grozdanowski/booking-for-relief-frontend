@@ -20,7 +20,7 @@ module.exports = {
     return [
       {
         source: '/admin',
-        destination: 'https://relief-app-backend.herokuapp.com/admin',
+        destination: process.env.BASE_URL+'/admin',
         permanent: true,
       },
     ]

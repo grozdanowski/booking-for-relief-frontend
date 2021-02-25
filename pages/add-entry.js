@@ -13,7 +13,7 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 import { useRouter } from 'next/router'
 import Autocomplete from '@material-ui/lab/Autocomplete'
-import { doPhoneNumberLookup } from 'utils/infobipApiUtils'
+import { isNumberActive } from 'utils/infobipApiUtils'
 
 const { publicRuntimeConfig } = getConfig()
 
@@ -100,8 +100,8 @@ export default function NewEntry({ itemTags, siteSettings, availableEntryCategor
       setNumberIsValid(false)
       return
     }
-    const phoneNumberCheck = await doPhoneNumberLookup(`385${transposedNumber}`);
-    if (phoneNumberCheck.results[0].status.groupName === 'DELIVERED') {
+    const phoneNumberActive = await isNumberActive(`385${transposedNumber}`);
+    if (phoneNumberActive) {
       setNumberIsValid(true)
     } else {
       setNumberIsValid(false)
